@@ -30,3 +30,9 @@ engine/src/Root.tsx	engine	Composition 등록 (보통 고칠 필요 없음)	spec
 engine/scripts/lint-spec.ts	engine	게이트 실행 CLI (값은 gate.ts)	specs/*.json 검사 + 레이아웃 불변식 + spec 등록 여부. 오류 시 exit 1	lint:spec, 게이트 실행, 검사 명령, 커밋이 막힘, 오류 확인
 engine/src/fonts.ts	engine	폰트 로딩	라벨=Montserrat, 코드=JetBrains Mono, 한글 자막=Noto Sans KR (Google Fonts 원격 로딩)	폰트, 글꼴, 한글 폰트, 자막 폰트, 몬세라트, 모노스페이스, 폰트 바꾸기
 engine/src/index.ts	engine	Remotion 엔트리	registerRoot 로 Root 를 등록하는 진입점. 건드릴 일 거의 없다	엔트리, 진입점, registerRoot, index.ts
+runbooks/제품데모영상_기획절차.md	runbooks	제품 데모 영상(SaaS/앱/AI) 기획	40초 UI 모션그래픽 데모의 7단 구조·문장 원칙·모션 원칙·산출물 형식·자체 검수. 제품 홍보영상 요청이 오면 여기	제품 홍보영상, SaaS 데모, 40초 광고, 기능 소개, 제품 영상, 7단 구조, 훅, CTA, 광고 대본, 마케팅 영상
+factsheets/제품데모_요청템플릿과예시_20260914.md	factsheets	제품 데모 — 요청 템플릿과 예시 대본	의뢰 시 받아야 할 입력 항목 원문 + 그로블 40초 예시 7장면 + 엔진 씬 타입 대응표	요청 양식, 입력 항목, 제품 정보 받기, 예시 대본, 샘플, 그로블, 어떤 정보 필요, 질문 목록
+engine/specs/template-product-demo-40.json	engine	제품 데모 40초 템플릿 spec	7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다	제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시
+engine/src/scenes/Statement.tsx	engine	씬 구현 — statement	화면 문구 전용(최대 두 줄, 폭에 맞춰 글자 크기 자동 축소). (영상에 넣는 법은 runbooks/제품데모영상_기획절차.md)	문구만, 텍스트 씬, 훅 화면, 두 줄, 큰 글씨, 강조 문장
+engine/src/scenes/BrowserMock.tsx	engine	씬 구현 — browser-mock	브라우저 목업 + 커서 이동 + 클릭 글로우 + 105~115% 확대. UI 모션그래픽의 기본 씬	브라우저, 목업, 커서, 마우스, 클릭, 글로우, 확대, 줌, 화면 조작, UI 시연
+labs/제품데모프로필_도입_20260914.md	labs	제품 데모 프로필 도입 기록	지침을 문서/코드로 나눈 근거와 문구 넘침·커서 모양·쏠림 수정 기록. 글자 수 상한을 상수에서 역산하는 이유	왜 15자, 왜 프로필, 문구 넘침, 커서 모양, 글자 크기 자동, 지침 반영, 근거

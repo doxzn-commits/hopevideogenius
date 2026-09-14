@@ -1,7 +1,8 @@
 // 요약: 큰 한글 자막 레이어. 사람 영상 위에 그려진다. 강조어(hl)는 노란색. 길이 제한은 게이트가 판정한다.
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
-import { CAPTION, clamp, EASE_OUT, SIDE } from "../theme";
+import { CAPTION, clamp, EASE_OUT, SAFE } from "../theme";
+import { TEXT, fitSize } from "../spec/layout";
 import { FONT_KR } from "../fonts";
 import type { Caption } from "../spec/schema";
 
@@ -27,16 +28,18 @@ export const Captions: React.FC<{ captions: Caption[]; y: number }> = ({ caption
     <div
       style={{
         position: "absolute",
-        left: SIDE,
-        right: SIDE,
+        left: SAFE,
+        right: SAFE,
         top: y,
         translate: "0 -50%",
         scale: interpolate(local, [0, 5], [0.94, 1], { ...clamp, easing: EASE_OUT }),
         textAlign: "center",
         fontFamily: FONT_KR,
         fontWeight: 900,
-        fontSize: CAPTION.size,
+        // 긴 자막은 안전 영역 폭에 맞춰 줄어든다 (최소 크기는 layout.ts TEXT 가 정하고, 그 아래는 게이트가 막는다)
+        fontSize: fitSize([...active.text].length, TEXT.captionBase, TEXT.captionMin),
         lineHeight: 1.25,
+        whiteSpace: "nowrap",
         letterSpacing: "-0.02em",
         color: "#FFFFFF",
         WebkitTextStroke: `${CAPTION.stroke}px rgba(0,0,0,0.88)`,

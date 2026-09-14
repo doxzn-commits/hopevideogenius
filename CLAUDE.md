@@ -12,6 +12,8 @@
 | 이런 요청이 오면 | 먼저 열 파일 |
 |---|---|
 | 영상 만들어줘 / 새 에피소드 / 대본 줬어 | runbooks/정보전달영상_제작절차.md |
+| 제품 홍보영상 / SaaS 데모 / 40초 광고 / 기능 소개 | runbooks/제품데모영상_기획절차.md |
+| 제품 정보 어떻게 받나 / 요청 양식 / 예시 대본 | factsheets/제품데모_요청템플릿과예시_20260914.md |
 | 이 레퍼런스처럼 / 스타일 / 색·폰트·레이아웃 수치 | factsheets/레퍼런스분석_claude스킬5_20260914.md |
 | 씬 타입 뭐 있어 / 새 씬 추가 | engine/src/scenes/registry.ts, runbooks/씬타입_추가절차.md |
 | spec 에러 / 게이트 실패 / lint | engine/scripts/lint-spec.ts |

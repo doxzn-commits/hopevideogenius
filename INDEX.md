@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 31행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 37행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -18,18 +18,21 @@
 |---|---|---|
 | [runbooks/씬타입_추가절차.md](runbooks/씬타입_추가절차.md) | **새 씬 타입 추가하기** — **레지스트리에 없는 새 타입을 만들 때만.** 고칠 4곳(schema·timelines·컴포넌트·registry)과 확인 방법 | 새 씬 타입, 없는 장면, 새로 만들기, 모티프 구현, registry 등록, 스키마 추가, 승격, 코드로 내리기 |
 | [runbooks/정보전달영상_제작절차.md](runbooks/정보전달영상_제작절차.md) | **정보 전달 영상 한 편 만들기** — 대본→자막 쪼개기→씬 타입 선택→spec 작성→게이트→미리보기→렌더까지 확정 절차. **이미 있는 씬을 영상에 넣는 방법도 여기** | 영상 만들어줘, 새 에피소드, 대본, 자막 쪼개기, 씬 넣기, 장면 추가, 이 장면 쓰고 싶다, 렌더, 내보내기, mp4, remotion render, 미리보기, studio |
+| [runbooks/제품데모영상_기획절차.md](runbooks/제품데모영상_기획절차.md) | **제품 데모 영상(SaaS/앱/AI) 기획** — 40초 UI 모션그래픽 데모의 7단 구조·문장 원칙·모션 원칙·산출물 형식·자체 검수. 제품 홍보영상 요청이 오면 여기 | 제품 홍보영상, SaaS 데모, 40초 광고, 기능 소개, 제품 영상, 7단 구조, 훅, CTA, 광고 대본, 마케팅 영상 |
 
 ## factsheets — 사실·수치·출처
 
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
 |---|---|---|
 | [factsheets/레퍼런스분석_claude스킬5_20260914.md](factsheets/레퍼런스분석_claude스킬5_20260914.md) | **레퍼런스 분석 — 클로드 코드 스킬 5개 숏폼** — 레퍼런스 영상 실측: 컷 타이밍(평균 샷 1.9초), 레이아웃 좌표, 팔레트 5종(엔진 theme.ts 이름과 대응), 모션 모티프 12종, 대본 전개 구조 | 레퍼런스, 이 영상처럼, 스타일, 수치 근거, 컷 간격, 평균 샷, 자막 크기, 레퍼런스 팔레트(실측), 레이아웃 좌표, 모티프, ffprobe 측정 |
+| [factsheets/제품데모_요청템플릿과예시_20260914.md](factsheets/제품데모_요청템플릿과예시_20260914.md) | **제품 데모 — 요청 템플릿과 예시 대본** — 의뢰 시 받아야 할 입력 항목 원문 + 그로블 40초 예시 7장면 + 엔진 씬 타입 대응표 | 요청 양식, 입력 항목, 제품 정보 받기, 예시 대본, 샘플, 그로블, 어떤 정보 필요, 질문 목록 |
 
 ## labs — 날짜별 실험 로그
 
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
 |---|---|---|
 | [labs/레포세팅_엔진부트스트랩_20260914.md](labs/레포세팅_엔진부트스트랩_20260914.md) | **레포 세팅 + 엔진 부트스트랩 기록** — 자막 겹침·아이콘 위치 버그를 코드로 고친 과정과 게이트 수치의 **근거**(왜 18자·왜 18프레임인지) + 게이트 역방향 테스트 결과 | 왜 이 값이야, 왜 18자, 왜 18프레임, 18자 근거, 자막 겹침, 버그 기록, 부트스트랩, 구조가 왜 이래, 실패한 것 |
+| [labs/제품데모프로필_도입_20260914.md](labs/제품데모프로필_도입_20260914.md) | **제품 데모 프로필 도입 기록** — 지침을 문서/코드로 나눈 근거와 문구 넘침·커서 모양·쏠림 수정 기록. 글자 수 상한을 상수에서 역산하는 이유 | 왜 15자, 왜 프로필, 문구 넘침, 커서 모양, 글자 크기 자동, 지침 반영, 근거 |
 
 ## engine — 실행 코드
 
@@ -37,6 +40,7 @@
 |---|---|---|
 | [engine/README.md](engine/README.md) | **엔진 구조 요약** — engine 폴더별 역할·설치(npm i)·명령어·레이어 순서. 영상 규격(1080×1920 9:16 / 30fps)도 여기 | 엔진 구조, 설치, npm install, 의존성, 환경 세팅, 노드, Remotion 버전, 명령어, 어떻게 렌더, 레이어 순서, 9:16, 세로 영상, 해상도, fps, 프레임레이트, 영상 규격 |
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
+| [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
 | [engine/src/fonts.ts](engine/src/fonts.ts) | **폰트 로딩** — 라벨=Montserrat, 코드=JetBrains Mono, 한글 자막=Noto Sans KR (Google Fonts 원격 로딩) | 폰트, 글꼴, 한글 폰트, 자막 폰트, 몬세라트, 모노스페이스, 폰트 바꾸기 |
 | [engine/src/index.ts](engine/src/index.ts) | **Remotion 엔트리** — registerRoot 로 Root 를 등록하는 진입점. 건드릴 일 거의 없다 | 엔트리, 진입점, registerRoot, index.ts |
 | [engine/src/specs.ts](engine/src/specs.ts) | **spec 등록 목록 (새 spec 은 여기)** — specs/*.json 을 Studio 에 등록한다. **새 spec 이 Studio 에 안 보이면 가장 먼저 고칠 곳** | spec 등록, Studio 에 안 보임, 컴포지션이 없음, import 추가, 새 spec 추가 |
@@ -48,7 +52,9 @@
 | [engine/src/spec/schema.ts](engine/src/spec/schema.ts) | **spec 스키마 (zod)** — 씬별 props 와 필드 정의. **씬 타입 목록의 원천은 registry.ts, 팔레트 색은 theme.ts** | 스키마, zod, props 뭐 넣나, 필드, 필수 값, spec 형식, 유효성 |
 | [engine/src/spec/timelines.ts](engine/src/spec/timelines.ts) | **씬 내부 타이밍** — 씬별 프레임 계산의 원천(컴포넌트·게이트 공용). 잘림 여부를 **판정**하는 기준값은 gate.ts | 타이밍, 프레임 수, 애니메이션 길이, 잘림, sceneEnd, 타이핑 속도, 등장 간격 |
 | [engine/src/scenes/BeforeAfter.tsx](engine/src/scenes/BeforeAfter.tsx) | **씬 구현 — before-after** — OLD WAY vs WITH IT 막대 비교 + 숫자 카운트업. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 비교, 전후, before after, 시간 절감, 막대 그래프, 카운트업, 씬 구현 수정 |
+| [engine/src/scenes/BrowserMock.tsx](engine/src/scenes/BrowserMock.tsx) | **씬 구현 — browser-mock** — 브라우저 목업 + 커서 이동 + 클릭 글로우 + 105~115% 확대. UI 모션그래픽의 기본 씬 | 브라우저, 목업, 커서, 마우스, 클릭, 글로우, 확대, 줌, 화면 조작, UI 시연 |
 | [engine/src/scenes/IconFlow.tsx](engine/src/scenes/IconFlow.tsx) | **씬 구현 — icon-flow** — 아이콘들이 선으로 이어지고 마지막에 하나로 합쳐진다. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 아이콘, 연결, 흐름, 합쳐짐, 도구 연결, 탭 호핑, 씬 구현 수정 |
+| [engine/src/scenes/Statement.tsx](engine/src/scenes/Statement.tsx) | **씬 구현 — statement** — 화면 문구 전용(최대 두 줄, 폭에 맞춰 글자 크기 자동 축소). (영상에 넣는 법은 runbooks/제품데모영상_기획절차.md) | 문구만, 텍스트 씬, 훅 화면, 두 줄, 큰 글씨, 강조 문장 |
 | [engine/src/scenes/TerminalList.tsx](engine/src/scenes/TerminalList.tsx) | **씬 구현 — terminal-list** — 명령 타이핑 → 결과 행 등장 → 진행바 → 1위 하이라이트. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 터미널, 목록, 랭킹, 설치 화면, 리스트 씬, 하이라이트, 진행바, 씬 구현 수정 |
 | [engine/src/scenes/TitleCard.tsx](engine/src/scenes/TitleCard.tsx) | **씬 구현 — title-card** — 카드 스택에서 이름이 타이핑되는 챕터 표지. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 타이틀, 챕터, N 번째는, 표지, 이름 카드, 씬 구현 수정 |
 | [engine/src/scenes/registry.ts](engine/src/scenes/registry.ts) | **씬 레지스트리 — 씬 타입 목록의 원천** — 씬 타입 → 컴포넌트 매핑. **어떤 씬이 있는지 확인할 때 여기** (face-only 는 이 파일 안에 정의) | 씬 목록, 어떤 씬 있나, 씬 종류, registry, 타입 매핑, 사용 가능한 장면 |

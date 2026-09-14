@@ -36,6 +36,20 @@ export const beforeAfterTimeline = () => {
   return { beforeStart, beforeEnd, afterStart, afterEnd, chipSwap: afterStart, end: afterEnd + T.settle };
 };
 
+export const statementTimeline = (p: SceneOf<"statement">["props"]) => {
+  const lineStagger = 9; // 두 번째 문장은 0.3초 뒤 (기획 원칙)
+  const lastIn = (p.lines.length - 1) * lineStagger + 12;
+  return { lineStagger, end: lastIn + T.settle };
+};
+
+export const browserMockTimeline = (p: SceneOf<"browser-mock">["props"]) => {
+  const windowIn = 12;
+  const blocksStart = windowIn + 4;
+  const blocksEnd = blocksStart + p.blocks.length * 4 + 10;
+  const cursorEnd = p.cursor && p.cursor.length > 0 ? Math.max(...p.cursor.map((c) => c.at)) + 16 : 0;
+  return { windowIn, blocksStart, blocksEnd, cursorEnd, end: Math.max(blocksEnd, cursorEnd) + T.settle };
+};
+
 export const iconFlowTimeline = (p: SceneOf<"icon-flow">["props"]) => {
   const popEnd = p.icons.length * T.iconPopStagger + 8;
   const linksEnd = popEnd + (p.icons.length - 1) * T.linkPerIcon;
@@ -54,6 +68,10 @@ export const sceneEnd = (s: Scene): number => {
       return beforeAfterTimeline().end;
     case "icon-flow":
       return iconFlowTimeline(s.props).end;
+    case "statement":
+      return statementTimeline(s.props).end;
+    case "browser-mock":
+      return browserMockTimeline(s.props).end;
     case "face-only":
       return 0;
   }

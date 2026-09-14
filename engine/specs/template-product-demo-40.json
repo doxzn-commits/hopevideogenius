@@ -1,0 +1,140 @@
+{
+  "id": "TemplateProductDemo40",
+  "title": "제품 데모 40초 템플릿 (7단 구조) — ○○ 자리를 제품 내용으로 바꿔 쓴다",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "profile": "product-demo-40",
+  "scenes": [
+    {
+      "type": "statement",
+      "role": "hook",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 120,
+      "captions": [],
+      "props": {
+        "kicker": "○○ (제품명)",
+        "lines": ["○○는 AI로 만드는데", "등록은 아직 직접 하시나요?"],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "browser-mock",
+      "role": "problem",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 150,
+      "captions": [{ "text": "복사하고, 다시 입력하고", "at": 0 }],
+      "props": {
+        "url": "app.example.com/products/new",
+        "chip": "기존 방식",
+        "blocks": [
+          { "w": 0.45, "label": "상품명" },
+          { "w": 0.3, "label": "가격" },
+          { "w": 0.9, "label": "소개 문구", "tall": true },
+          { "w": 0.35, "label": "저장", "accent": true }
+        ],
+        "cursor": [
+          { "at": 20, "x": 0.2, "y": 0.05, "click": true },
+          { "at": 55, "x": 0.15, "y": 0.22, "click": true },
+          { "at": 85, "x": 0.4, "y": 0.5, "click": true },
+          { "at": 115, "x": 0.17, "y": 0.9, "click": true }
+        ]
+      }
+    },
+    {
+      "type": "icon-flow",
+      "role": "solution",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 150,
+      "captions": [
+        { "text": "이제 직접 연결하세요", "at": 0, "hl": "직접 연결" },
+        { "text": "AI가 서비스에 바로 씁니다", "at": 80 }
+      ],
+      "props": {
+        "label": "CONNECT",
+        "chip": "2 STEPS",
+        "icons": [
+          { "glyph": "AI", "label": "AI 도구" },
+          { "glyph": "○○", "label": "서비스" }
+        ],
+        "collapseTo": { "glyph": "✓", "label": "CONNECTED" }
+      }
+    },
+    {
+      "type": "browser-mock",
+      "role": "demo",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 210,
+      "captions": [
+        { "text": "필요한 내용만 말하면", "at": 0 },
+        { "text": "결과가 그대로 반영돼요", "at": 110 }
+      ],
+      "props": {
+        "url": "app.example.com/products/123",
+        "chip": "연결 후",
+        "zoom": 1.08,
+        "blocks": [
+          { "w": 0.6, "label": "○○ 상품 제목" },
+          { "w": 0.25, "label": "₩ 00,000" },
+          { "w": 0.95, "label": "상세 설명", "tall": true },
+          { "w": 0.4, "label": "등록 완료", "accent": true }
+        ],
+        "cursor": [
+          { "at": 40, "x": 0.5, "y": 0.5 },
+          { "at": 120, "x": 0.2, "y": 0.92, "click": true },
+          { "at": 170, "x": 0.6, "y": 0.7 }
+        ]
+      }
+    },
+    {
+      "type": "statement",
+      "role": "differentiation",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 180,
+      "captions": [],
+      "props": {
+        "kicker": "WHAT MAKES IT DIFFERENT",
+        "lines": ["화면을 대신 클릭하지 않아요", "서비스에 직접 연결됩니다"],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "before-after",
+      "role": "result",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 180,
+      "captions": [
+        { "text": "30분 걸리던 등록이", "at": 0 },
+        { "text": "3분이면 끝나요", "at": 90, "hl": "3분" }
+      ],
+      "props": {
+        "label": "등록 시간",
+        "chipBefore": "4 STEPS",
+        "chipAfter": "1 STEP",
+        "before": { "label": "기존 방식", "value": 0.9, "text": "30 MIN" },
+        "after": { "label": "연결 후", "value": 0.1, "text": "3 MIN" }
+      }
+    },
+    {
+      "type": "title-card",
+      "role": "cta",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 210,
+      "captions": [{ "text": "지금 연결해 보세요", "at": 0, "hl": "지금" }],
+      "props": {
+        "kicker": "GET STARTED",
+        "glyph": "→",
+        "name": "연결하기",
+        "subtitle": "○○ 연결하고 바로 사용하기"
+      }
+    }
+  ]
+}

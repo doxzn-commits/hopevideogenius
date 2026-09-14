@@ -2,7 +2,7 @@
 import { Easing } from "remotion";
 import type { PaletteName } from "./spec/schema";
 
-export { LAYOUTS, SIDE, CAPTION, CAPTION_HALF } from "./spec/layout";
+export { LAYOUTS, SIDE, SAFE, CAPTION, CAPTION_HALF } from "./spec/layout";
 
 export type Palette = {
   bg: string;

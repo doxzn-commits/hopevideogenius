@@ -6,6 +6,8 @@ import { TitleCard } from "./TitleCard";
 import { TerminalList } from "./TerminalList";
 import { BeforeAfter } from "./BeforeAfter";
 import { IconFlow } from "./IconFlow";
+import { Statement } from "./Statement";
+import { BrowserMock } from "./BrowserMock";
 
 export type SceneProps<T extends SceneType> = { scene: SceneOf<T>; p: Palette };
 
@@ -16,5 +18,7 @@ export const SCENES: { [K in SceneType]: React.FC<SceneProps<K>> } = {
   "terminal-list": TerminalList,
   "before-after": BeforeAfter,
   "icon-flow": IconFlow,
+  statement: Statement,
+  "browser-mock": BrowserMock,
   "face-only": FaceOnly,
 };

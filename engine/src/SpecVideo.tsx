@@ -6,7 +6,7 @@ import { SCENES } from "./scenes/registry";
 import { Glow } from "./components/ui";
 import { Captions } from "./components/Captions";
 import { TalkingHead } from "./components/TalkingHead";
-import { LAYOUTS, PALETTES, SIDE } from "./theme";
+import { LAYOUTS, PALETTES, SAFE, SIDE } from "./theme";
 import { FONT_MONO } from "./fonts";
 import type { Scene, VideoSpec } from "./spec/schema";
 import type { Issue } from "./spec/gate";
@@ -15,8 +15,11 @@ export const totalFrames = (spec: VideoSpec) => spec.scenes.reduce((a, s) => a +
 
 const SceneFrame: React.FC<{ scene: Scene }> = ({ scene }) => {
   const p = PALETTES[scene.palette];
-  const box = LAYOUTS[scene.layout].graphic;
+  const layout = LAYOUTS[scene.layout];
+  const box = layout.graphic;
   const Comp = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;
+  // 자막이 없고 사람도 없는 씬은 그래픽이 화면 전체(안전 영역까지)를 쓴다 — 위로 쏠려 보이지 않게
+  const bottom = box && layout.face === null && scene.captions.length === 0 ? 1920 - SAFE : box?.bottom;
   return (
     <AbsoluteFill>
       <Glow p={p} seed={scene.palette} />
@@ -27,7 +30,7 @@ const SceneFrame: React.FC<{ scene: Scene }> = ({ scene }) => {
             left: SIDE,
             right: SIDE,
             top: box.top,
-            height: box.bottom - box.top,
+            height: (bottom ?? box.bottom) - box.top,
             display: "flex",
             alignItems: "center",
             justifyContent: "center",
