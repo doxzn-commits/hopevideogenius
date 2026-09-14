@@ -1,0 +1,49 @@
+// 요약: 팔레트·레이아웃 좌표·자막 스타일 수치. 레퍼런스 실측값(1080×1920 환산)이 원천.
+import { Easing } from "remotion";
+import type { PaletteName } from "./spec/schema";
+
+export { LAYOUTS, SIDE, CAPTION, CAPTION_HALF } from "./spec/layout";
+
+export type Palette = {
+  bg: string;
+  glowA: string;
+  glowB: string;
+  card: string;
+  cardBorder: string;
+  text: string;
+  sub: string;
+  accent: string; // 반드시 6자리 hex (뒤에 알파 2자리를 붙여 쓴다)
+  track: string;
+  dark: boolean;
+};
+
+export const PALETTES: Record<PaletteName, Palette> = {
+  ember: {
+    bg: "#0A0605", glowA: "rgba(150,72,28,0.55)", glowB: "rgba(110,62,18,0.35)",
+    card: "rgba(36,24,20,0.78)", cardBorder: "rgba(255,196,160,0.16)",
+    text: "#F3E8E0", sub: "rgba(243,232,224,0.5)", accent: "#E0795A", track: "rgba(255,255,255,0.07)", dark: true,
+  },
+  navy: {
+    bg: "#060B14", glowA: "rgba(30,110,140,0.45)", glowB: "rgba(40,60,130,0.35)",
+    card: "rgba(16,26,40,0.8)", cardBorder: "rgba(160,210,255,0.14)",
+    text: "#E6F0FA", sub: "rgba(230,240,250,0.5)", accent: "#4FC3E8", track: "rgba(255,255,255,0.07)", dark: true,
+  },
+  violet: {
+    bg: "#0A0718", glowA: "rgba(110,60,200,0.45)", glowB: "rgba(40,50,140,0.4)",
+    card: "rgba(24,20,44,0.8)", cardBorder: "rgba(200,180,255,0.16)",
+    text: "#EEE9FF", sub: "rgba(238,233,255,0.5)", accent: "#9D7BFF", track: "rgba(255,255,255,0.07)", dark: true,
+  },
+  forest: {
+    bg: "#04100A", glowA: "rgba(30,140,80,0.45)", glowB: "rgba(20,90,70,0.35)",
+    card: "rgba(14,34,24,0.8)", cardBorder: "rgba(170,255,210,0.14)",
+    text: "#E6F7EE", sub: "rgba(230,247,238,0.5)", accent: "#4ADE9A", track: "rgba(255,255,255,0.07)", dark: true,
+  },
+  pastel: {
+    bg: "#F7F2EC", glowA: "rgba(255,176,130,0.6)", glowB: "rgba(255,226,120,0.5)",
+    card: "rgba(255,255,255,0.82)", cardBorder: "rgba(110,70,50,0.12)",
+    text: "#3B2A22", sub: "rgba(59,42,34,0.5)", accent: "#E0482C", track: "rgba(60,40,30,0.08)", dark: false,
+  },
+};
+
+export const EASE_OUT = Easing.bezier(0.16, 1, 0.3, 1);
+export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;

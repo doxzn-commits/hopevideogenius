@@ -1,0 +1,99 @@
+{
+  "id": "DemoRepoRules",
+  "title": "영상 지식 레포 3원칙 (엔진 데모)",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "scenes": [
+    {
+      "type": "terminal-list",
+      "layout": "split",
+      "palette": "ember",
+      "durationInFrames": 120,
+      "captions": [
+        { "text": "AI랑 영상 오래 만들면", "at": 0 },
+        { "text": "반드시 겪는 3가지", "at": 50, "hl": "3가지" },
+        { "text": "색인이 전부예요", "at": 88, "hl": "색인" }
+      ],
+      "props": {
+        "header": "KNOWLEDGE REPO",
+        "chip": "3 RULES",
+        "command": "rules --rank --by impact",
+        "rows": [
+          { "glyph": "I", "name": "INDEX 색인", "value": 0.96 },
+          { "glyph": "P", "name": "승격 규칙", "value": 0.78 },
+          { "glyph": "G", "name": "KNOWN-GAPS", "value": 0.52 },
+          { "glyph": "↑", "name": "push", "value": 0.4 }
+        ],
+        "highlight": 0,
+        "highlightBadge": "12× FOUND"
+      }
+    },
+    {
+      "type": "title-card",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 75,
+      "captions": [
+        { "text": "첫 번째는", "at": 0 },
+        { "text": "INDEX.md 입니다", "at": 36, "hl": "INDEX.md" }
+      ],
+      "props": {
+        "kicker": "VIDEO KNOWLEDGE REPO",
+        "glyph": "▲",
+        "name": "INDEX.md",
+        "subtitle": "모든 문서의 경로·요약·키워드",
+        "index": 1,
+        "total": 3
+      }
+    },
+    {
+      "type": "before-after",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 90,
+      "captions": [
+        { "text": "문서 찾느라 쓰던", "at": 0 },
+        { "text": "시간을 전부 아껴줘요", "at": 42, "hl": "전부" }
+      ],
+      "props": {
+        "label": "DOC HUNTING",
+        "chipBefore": "5 FOLDERS",
+        "chipAfter": "1 FILE",
+        "before": { "label": "OLD WAY", "value": 0.85, "text": "30 MIN" },
+        "after": { "label": "WITH INDEX", "value": 0.08, "text": "1 MIN" }
+      }
+    },
+    {
+      "type": "icon-flow",
+      "layout": "split",
+      "palette": "violet",
+      "durationInFrames": 105,
+      "captions": [
+        { "text": "노션·로컬·채팅에", "at": 0 },
+        { "text": "흩어진 지식을", "at": 30 },
+        { "text": "레포 하나로 모아요", "at": 58, "hl": "레포 하나" }
+      ],
+      "props": {
+        "label": "SCATTERED",
+        "chip": "4 PLACES",
+        "icons": [
+          { "glyph": "N", "label": "notion" },
+          { "glyph": "L", "label": "local" },
+          { "glyph": "C", "label": "chat" },
+          { "glyph": "P", "label": "project" }
+        ],
+        "collapseTo": { "glyph": "R", "label": "ONE REPO" }
+      }
+    },
+    {
+      "type": "face-only",
+      "layout": "full-face",
+      "palette": "navy",
+      "durationInFrames": 60,
+      "captions": [{ "text": "기법은 코드로 내리세요", "at": 0, "hl": "코드" }],
+      "props": {}
+    }
+  ]
+}

@@ -1,0 +1,17 @@
+#!/bin/sh
+# 커밋마다 INDEX.md 자동 갱신 + spec 게이트.
+# 설치: git config core.hooksPath tools/hooks
+PY=python
+command -v python >/dev/null 2>&1 || PY=python3
+$PY tools/mkindex.py || exit 1
+git add INDEX.md
+
+# 스테이징된 spec 이 있으면 게이트 실행
+SPECS=$(git diff --cached --name-only --diff-filter=ACM | grep '^engine/specs/.*\.json$')
+if [ -n "$SPECS" ]; then
+  for f in $SPECS; do
+    (cd engine && npx --no-install tsx scripts/lint-spec.ts "../$f") || {
+      echo "[pre-commit] spec 게이트 실패: $f"; exit 1; }
+  done
+fi
+exit 0

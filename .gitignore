@@ -1,0 +1,47 @@
+# ── 산출물은 올리지 않는다 (재생성 가능). 백업 가치는 코드와 지침에 있다 ──
+*.mp4
+*.mov
+*.webm
+*.mkv
+*.gif
+*.jpg
+*.jpeg
+*.png
+*.webp
+*.mp3
+*.wav
+*.aac
+*.m4a
+*.psd
+*.ai
+*.fbx
+*.blend
+*.blend1
+
+# 프레임 시퀀스·렌더 중간물
+out/
+renders/
+frames/
+**/out/
+**/.remotion/
+*.tmp
+
+# 의존성·빌드
+node_modules/
+dist/
+build/
+__pycache__/
+
+# 도구 상태
+.bkit/
+.DS_Store
+Thumbs.db
+
+# ⚠ 폰트는 예외로 추적한다 — 없으면 렌더가 재현되지 않는다
+!*.ttf
+!*.otf
+!*.woff2
+
+# 문서용 소형 레퍼런스 이미지는 docs-assets/ 에서만 허용
+!docs-assets/**/*.png
+!docs-assets/**/*.jpg
