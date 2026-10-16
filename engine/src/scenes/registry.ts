@@ -8,6 +8,8 @@ import { BeforeAfter } from "./BeforeAfter";
 import { IconFlow } from "./IconFlow";
 import { Statement } from "./Statement";
 import { BrowserMock } from "./BrowserMock";
+import { PromptRun } from "./PromptRun";
+import { AppIntro } from "./AppIntro";
 
 export type SceneProps<T extends SceneType> = { scene: SceneOf<T>; p: Palette };
 
@@ -20,5 +22,7 @@ export const SCENES: { [K in SceneType]: React.FC<SceneProps<K>> } = {
   "icon-flow": IconFlow,
   statement: Statement,
   "browser-mock": BrowserMock,
+  "prompt-run": PromptRun,
+  "app-intro": AppIntro,
   "face-only": FaceOnly,
 };

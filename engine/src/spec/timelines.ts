@@ -36,6 +36,27 @@ export const beforeAfterTimeline = () => {
   return { beforeStart, beforeEnd, afterStart, afterEnd, chipSwap: afterStart, end: afterEnd + T.settle };
 };
 
+export const promptRunTimeline = (p: SceneOf<"prompt-run">["props"]) => {
+  const promptStart = 6;
+  const promptEnd = promptStart + Math.ceil([...p.prompt].length * 1.1);
+  const toolAt = promptEnd + 6; // 툴 호출 행 등장 (실행 중…)
+  const doneAt = toolAt + 14; // ✓ 완료
+  const resultAt = doneAt + 4;
+  const rows = p.result
+    ? p.result.kind === "table"
+      ? p.result.rows.length
+      : p.result.kind === "funnel"
+        ? p.result.steps.length
+        : p.result.kind === "thumbs"
+          ? p.result.items.length
+          : 2
+    : 0;
+  const resultEnd = p.result ? resultAt + rows * T.rowStagger + T.barFill : doneAt;
+  return { promptStart, promptEnd, toolAt, doneAt, resultAt, resultEnd, end: resultEnd + T.settle };
+};
+
+export const appIntroTimeline = () => ({ glyphIn: 0, roleAt: 10, captionAt: 18, end: 18 + 12 + T.settle });
+
 export const statementTimeline = (p: SceneOf<"statement">["props"]) => {
   const lineStagger = 9; // 두 번째 문장은 0.3초 뒤 (기획 원칙)
   const lastIn = (p.lines.length - 1) * lineStagger + 12;
@@ -70,6 +91,10 @@ export const sceneEnd = (s: Scene): number => {
       return iconFlowTimeline(s.props).end;
     case "statement":
       return statementTimeline(s.props).end;
+    case "prompt-run":
+      return promptRunTimeline(s.props).end;
+    case "app-intro":
+      return appIntroTimeline().end;
     case "browser-mock":
       return browserMockTimeline(s.props).end;
     case "face-only":

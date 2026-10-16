@@ -1,8 +1,10 @@
 // 요약: 영상 spec(JSON)의 유일한 스키마. 씬 타입·레이아웃·팔레트 이름은 여기서만 정의한다.
 import { z } from "zod";
 
-export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel"] as const;
-export const LAYOUT_NAMES = ["split", "full-graphic", "full-face"] as const;
+export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive"] as const;
+export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card"] as const;
+/** 자막 표현: overlay = 흰 글씨 + 외곽선(그래픽 위), plain = 어두운 글씨(단색 배경 위) */
+export const CAPTION_STYLES = ["overlay", "plain"] as const;
 /** 제품 데모 영상의 7단 구조. profile 이 걸리면 이 순서를 강제한다. */
 export const ROLE_NAMES = ["hook", "problem", "solution", "demo", "differentiation", "result", "cta"] as const;
 export const PROFILE_NAMES = ["free", "product-demo-40"] as const;
@@ -22,11 +24,24 @@ const iconSchema = z.object({
   color: z.string().optional(),
 });
 
+/** 지속 카드의 머리글. 씬이 바뀌어도 카드 틀은 그대로 있고 이 값만 바뀐다. */
+export const cardSchema = z.object({
+  app: z.string().min(1),
+  glyph: z.string().min(1),
+  status: z.string().optional(), // 예: "Claude에 연결됨"
+  index: z.number().int().positive().optional(),
+  total: z.number().int().positive().optional(),
+  tint: z.string().optional(), // 앱 아이콘 배경색
+});
+
 const base = {
   durationInFrames: z.number().int().positive(),
   layout: z.enum(LAYOUT_NAMES),
   palette: z.enum(PALETTE_NAMES),
   captions: z.array(captionSchema),
+  /** layout: "card" 일 때 필수 — 카드 머리글 */
+  card: cardSchema.optional(),
+  captionStyle: z.enum(CAPTION_STYLES).optional(),
   /** 7단 구조에서 이 씬이 맡는 역할 (제품 데모 프로필에서 필수) */
   role: z.enum(ROLE_NAMES).optional(),
 };
@@ -96,7 +111,54 @@ export const browserMockProps = z.object({
   zoom: z.number().min(1).max(1.15).optional(),
 });
 
+/**
+ * 결과 패널 4종. 레퍼런스에서 커넥터마다 다른 그림이 나오는데, 전부 이 넷 중 하나다.
+ * 숫자는 일부러 회색 막대로 가린다 → 지어낸 수치를 말하지 않으면서 "결과가 나왔다"를 보여준다.
+ */
+export const resultSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("thumbs"),
+    title: z.string(),
+    items: z.array(z.object({ rank: z.number().int().positive().optional(), metrics: z.array(z.string()).max(2) })).min(1).max(3),
+  }),
+  z.object({
+    kind: z.literal("table"),
+    title: z.string(),
+    columns: z.array(z.string()).min(2).max(4),
+    rows: z.array(z.object({ label: z.string(), toggle: z.boolean().optional(), badge: z.string().optional() })).min(1).max(4),
+  }),
+  z.object({
+    kind: z.literal("funnel"),
+    title: z.string(),
+    steps: z.array(z.object({ label: z.string(), value: z.number().min(0).max(1), drop: z.boolean().optional() })).min(2).max(5),
+    note: z.string().optional(),
+  }),
+  z.object({
+    kind: z.literal("upload"),
+    title: z.string(),
+    account: z.string(),
+    actions: z.array(z.string()).min(1).max(2),
+  }),
+]);
+
+/** 요청문 → 툴 실행(실행 중→완료) → 결과 패널. 카드형 영상의 핵심 씬. */
+export const promptRunProps = z.object({
+  prompt: z.string().min(1),
+  tool: z.object({ name: z.string().min(1), target: z.string().optional() }),
+  result: resultSchema.optional(),
+  /** 결과 패널 우상단 "예시" 라벨 — 실제 데이터가 아님을 표시한다 */
+  sample: z.boolean().optional(),
+});
+
+/** 큰 아이콘 + 역할 한 줄. "첫 번째, ○○" 챕터 표지의 카드 버전. */
+export const appIntroProps = z.object({
+  role: z.string().min(1), // 그 도구로 하는 일 (예: "릴스 조사")
+  caption: z.string().optional(), // 예: "Bright Data로 하는 일"
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("prompt-run"), ...base, props: promptRunProps }),
+  z.object({ type: z.literal("app-intro"), ...base, props: appIntroProps }),
   z.object({ type: z.literal("statement"), ...base, props: statementProps }),
   z.object({ type: z.literal("browser-mock"), ...base, props: browserMockProps }),
   z.object({ type: z.literal("title-card"), ...base, props: titleCardProps }),

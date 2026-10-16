@@ -14,6 +14,8 @@ export const Glow: React.FC<{ p: Palette; seed: string }> = ({ p, seed }) => {
     r: 2 + random(`${seed}r${i}`) * 3,
     s: 0.2 + random(`${seed}s${i}`) * 0.6,
   }));
+  // flat 팔레트는 단색 배경 — 카드가 주인공이라 배경이 움직이면 시선을 뺏는다
+  if (p.flat) return <AbsoluteFill style={{ backgroundColor: p.bg }} />;
   return (
     <AbsoluteFill style={{ backgroundColor: p.bg, overflow: "hidden" }}>
       <AbsoluteFill

@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 41행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 46행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -37,6 +37,7 @@
 |---|---|---|
 | [labs/레포세팅_엔진부트스트랩_20260914.md](labs/레포세팅_엔진부트스트랩_20260914.md) | **레포 세팅 + 엔진 부트스트랩 기록** — 자막 겹침·아이콘 위치 버그를 코드로 고친 과정과 게이트 수치의 **근거**(왜 18자·왜 18프레임인지) + 게이트 역방향 테스트 결과 | 왜 이 값이야, 왜 18자, 왜 18프레임, 18자 근거, 자막 겹침, 버그 기록, 부트스트랩, 구조가 왜 이래, 실패한 것 |
 | [labs/제품데모프로필_도입_20260914.md](labs/제품데모프로필_도입_20260914.md) | **제품 데모 프로필 도입 기록** — 지침을 문서/코드로 나눈 근거와 문구 넘침·커서 모양·쏠림 수정 기록. 글자 수 상한을 상수에서 역산하는 이유 | 왜 15자, 왜 프로필, 문구 넘침, 커서 모양, 글자 크기 자동, 지침 반영, 근거 |
+| [labs/카드형_구현_20261016.md](labs/카드형_구현_20261016.md) | **카드형 구현 기록** — 지속 카드를 씬 밖에 둔 이유, 카드 안/밖 색 기준을 틀렸던 실수, 게이트 추가 규칙 | 카드형 왜, 카드 안 색, 흰 글씨, 자막 색, 구현 기록, 지속 카드 원리 |
 
 ## engine — 실행 코드
 
@@ -44,6 +45,7 @@
 |---|---|---|
 | [engine/README.md](engine/README.md) | **엔진 구조 요약** — engine 폴더별 역할·설치(npm i)·명령어·레이어 순서. 영상 규격(1080×1920 9:16 / 30fps)도 여기 | 엔진 구조, 설치, npm install, 의존성, 환경 세팅, 노드, Remotion 버전, 명령어, 어떻게 렌더, 레이어 순서, 9:16, 세로 영상, 해상도, fps, 프레임레이트, 영상 규격 |
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
+| [engine/specs/template-card-tools.json](engine/specs/template-card-tools.json) | **카드형 도구 소개 템플릿 spec** — 카드 1장 유지 + prompt-run 2개 + CTA. 카드형 영상을 만들 때 복사해서 시작 | 카드형 템플릿, 도구 소개, 커넥터 영상, 복사해서 시작, 카드 spec |
 | [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
 | [engine/src/fonts.ts](engine/src/fonts.ts) | **폰트 로딩** — 라벨=Montserrat, 코드=JetBrains Mono, 한글 자막=Noto Sans KR (Google Fonts 원격 로딩) | 폰트, 글꼴, 한글 폰트, 자막 폰트, 몬세라트, 모노스페이스, 폰트 바꾸기 |
 | [engine/src/index.ts](engine/src/index.ts) | **Remotion 엔트리** — registerRoot 로 Root 를 등록하는 진입점. 건드릴 일 거의 없다 | 엔트리, 진입점, registerRoot, index.ts |
@@ -55,14 +57,17 @@
 | [engine/src/spec/layout.ts](engine/src/spec/layout.ts) | **레이아웃 좌표** — split·full-graphic·full-face 좌표와 자막 Y. **자막이 겹친다/위치를 바꾸고 싶다 → 여기부터** | 레이아웃, 좌표, 자막 위치, 토킹헤드 위치, 안전 영역, split 가 뭐야, 자막이 겹침 |
 | [engine/src/spec/schema.ts](engine/src/spec/schema.ts) | **spec 스키마 (zod)** — 씬별 props 와 필드 정의. **씬 타입 목록의 원천은 registry.ts, 팔레트 색은 theme.ts** | 스키마, zod, props 뭐 넣나, 필드, 필수 값, spec 형식, 유효성 |
 | [engine/src/spec/timelines.ts](engine/src/spec/timelines.ts) | **씬 내부 타이밍** — 씬별 프레임 계산의 원천(컴포넌트·게이트 공용). 잘림 여부를 **판정**하는 기준값은 gate.ts | 타이밍, 프레임 수, 애니메이션 길이, 잘림, sceneEnd, 타이핑 속도, 등장 간격 |
+| [engine/src/scenes/AppIntro.tsx](engine/src/scenes/AppIntro.tsx) | **씬 구현 — app-intro** — 카드 안 큰 아이콘 + 역할 한 줄. "첫 번째, ○○" 표지의 카드 버전 | 앱 소개, 도구 표지, 아이콘 크게, N 번째는, 카드 표지 |
 | [engine/src/scenes/BeforeAfter.tsx](engine/src/scenes/BeforeAfter.tsx) | **씬 구현 — before-after** — OLD WAY vs WITH IT 막대 비교 + 숫자 카운트업. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 비교, 전후, before after, 시간 절감, 막대 그래프, 카운트업, 씬 구현 수정 |
 | [engine/src/scenes/BrowserMock.tsx](engine/src/scenes/BrowserMock.tsx) | **씬 구현 — browser-mock** — 브라우저 목업 + 커서 이동 + 클릭 글로우 + 105~115% 확대. UI 모션그래픽의 기본 씬 | 브라우저, 목업, 커서, 마우스, 클릭, 글로우, 확대, 줌, 화면 조작, UI 시연 |
 | [engine/src/scenes/IconFlow.tsx](engine/src/scenes/IconFlow.tsx) | **씬 구현 — icon-flow** — 아이콘들이 선으로 이어지고 마지막에 하나로 합쳐진다. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 아이콘, 연결, 흐름, 합쳐짐, 도구 연결, 탭 호핑, 씬 구현 수정 |
+| [engine/src/scenes/PromptRun.tsx](engine/src/scenes/PromptRun.tsx) | **씬 구현 — prompt-run** — 요청문 타이핑 → 툴 호출(실행 중→완료) → 결과 패널 4종(썸네일/표/퍼널/업로드). 카드형의 핵심 | 요청문, 프롬프트 씬, 툴 실행, 결과 패널, 퍼널, 표, 썸네일, 업로드 예약, 커넥터 시연 |
 | [engine/src/scenes/Statement.tsx](engine/src/scenes/Statement.tsx) | **씬 구현 — statement** — 화면 문구 전용(최대 두 줄, 폭에 맞춰 글자 크기 자동 축소). (영상에 넣는 법은 runbooks/제품데모영상_기획절차.md) | 문구만, 텍스트 씬, 훅 화면, 두 줄, 큰 글씨, 강조 문장 |
 | [engine/src/scenes/TerminalList.tsx](engine/src/scenes/TerminalList.tsx) | **씬 구현 — terminal-list** — 명령 타이핑 → 결과 행 등장 → 진행바 → 1위 하이라이트. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 터미널, 목록, 랭킹, 설치 화면, 리스트 씬, 하이라이트, 진행바, 씬 구현 수정 |
 | [engine/src/scenes/TitleCard.tsx](engine/src/scenes/TitleCard.tsx) | **씬 구현 — title-card** — 카드 스택에서 이름이 타이핑되는 챕터 표지. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 타이틀, 챕터, N 번째는, 표지, 이름 카드, 씬 구현 수정 |
 | [engine/src/scenes/registry.ts](engine/src/scenes/registry.ts) | **씬 레지스트리 — 씬 타입 목록의 원천** — 씬 타입 → 컴포넌트 매핑. **어떤 씬이 있는지 확인할 때 여기** (face-only 는 이 파일 안에 정의) | 씬 목록, 어떤 씬 있나, 씬 종류, registry, 타입 매핑, 사용 가능한 장면 |
 | [engine/src/components/Captions.tsx](engine/src/components/Captions.tsx) | **자막 레이어** — 자막 글꼴·강조 색·외곽선 스타일. (위치·겹침 좌표는 spec/layout.ts) | 자막 스타일, 캡션, 강조 색, 노란색, 글자 크기, 외곽선, 폰트 굵기 |
+| [engine/src/components/CardShell.tsx](engine/src/components/CardShell.tsx) | **지속 카드 틀** — 씬 밖에서 그려지는 카드 머리글(아이콘·이름·연결 상태·N/5). 씬이 바뀌어도 유지된다 | 지속 카드, 카드 틀, 머리글, 카드가 유지, 컷 없이, N/5 진행 |
 | [engine/src/components/TalkingHead.tsx](engine/src/components/TalkingHead.tsx) | **토킹헤드 레이어** — 사람 영상 배치·크롭·자리표시 실루엣 | 사람 영상, 토킹헤드, 얼굴, 영상 합성, 크롭, 자리표시, 인물 위치 |
 | [engine/src/components/ui.tsx](engine/src/components/ui.tsx) | **공용 프리미티브** — 배경 글로우·카드·칩·글리프 타일·모노 명령줄 | 카드, 칩, 배경, 글로우, 타일, 공통 컴포넌트, 터미널 창 |
 | [engine/scripts/lint-spec.ts](engine/scripts/lint-spec.ts) | **게이트 실행 CLI (값은 gate.ts)** — specs/*.json 검사 + 레이아웃 불변식 + spec 등록 여부. 오류 시 exit 1 | lint:spec, 게이트 실행, 검사 명령, 커밋이 막힘, 오류 확인 |

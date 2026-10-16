@@ -2,7 +2,7 @@
 import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
 import { FONT_KR, FONT_UI } from "../fonts";
-import { clamp, EASE_OUT } from "../theme";
+import { CARD_INK, CARD_SUB, clamp, EASE_OUT } from "../theme";
 import { TEXT, fitSize } from "../spec/layout";
 import { statementTimeline } from "../spec/timelines";
 import type { SceneProps } from "./registry";
@@ -12,10 +12,17 @@ export const Statement: React.FC<SceneProps<"statement">> = ({ scene, p }) => {
   const { kicker, lines, accentLine } = scene.props;
   const tl = statementTimeline(scene.props);
   // 두 줄의 크기를 맞추기 위해 가장 긴 줄 기준으로 한 번만 계산한다
-  const size = fitSize(Math.max(...lines.map((l) => [...l].length)), TEXT.statementBase, TEXT.statementMin);
+  const inCard = scene.layout === "card";
+  const ink = inCard ? CARD_INK : p.text;
+  const sub = inCard ? CARD_SUB : p.sub;
+  const accent = inCard ? (p.cardAccent ?? p.accent) : p.accent;
+  const size = Math.min(
+    fitSize(Math.max(...lines.map((l) => [...l].length)), TEXT.statementBase, TEXT.statementMin),
+    inCard ? 64 : 999,
+  );
 
   return (
-    <div style={{ width: "100%", textAlign: "center" }}>
+    <div style={{ width: "100%", height: inCard ? "100%" : undefined, display: inCard ? "flex" : undefined, flexDirection: "column", justifyContent: "center", textAlign: "center" }}>
       {kicker ? (
         <div
           style={{
@@ -24,7 +31,7 @@ export const Statement: React.FC<SceneProps<"statement">> = ({ scene, p }) => {
             fontSize: 26,
             letterSpacing: "0.22em",
             textTransform: "uppercase",
-            color: p.sub,
+            color: sub,
             marginBottom: 44,
             opacity: interpolate(f, [0, 10], [0, 1], clamp),
           }}
@@ -44,7 +51,7 @@ export const Statement: React.FC<SceneProps<"statement">> = ({ scene, p }) => {
               lineHeight: 1.3,
               whiteSpace: "nowrap",
               letterSpacing: "-0.03em",
-              color: i === accentLine ? p.accent : p.text,
+              color: i === accentLine ? accent : ink,
               opacity: interpolate(f, [at, at + 12], [0, 1], clamp),
               // 아래에서 24px 올라오며 등장 (기획 원칙)
               translate: `0 ${interpolate(f, [at, at + 14], [24, 0], { ...clamp, easing: EASE_OUT })}px`,

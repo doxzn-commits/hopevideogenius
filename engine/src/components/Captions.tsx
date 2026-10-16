@@ -6,19 +6,25 @@ import { TEXT, fitSize } from "../spec/layout";
 import { FONT_KR } from "../fonts";
 import type { Caption } from "../spec/schema";
 
-const Piece: React.FC<{ text: string; hl?: string }> = ({ text, hl }) => {
+const Piece: React.FC<{ text: string; hl?: string; hlColor: string }> = ({ text, hl, hlColor }) => {
   if (!hl || !text.includes(hl)) return <>{text}</>;
   const [head, ...rest] = text.split(hl);
   return (
     <>
       {head}
-      <span style={{ color: CAPTION.hl }}>{hl}</span>
+      <span style={{ color: hlColor }}>{hl}</span>
       {rest.join(hl)}
     </>
   );
 };
 
-export const Captions: React.FC<{ captions: Caption[]; y: number }> = ({ captions, y }) => {
+export const Captions: React.FC<{ captions: Caption[]; y: number; style?: "overlay" | "plain"; color?: string; hlColor?: string }> = ({
+  captions,
+  y,
+  style = "overlay",
+  color,
+  hlColor,
+}) => {
   const f = useCurrentFrame();
   let active: Caption | null = null;
   for (const c of captions) if (f >= c.at) active = c;
@@ -41,13 +47,14 @@ export const Captions: React.FC<{ captions: Caption[]; y: number }> = ({ caption
         lineHeight: 1.25,
         whiteSpace: "nowrap",
         letterSpacing: "-0.02em",
-        color: "#FFFFFF",
-        WebkitTextStroke: `${CAPTION.stroke}px rgba(0,0,0,0.88)`,
-        paintOrder: "stroke fill",
-        textShadow: "0 6px 26px rgba(0,0,0,0.45)",
+        // plain = 단색 배경 위 어두운 글씨(외곽선 없음). overlay = 그래픽·사람 위 흰 글씨 + 외곽선.
+        color: style === "plain" ? (color ?? "#1A1A1A") : "#FFFFFF",
+        WebkitTextStroke: style === "plain" ? undefined : `${CAPTION.stroke}px rgba(0,0,0,0.88)`,
+        paintOrder: style === "plain" ? undefined : "stroke fill",
+        textShadow: style === "plain" ? undefined : "0 6px 26px rgba(0,0,0,0.45)",
       }}
     >
-      <Piece text={active.text} hl={active.hl} />
+      <Piece text={active.text} hl={active.hl} hlColor={hlColor ?? CAPTION.hl} />
     </div>
   );
 };

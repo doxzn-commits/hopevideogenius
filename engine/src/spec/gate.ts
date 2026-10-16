@@ -17,6 +17,7 @@ export const RULES = {
   statementLineMaxChars: maxCharsAt(TEXT.statementMin), // 화면 문구 한 줄(92px 기준, 최소 54px 까지 축소)
   captionsPerSceneMax: 3, // 한 장면에 자막을 더 넣고 싶으면 씬을 쪼갠다
   cursorPointsMax: 6, // 커서 키프레임. 더 많으면 시선이 따라오지 못한다
+  promptMaxChars: 46, // 요청문 말풍선 2줄(38px, 카드 폭 838px) 한계
 } as const;
 
 /**
@@ -93,6 +94,16 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     if (d < end) err(w, `애니메이션이 ${end}f 에 끝나는데 씬이 ${d}f 에서 잘림`);
 
     if (s.type === "face-only" && s.layout !== "full-face") err(w, "face-only 는 layout: full-face 만 허용");
+
+    // 카드형: 머리글이 없으면 카드가 빈 채로 유지된다
+    if (s.layout === "card" && !s.card) err(w, "layout: card 는 card(app·glyph) 가 필요하다");
+    if (s.card && s.layout !== "card") warn(w, "card 를 줬지만 layout 이 card 가 아니라 무시된다");
+    if ((s.type === "prompt-run" || s.type === "app-intro") && s.layout !== "card")
+      err(w, `${s.type} 은 layout: card 에서만 쓴다`);
+    if (s.type === "prompt-run") {
+      const n = widthChars(s.props.prompt);
+      if (n > RULES.promptMaxChars) err(w, `요청문 ${n}자 > ${RULES.promptMaxChars}자 — 말풍선을 넘친다`);
+    }
     if (s.type !== "face-only" && s.layout === "full-face") err(w, "full-face 레이아웃은 face-only 타입만 허용");
 
     if (s.captions.length > RULES.captionsPerSceneMax)
@@ -155,7 +166,8 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     });
   }
 
-  if (spec.talkingHead === null && spec.scenes.some((s) => s.layout !== "full-graphic"))
+  // 사람이 들어가는 레이아웃이 있을 때만 경고한다 (card·full-graphic 은 사람이 없다)
+  if (spec.talkingHead === null && spec.scenes.some((s) => LAYOUTS[s.layout].face !== null))
     warn("talkingHead", "영상 경로 없음 — 사람 영역이 자리표시 실루엣으로 렌더됨");
   if (total / spec.fps > RULES.totalMaxSeconds)
     warn("scenes", `총 ${(total / spec.fps).toFixed(1)}초 > 권장 ${RULES.totalMaxSeconds}초`);
