@@ -1,42 +1,152 @@
 {
   "id": "TemplateCardTools",
-  "title": "카드형 도구 소개 템플릿 — 카드 1장 유지, 내용만 교체 (○○ 자리를 바꿔 쓴다)",
+  "title": "카드형 도구 소개 템플릿 — 인트로 토글 → 도구별 시연 → 팔로우·댓글·DM",
   "fps": 30,
   "width": 1080,
   "height": 1920,
   "talkingHead": null,
   "scenes": [
     {
+      "type": "toggle-list",
+      "layout": "card",
+      "palette": "ivory",
+      "durationInFrames": 110,
+      "card": {
+        "app": "커넥터",
+        "glyph": "✳",
+        "total": 5
+      },
+      "captions": [
+        {
+          "text": "Claude로 마케팅하면",
+          "at": 0
+        },
+        {
+          "text": "이 5개는 무조건 연결",
+          "at": 55,
+          "hl": "무조건"
+        }
+      ],
+      "props": {
+        "items": [
+          {
+            "glyph": "B",
+            "name": "Bright Data",
+            "sub": "릴스 조사",
+            "tint": "#2F7CF6"
+          },
+          {
+            "glyph": "M",
+            "name": "Meta Ads",
+            "sub": "광고 성과 관리",
+            "tint": "#1877F2"
+          },
+          {
+            "glyph": "F",
+            "name": "Firecrawl",
+            "sub": "경쟁사 사이트 수집",
+            "tint": "#E8581C"
+          },
+          {
+            "glyph": "P",
+            "name": "PostHog",
+            "sub": "이탈 지점 분석",
+            "tint": "#1A1A1A"
+          },
+          {
+            "glyph": "U",
+            "name": "Upload-Post",
+            "sub": "SNS 자동 관리",
+            "tint": "#3BA7D9"
+          }
+        ]
+      }
+    },
+    {
       "type": "app-intro",
       "layout": "card",
       "palette": "ivory",
       "durationInFrames": 60,
-      "card": { "app": "Bright Data", "glyph": "B", "status": "Claude에 연결됨", "index": 1, "total": 5, "tint": "#2F7CF6" },
-      "captions": [{ "text": "첫 번째, Bright Data", "at": 0, "hl": "Bright Data" }],
-      "props": { "role": "릴스 조사", "caption": "Bright Data로 하는 일" }
+      "card": {
+        "app": "Bright Data",
+        "glyph": "B",
+        "status": "Claude에 연결됨",
+        "index": 1,
+        "total": 5,
+        "tint": "#2F7CF6"
+      },
+      "captions": [
+        {
+          "text": "첫 번째, Bright Data",
+          "at": 0,
+          "hl": "Bright Data"
+        }
+      ],
+      "props": {
+        "role": "릴스 조사",
+        "caption": "Bright Data로 하는 일"
+      }
     },
     {
       "type": "prompt-run",
       "layout": "card",
       "palette": "ivory",
       "durationInFrames": 150,
-      "card": { "app": "Bright Data", "glyph": "B", "status": "Claude에 연결됨", "index": 1, "total": 5, "tint": "#2F7CF6" },
+      "card": {
+        "app": "Bright Data",
+        "glyph": "B",
+        "status": "Claude에 연결됨",
+        "index": 1,
+        "total": 5,
+        "tint": "#2F7CF6"
+      },
       "captions": [
-        { "text": "경쟁 계정 릴스를", "at": 0 },
-        { "text": "통째로 긁어 와서", "at": 50 },
-        { "text": "반응 좋은 순서대로", "at": 100, "hl": "반응 좋은" }
+        {
+          "text": "경쟁 계정 릴스를",
+          "at": 0
+        },
+        {
+          "text": "통째로 긁어 와서",
+          "at": 50
+        },
+        {
+          "text": "반응 좋은 순서대로",
+          "at": 100,
+          "hl": "반응 좋은"
+        }
       ],
       "props": {
         "prompt": "@경쟁계정 최근 릴스 긁어서 반응 좋은 순으로 뽑아 줘",
-        "tool": { "name": "run_scraper", "target": "Instagram" },
+        "tool": {
+          "name": "run_scraper",
+          "target": "Instagram"
+        },
         "sample": true,
         "result": {
           "kind": "thumbs",
           "title": "경쟁 계정 릴스 · 반응 순",
           "items": [
-            { "rank": 1, "metrics": ["조회", "좋아요"] },
-            { "rank": 2, "metrics": ["조회", "좋아요"] },
-            { "rank": 3, "metrics": ["조회", "좋아요"] }
+            {
+              "rank": 1,
+              "metrics": [
+                "조회",
+                "좋아요"
+              ]
+            },
+            {
+              "rank": 2,
+              "metrics": [
+                "조회",
+                "좋아요"
+              ]
+            },
+            {
+              "rank": 3,
+              "metrics": [
+                "조회",
+                "좋아요"
+              ]
+            }
           ]
         }
       }
@@ -46,46 +156,128 @@
       "layout": "card",
       "palette": "ivory",
       "durationInFrames": 60,
-      "card": { "app": "PostHog", "glyph": "P", "status": "Claude에 연결됨", "index": 2, "total": 5, "tint": "#1A1A1A" },
-      "captions": [{ "text": "두 번째, PostHog", "at": 0, "hl": "PostHog" }],
-      "props": { "role": "이탈 지점 분석", "caption": "PostHog로 하는 일" }
+      "card": {
+        "app": "PostHog",
+        "glyph": "P",
+        "status": "Claude에 연결됨",
+        "index": 2,
+        "total": 5,
+        "tint": "#1A1A1A"
+      },
+      "captions": [
+        {
+          "text": "두 번째, PostHog",
+          "at": 0,
+          "hl": "PostHog"
+        }
+      ],
+      "props": {
+        "role": "이탈 지점 분석",
+        "caption": "PostHog로 하는 일"
+      }
     },
     {
       "type": "prompt-run",
       "layout": "card",
       "palette": "ivory",
       "durationInFrames": 165,
-      "card": { "app": "PostHog", "glyph": "P", "status": "Claude에 연결됨", "index": 2, "total": 5, "tint": "#1A1A1A" },
+      "card": {
+        "app": "PostHog",
+        "glyph": "P",
+        "status": "Claude에 연결됨",
+        "index": 2,
+        "total": 5,
+        "tint": "#1A1A1A"
+      },
       "captions": [
-        { "text": "내 사이트 방문자가", "at": 0 },
-        { "text": "어디서 빠져나가는지", "at": 55, "hl": "어디서" },
-        { "text": "단계별로 찾아 줘요", "at": 115 }
+        {
+          "text": "내 사이트 방문자가",
+          "at": 0
+        },
+        {
+          "text": "어디서 빠져나가는지",
+          "at": 55,
+          "hl": "어디서"
+        },
+        {
+          "text": "단계별로 찾아 줘요",
+          "at": 115
+        }
       ],
       "props": {
         "prompt": "결제까지 가는 단계 중에 어디서 제일 많이 빠져?",
-        "tool": { "name": "query_funnel" },
+        "tool": {
+          "name": "query_funnel"
+        },
         "sample": true,
         "result": {
           "kind": "funnel",
           "title": "결제 퍼널",
           "note": "여기서 가장 많이 이탈",
           "steps": [
-            { "label": "방문", "value": 1 },
-            { "label": "상품 보기", "value": 0.72 },
-            { "label": "장바구니", "value": 0.48 },
-            { "label": "결제", "value": 0.14, "drop": true }
+            {
+              "label": "방문",
+              "value": 1
+            },
+            {
+              "label": "상품 보기",
+              "value": 0.72
+            },
+            {
+              "label": "장바구니",
+              "value": 0.48
+            },
+            {
+              "label": "결제",
+              "value": 0.14,
+              "drop": true
+            }
           ]
         }
       }
     },
     {
-      "type": "statement",
-      "layout": "card",
+      "type": "social-cta",
+      "layout": "stack",
       "palette": "olive",
-      "durationInFrames": 90,
-      "card": { "app": "다음 단계", "glyph": "→", "index": 5, "total": 5 },
-      "captions": [{ "text": "댓글에 연결 남기면", "at": 0, "hl": "연결" }],
-      "props": { "lines": ["연결 가이드", "바로 보내드려요"], "accentLine": 1 }
+      "durationInFrames": 150,
+      "captions": [
+        {
+          "text": "팔로우하고",
+          "at": 0
+        },
+        {
+          "text": "댓글에 연결 남기면",
+          "at": 40,
+          "hl": "연결"
+        },
+        {
+          "text": "바로 보내드려요",
+          "at": 105
+        }
+      ],
+      "props": {
+        "profile": {
+          "name": "○○",
+          "handle": "@your_handle",
+          "glyph": "○"
+        },
+        "follow": {
+          "before": "팔로우",
+          "after": "팔로잉"
+        },
+        "comment": {
+          "title": "댓글",
+          "keyword": "연결",
+          "me": "나"
+        },
+        "dm": {
+          "badge": "DM 도착",
+          "headline": "연결 가이드 보내드려요!",
+          "title": "마케팅 툴 5개 연결 가이드",
+          "sub": "연결 방법 · 바로 쓰는 요청문"
+        }
+      }
     }
   ]
 }

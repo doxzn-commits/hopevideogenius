@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 46행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 48행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -62,9 +62,11 @@
 | [engine/src/scenes/BrowserMock.tsx](engine/src/scenes/BrowserMock.tsx) | **씬 구현 — browser-mock** — 브라우저 목업 + 커서 이동 + 클릭 글로우 + 105~115% 확대. UI 모션그래픽의 기본 씬 | 브라우저, 목업, 커서, 마우스, 클릭, 글로우, 확대, 줌, 화면 조작, UI 시연 |
 | [engine/src/scenes/IconFlow.tsx](engine/src/scenes/IconFlow.tsx) | **씬 구현 — icon-flow** — 아이콘들이 선으로 이어지고 마지막에 하나로 합쳐진다. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 아이콘, 연결, 흐름, 합쳐짐, 도구 연결, 탭 호핑, 씬 구현 수정 |
 | [engine/src/scenes/PromptRun.tsx](engine/src/scenes/PromptRun.tsx) | **씬 구현 — prompt-run** — 요청문 타이핑 → 툴 호출(실행 중→완료) → 결과 패널 4종(썸네일/표/퍼널/업로드). 카드형의 핵심 | 요청문, 프롬프트 씬, 툴 실행, 결과 패널, 퍼널, 표, 썸네일, 업로드 예약, 커넥터 시연 |
+| [engine/src/scenes/SocialCta.tsx](engine/src/scenes/SocialCta.tsx) | **씬 구현 — social-cta** — 팔로우 → 댓글 키워드 타이핑 → DM 카드. layout stack 전용 | CTA, 팔로우, 댓글, 키워드, DM, 다음 행동, 마무리 장면 |
 | [engine/src/scenes/Statement.tsx](engine/src/scenes/Statement.tsx) | **씬 구현 — statement** — 화면 문구 전용(최대 두 줄, 폭에 맞춰 글자 크기 자동 축소). (영상에 넣는 법은 runbooks/제품데모영상_기획절차.md) | 문구만, 텍스트 씬, 훅 화면, 두 줄, 큰 글씨, 강조 문장 |
 | [engine/src/scenes/TerminalList.tsx](engine/src/scenes/TerminalList.tsx) | **씬 구현 — terminal-list** — 명령 타이핑 → 결과 행 등장 → 진행바 → 1위 하이라이트. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 터미널, 목록, 랭킹, 설치 화면, 리스트 씬, 하이라이트, 진행바, 씬 구현 수정 |
 | [engine/src/scenes/TitleCard.tsx](engine/src/scenes/TitleCard.tsx) | **씬 구현 — title-card** — 카드 스택에서 이름이 타이핑되는 챕터 표지. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 타이틀, 챕터, N 번째는, 표지, 이름 카드, 씬 구현 수정 |
+| [engine/src/scenes/ToggleList.tsx](engine/src/scenes/ToggleList.tsx) | **씬 구현 — toggle-list** — 목록 토글이 차례로 켜지는 인트로. 카드 머리글 N/total 이 같이 올라간다 | 토글, 인트로, 목록 켜짐, 커넥터 목록, 스위치, 목차, N/5 카운터 |
 | [engine/src/scenes/registry.ts](engine/src/scenes/registry.ts) | **씬 레지스트리 — 씬 타입 목록의 원천** — 씬 타입 → 컴포넌트 매핑. **어떤 씬이 있는지 확인할 때 여기** (face-only 는 이 파일 안에 정의) | 씬 목록, 어떤 씬 있나, 씬 종류, registry, 타입 매핑, 사용 가능한 장면 |
 | [engine/src/components/Captions.tsx](engine/src/components/Captions.tsx) | **자막 레이어** — 자막 글꼴·강조 색·외곽선 스타일. (위치·겹침 좌표는 spec/layout.ts) | 자막 스타일, 캡션, 강조 색, 노란색, 글자 크기, 외곽선, 폰트 굵기 |
 | [engine/src/components/CardShell.tsx](engine/src/components/CardShell.tsx) | **지속 카드 틀** — 씬 밖에서 그려지는 카드 머리글(아이콘·이름·연결 상태·N/5). 씬이 바뀌어도 유지된다 | 지속 카드, 카드 틀, 머리글, 카드가 유지, 컷 없이, N/5 진행 |

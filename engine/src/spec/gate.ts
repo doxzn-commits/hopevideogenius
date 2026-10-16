@@ -17,7 +17,8 @@ export const RULES = {
   statementLineMaxChars: maxCharsAt(TEXT.statementMin), // 화면 문구 한 줄(92px 기준, 최소 54px 까지 축소)
   captionsPerSceneMax: 3, // 한 장면에 자막을 더 넣고 싶으면 씬을 쪼갠다
   cursorPointsMax: 6, // 커서 키프레임. 더 많으면 시선이 따라오지 못한다
-  promptMaxChars: 46, // 요청문 말풍선 2줄(38px, 카드 폭 838px) 한계
+  promptMaxChars: 46,
+  ctaKeywordMaxChars: 6, // 댓글 키워드는 한 단어 (본문 규칙과 동일 기준) // 요청문 말풍선 2줄(38px, 카드 폭 838px) 한계
 } as const;
 
 /**
@@ -98,8 +99,22 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     // 카드형: 머리글이 없으면 카드가 빈 채로 유지된다
     if (s.layout === "card" && !s.card) err(w, "layout: card 는 card(app·glyph) 가 필요하다");
     if (s.card && s.layout !== "card") warn(w, "card 를 줬지만 layout 이 card 가 아니라 무시된다");
-    if ((s.type === "prompt-run" || s.type === "app-intro") && s.layout !== "card")
+    if ((s.type === "prompt-run" || s.type === "app-intro" || s.type === "toggle-list") && s.layout !== "card")
       err(w, `${s.type} 은 layout: card 에서만 쓴다`);
+    if (s.type === "social-cta" && s.layout !== "stack") err(w, "social-cta 는 layout: stack 에서만 쓴다");
+    if (s.type === "toggle-list") {
+      // 머리글의 total 과 실제 항목 수가 다르면 "5개 중 3개"처럼 말이 안 되는 화면이 된다
+      if (!s.card?.total) err(w, "toggle-list 는 card.total 이 필요하다");
+      else if (s.card.total !== s.props.items.length)
+        err(w, `card.total ${s.card.total} ≠ items ${s.props.items.length}개`);
+      if (s.card?.index !== undefined) warn(w, "toggle-list 의 card.index 는 엔진이 세므로 무시된다");
+    }
+    if (s.type === "social-cta") {
+      const k = widthChars(s.props.comment.keyword);
+      // 본문 규칙과 같은 기준: 댓글 키워드는 한 단어 (runbooks/소셜본문_작성절차.md)
+      if (k > RULES.ctaKeywordMaxChars) err(w, `댓글 키워드 ${k}자 > ${RULES.ctaKeywordMaxChars}자 — 한 단어로`);
+      if (/\s/.test(s.props.comment.keyword)) err(w, "댓글 키워드에 공백이 있다 — 한 단어로");
+    }
     if (s.type === "prompt-run") {
       const n = widthChars(s.props.prompt);
       if (n > RULES.promptMaxChars) err(w, `요청문 ${n}자 > ${RULES.promptMaxChars}자 — 말풍선을 넘친다`);

@@ -2,7 +2,7 @@
 import { z } from "zod";
 
 export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive"] as const;
-export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card"] as const;
+export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stack"] as const;
 /** 자막 표현: overlay = 흰 글씨 + 외곽선(그래픽 위), plain = 어두운 글씨(단색 배경 위) */
 export const CAPTION_STYLES = ["overlay", "plain"] as const;
 /** 제품 데모 영상의 7단 구조. profile 이 걸리면 이 순서를 강제한다. */
@@ -156,8 +156,29 @@ export const appIntroProps = z.object({
   caption: z.string().optional(), // 예: "Bright Data로 하는 일"
 });
 
+/** 목록의 토글이 차례로 켜지는 인트로. 카드 머리글의 N/total 이 같이 올라간다(엔진이 세어 준다). */
+export const toggleListProps = z.object({
+  items: z
+    .array(z.object({ glyph: z.string().min(1), name: z.string().min(1), sub: z.string().optional(), tint: z.string().optional() }))
+    .min(2)
+    .max(6),
+  startAt: z.number().int().min(0).optional(),
+});
+
+/** 팔로우 → 댓글 키워드 → DM. 숏폼 CTA 의 정석 3단. */
+export const socialCtaProps = z.object({
+  profile: z.object({ name: z.string().min(1), handle: z.string().min(1), glyph: z.string().optional() }),
+  follow: z.object({ before: z.string(), after: z.string() }),
+  comment: z.object({ title: z.string(), keyword: z.string().min(1), me: z.string().optional() }),
+  dm: z
+    .object({ badge: z.string(), headline: z.string(), title: z.string(), sub: z.string().optional() })
+    .optional(),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
   z.object({ type: z.literal("prompt-run"), ...base, props: promptRunProps }),
+  z.object({ type: z.literal("toggle-list"), ...base, props: toggleListProps }),
+  z.object({ type: z.literal("social-cta"), ...base, props: socialCtaProps }),
   z.object({ type: z.literal("app-intro"), ...base, props: appIntroProps }),
   z.object({ type: z.literal("statement"), ...base, props: statementProps }),
   z.object({ type: z.literal("browser-mock"), ...base, props: browserMockProps }),

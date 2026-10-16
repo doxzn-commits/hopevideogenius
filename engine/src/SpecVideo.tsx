@@ -8,6 +8,7 @@ import { Captions } from "./components/Captions";
 import { CardShell } from "./components/CardShell";
 import { TalkingHead } from "./components/TalkingHead";
 import { CARD_BODY } from "./spec/layout";
+import { toggleOnCount } from "./spec/timelines";
 import { LAYOUTS, PALETTES, SAFE, SIDE } from "./theme";
 import { FONT_MONO } from "./fonts";
 import type { Scene, VideoSpec } from "./spec/schema";
@@ -87,12 +88,15 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
 
   let acc = 0;
   let active = spec.scenes[spec.scenes.length - 1];
+  let activeStart = 0;
   for (const s of spec.scenes) {
     if (frame < acc + s.durationInFrames) {
       active = s;
+      activeStart = acc;
       break;
     }
     acc += s.durationInFrames;
+    activeStart = acc;
   }
 
   const activeP = PALETTES[active.palette];
@@ -103,7 +107,17 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
       {active.layout === "card" ? (
         <>
           <AbsoluteFill style={{ backgroundColor: activeP.bg }} />
-          {active.card ? <CardShell p={activeP} card={active.card} /> : null}
+          {active.card ? (
+            <CardShell
+              p={activeP}
+              card={
+                // toggle-list 는 켜진 토글 수가 곧 진행 숫자다 — 씬과 머리글이 같은 타임라인을 쓴다
+                active.type === "toggle-list"
+                  ? { ...active.card, index: toggleOnCount(active.props, frame - activeStart) }
+                  : active.card
+              }
+            />
+          ) : null}
         </>
       ) : null}
       <Series>
@@ -120,10 +134,10 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
             <Captions
               captions={s.captions}
               y={LAYOUTS[s.layout].captionY}
-              style={s.captionStyle ?? (s.layout === "card" ? "plain" : "overlay")}
+              style={s.captionStyle ?? (s.layout === "card" || s.layout === "stack" ? "plain" : "overlay")}
               // 자막은 카드 밖(배경 위)이라 색은 배경 기준이다. 카드 안쪽 색(CARD_INK)과 혼동하지 말 것.
               color={PALETTES[s.palette].text}
-              hlColor={s.layout === "card" ? PALETTES[s.palette].accent : undefined}
+              hlColor={s.layout === "card" || s.layout === "stack" ? PALETTES[s.palette].accent : undefined}
             />
           </Series.Sequence>
         ))}

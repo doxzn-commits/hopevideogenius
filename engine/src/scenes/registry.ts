@@ -10,6 +10,8 @@ import { Statement } from "./Statement";
 import { BrowserMock } from "./BrowserMock";
 import { PromptRun } from "./PromptRun";
 import { AppIntro } from "./AppIntro";
+import { ToggleList } from "./ToggleList";
+import { SocialCta } from "./SocialCta";
 
 export type SceneProps<T extends SceneType> = { scene: SceneOf<T>; p: Palette };
 
@@ -24,5 +26,7 @@ export const SCENES: { [K in SceneType]: React.FC<SceneProps<K>> } = {
   "browser-mock": BrowserMock,
   "prompt-run": PromptRun,
   "app-intro": AppIntro,
+  "toggle-list": ToggleList,
+  "social-cta": SocialCta,
   "face-only": FaceOnly,
 };

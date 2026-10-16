@@ -67,4 +67,6 @@ export const LAYOUTS: Record<LayoutName, LayoutBox> = {
   "full-face": { graphic: null, face: { top: 0, radius: 0 }, captionY: 1130 },
   // card: 그래픽은 카드 안에 들어가므로 graphic 박스를 쓰지 않는다. 자막은 카드 아래.
   card: { graphic: null, face: null, captionY: CARD.top + CARD.height + 90 },
+  // stack: 카드 여러 장을 세로로 쌓는 씬(CTA 등). 자막 위치는 card 와 같게 맞춰 전환이 매끄럽다.
+  stack: { graphic: { top: 260, bottom: 1340 }, face: null, captionY: CARD.top + CARD.height + 90 },
 };

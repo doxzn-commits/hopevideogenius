@@ -57,6 +57,31 @@ export const promptRunTimeline = (p: SceneOf<"prompt-run">["props"]) => {
 
 export const appIntroTimeline = () => ({ glyphIn: 0, roleAt: 10, captionAt: 18, end: 18 + 12 + T.settle });
 
+export const toggleListTimeline = (p: SceneOf<"toggle-list">["props"]) => {
+  const startAt = p.startAt ?? 12;
+  const stagger = 14; // 토글 하나가 켜지는 간격
+  const lastOn = startAt + (p.items.length - 1) * stagger;
+  return { startAt, stagger, lastOn, end: lastOn + 10 + T.settle };
+};
+
+/** 현재 프레임에서 켜진 토글 개수 — 씬과 카드 머리글(N/total)이 같은 값을 쓴다 */
+export const toggleOnCount = (p: SceneOf<"toggle-list">["props"], frame: number) => {
+  const { startAt, stagger } = toggleListTimeline(p);
+  let n = 0;
+  for (let i = 0; i < p.items.length; i++) if (frame >= startAt + i * stagger) n = i + 1;
+  return n;
+};
+
+export const socialCtaTimeline = (p: SceneOf<"social-cta">["props"]) => {
+  const profileIn = 0;
+  const followAt = 16; // 팔로우 → 팔로잉 으로 상태 변화
+  const commentIn = 32;
+  const typeStart = 46;
+  const typeEnd = typeStart + Math.ceil([...p.comment.keyword].length * 4);
+  const dmAt = p.dm ? typeEnd + 10 : typeEnd;
+  return { profileIn, followAt, commentIn, typeStart, typeEnd, dmAt, end: dmAt + 16 + T.settle };
+};
+
 export const statementTimeline = (p: SceneOf<"statement">["props"]) => {
   const lineStagger = 9; // 두 번째 문장은 0.3초 뒤 (기획 원칙)
   const lastIn = (p.lines.length - 1) * lineStagger + 12;
@@ -95,6 +120,10 @@ export const sceneEnd = (s: Scene): number => {
       return promptRunTimeline(s.props).end;
     case "app-intro":
       return appIntroTimeline().end;
+    case "toggle-list":
+      return toggleListTimeline(s.props).end;
+    case "social-cta":
+      return socialCtaTimeline(s.props).end;
     case "browser-mock":
       return browserMockTimeline(s.props).end;
     case "face-only":
