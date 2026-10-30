@@ -99,3 +99,7 @@
 | [tools/hooks/pre-commit](tools/hooks/pre-commit) | **pre-commit 훅** — 커밋마다 INDEX.md 갱신 + 스테이징된 spec 게이트 실행. git config core.hooksPath tools/hooks 로 설치 | 훅, hook, pre-commit, 자동 색인, 커밋할 때, hooksPath, 설치 |
 | [tools/index_seed.tsv](tools/index_seed.tsv) | **색인 시드** — 파일별 분류·제목·요약·키워드 5열 TSV. **검색이 안 되면 여기를 고치고 반드시 python tools/mkindex.py 를 실행**한다 | 시드, 키워드 추가, 색인 보강, tsv, 요약이 이상해, 검색이 안 됨, 문서를 못 찾음 |
 | [tools/mkindex.py](tools/mkindex.py) | **INDEX 자동 생성기** — index_seed.tsv + 본문 자동 추출로 INDEX.md 생성. --check 는 최신 여부만 판정 | 색인 갱신, INDEX 만들기, mkindex, 인덱스 스크립트, seed 반영, 색인 생성 |
+
+## 색인 건강 상태
+
+- ⚠ seed 에 있으나 실제로 없는 경로 2개: `engine/public/README.md`, `engine/public/screens/README.md`

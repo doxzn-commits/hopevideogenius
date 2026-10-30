@@ -27,6 +27,7 @@
 | 씬 타입 뭐 있어 / 새 씬 추가 | engine/src/scenes/registry.ts, runbooks/씬타입_추가절차.md |
 | spec 에러 / 게이트 실패 / lint | engine/scripts/lint-spec.ts |
 | 렌더 / 내보내기 / 미리보기 | runbooks/정보전달영상_제작절차.md §렌더 |
+| 소재 어디에 넣나 / 녹화 파일 / 스크린샷 위치 | engine/public/README.md |
 | 사람 영상 합성 / 토킹헤드 | runbooks/정보전달영상_제작절차.md §토킹헤드 |
 | 유형 미리보기 페이지 / 유형 비교 보여주기 | previews/README.md, previews/types.html |
 | 색인 갱신 / 문서 못 찾음 | tools/mkindex.py, tools/index_seed.tsv |
