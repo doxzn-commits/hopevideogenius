@@ -31,7 +31,7 @@ CATEGORY_TITLE = {
 }
 DOC_EXT = {".md", ".txt"}
 # engine 은 코드가 많으므로 색인 대상을 명시적으로 제한한다
-ENGINE_GLOBS = ["README.md", "specs/*.json", "src/*.ts", "src/*.tsx", "src/spec/*.ts",
+ENGINE_GLOBS = ["README.md", "public/README.md", "public/screens/README.md", "specs/*.json", "src/*.ts", "src/*.tsx", "src/spec/*.ts",
                 "src/scenes/*.tsx", "src/scenes/*.ts", "src/components/*.tsx", "scripts/*.ts"]
 SKIP_DIRS = {"node_modules", ".git", "out", ".bkit", "__pycache__", "public"}
 

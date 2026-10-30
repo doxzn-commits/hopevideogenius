@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 61행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 63행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -49,6 +49,8 @@
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
 |---|---|---|
 | [engine/README.md](engine/README.md) | **엔진 구조 요약** — engine 폴더별 역할·설치(npm i)·명령어·레이어 순서. 영상 규격(1080×1920 9:16 / 30fps)도 여기 | 엔진 구조, 설치, npm install, 의존성, 환경 세팅, 노드, Remotion 버전, 명령어, 어떻게 렌더, 레이어 순서, 9:16, 세로 영상, 해상도, fps, 프레임레이트, 영상 규격 |
+| [engine/public/README.md](engine/public/README.md) | **소재 넣는 곳 — public/** — 토킹헤드·녹화·스크린샷·폰트를 어디에 두고 spec 에 뭐라고 적는지. 파일이 없을 때 동작까지 | 소재 어디, 파일 어디에, 영상 넣기, 스크린샷 위치, 토킹헤드 경로, public 폴더, 소재 전달 |
+| [engine/public/screens/README.md](engine/public/screens/README.md) | **녹화·스크린샷 요령** — 세로 녹화 촬영법(천천히·알림 끄기)과 전시형 스크린샷 캡처법(가로로 넓게·상단 정렬로 잘림) | 녹화 요령, 촬영법, 스크린샷 찍는 법, 어떻게 찍나, 잘림, trimBefore |
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
 | [engine/specs/template-card-tools.json](engine/specs/template-card-tools.json) | **카드형 도구 소개 템플릿 spec** — 카드 1장 유지 + prompt-run 2개 + CTA. 카드형 영상을 만들 때 복사해서 시작 | 카드형 템플릿, 도구 소개, 커넥터 영상, 복사해서 시작, 카드 spec |
 | [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
@@ -99,7 +101,3 @@
 | [tools/hooks/pre-commit](tools/hooks/pre-commit) | **pre-commit 훅** — 커밋마다 INDEX.md 갱신 + 스테이징된 spec 게이트 실행. git config core.hooksPath tools/hooks 로 설치 | 훅, hook, pre-commit, 자동 색인, 커밋할 때, hooksPath, 설치 |
 | [tools/index_seed.tsv](tools/index_seed.tsv) | **색인 시드** — 파일별 분류·제목·요약·키워드 5열 TSV. **검색이 안 되면 여기를 고치고 반드시 python tools/mkindex.py 를 실행**한다 | 시드, 키워드 추가, 색인 보강, tsv, 요약이 이상해, 검색이 안 됨, 문서를 못 찾음 |
 | [tools/mkindex.py](tools/mkindex.py) | **INDEX 자동 생성기** — index_seed.tsv + 본문 자동 추출로 INDEX.md 생성. --check 는 최신 여부만 판정 | 색인 갱신, INDEX 만들기, mkindex, 인덱스 스크립트, seed 반영, 색인 생성 |
-
-## 색인 건강 상태
-
-- ⚠ seed 에 있으나 실제로 없는 경로 2개: `engine/public/README.md`, `engine/public/screens/README.md`
