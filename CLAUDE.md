@@ -18,6 +18,7 @@
 | 본문 / 캡션 / 인스타 글 / 해시태그 | runbooks/소셜본문_작성절차.md |
 | 본문 예시 / 어떻게 썼나 | factsheets/소셜본문_예시_마케팅커넥터5_20261016.md |
 | 카드형 영상 / 커넥터 추천 / 요청문→결과 형태 | factsheets/레퍼런스분석_마케팅커넥터5_20261016.md |
+| UI 킷 쇼케이스 / 자막 없는 영상 / 포트폴리오 전시 / 6초 루프 | factsheets/레퍼런스분석_UI킷쇼케이스_20261030.md |
 | 이 레퍼런스처럼 / 스타일 / 색·폰트·레이아웃 수치 | factsheets/레퍼런스분석_claude스킬5_20260914.md |
 | 씬 타입 뭐 있어 / 새 씬 추가 | engine/src/scenes/registry.ts, runbooks/씬타입_추가절차.md |
 | spec 에러 / 게이트 실패 / lint | engine/scripts/lint-spec.ts |

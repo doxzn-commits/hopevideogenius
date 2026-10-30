@@ -47,3 +47,4 @@ engine/specs/template-card-tools.json	engine	카드형 도구 소개 템플릿 s
 labs/카드형_구현_20261016.md	labs	카드형 구현 기록	지속 카드를 씬 밖에 둔 이유, 카드 안/밖 색 기준을 틀렸던 실수, 게이트 추가 규칙	카드형 왜, 카드 안 색, 흰 글씨, 자막 색, 구현 기록, 지속 카드 원리
 engine/src/scenes/ToggleList.tsx	engine	씬 구현 — toggle-list	목록 토글이 차례로 켜지는 인트로. 카드 머리글 N/total 이 같이 올라간다	토글, 인트로, 목록 켜짐, 커넥터 목록, 스위치, 목차, N/5 카운터
 engine/src/scenes/SocialCta.tsx	engine	씬 구현 — social-cta	팔로우 → 댓글 키워드 타이핑 → DM 카드. layout stack 전용	CTA, 팔로우, 댓글, 키워드, DM, 다음 행동, 마무리 장면
+factsheets/레퍼런스분석_UI킷쇼케이스_20261030.md	factsheets	레퍼런스 분석 — UI 킷 쇼케이스(6초 무자막)	컷 0회·자막 없는 전시형 영상의 실측 수치(밴드 665~1255, 코드창, 검정+주황)와 세 레퍼런스 형식 비교표	UI 킷, 쇼케이스, 자막 없는 영상, 무자막, 포트폴리오, 전시, 6초, 루프, 코드 창, 템플릿 홍보, 뷰티샷, 형식 고르기
