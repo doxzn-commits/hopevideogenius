@@ -1,0 +1,266 @@
+{
+  "id": "Carfia40",
+  "title": "카피아 제품 데모 40초 — 딜러 소통을 대신해 전국 최저가를 모아준다",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "profile": "product-demo-40",
+  "scenes": [
+    {
+      "type": "statement",
+      "role": "hook",
+      "layout": "full-graphic",
+      "palette": "navy",
+      "durationInFrames": 120,
+      "captions": [],
+      "props": {
+        "kicker": "CARFIA",
+        "lines": [
+          "BMW 이번 달 얼마지?",
+          "전월보다 싼 건가?"
+        ],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "browser-mock",
+      "role": "problem",
+      "layout": "full-graphic",
+      "palette": "navy",
+      "durationInFrames": 150,
+      "captions": [
+        {
+          "text": "딜러마다 따로 묻고",
+          "at": 0
+        },
+        {
+          "text": "가격은 제각각",
+          "at": 75,
+          "hl": "제각각"
+        }
+      ],
+      "props": {
+        "url": "dealer-chat / 견적 문의",
+        "chip": "직접 연락",
+        "blocks": [
+          {
+            "w": 0.5,
+            "label": "딜러 A 견적"
+          },
+          {
+            "w": 0.45,
+            "label": "딜러 B 견적"
+          },
+          {
+            "w": 0.55,
+            "label": "딜러 C 견적"
+          },
+          {
+            "w": 0.32,
+            "label": "다시 문의",
+            "accent": true
+          }
+        ],
+        "cursor": [
+          {
+            "at": 18,
+            "x": 0.22,
+            "y": 0.06,
+            "click": true
+          },
+          {
+            "at": 52,
+            "x": 0.18,
+            "y": 0.26,
+            "click": true
+          },
+          {
+            "at": 86,
+            "x": 0.24,
+            "y": 0.46,
+            "click": true
+          },
+          {
+            "at": 118,
+            "x": 0.15,
+            "y": 0.72,
+            "click": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "icon-flow",
+      "role": "solution",
+      "layout": "full-graphic",
+      "palette": "ivory",
+      "durationInFrames": 150,
+      "captions": [
+        {
+          "text": "카피아가 대신 물어요",
+          "at": 0,
+          "hl": "대신"
+        },
+        {
+          "text": "연락은 한 곳만",
+          "at": 75,
+          "hl": "한 곳"
+        }
+      ],
+      "props": {
+        "label": "전국 딜러",
+        "chip": "한 번에",
+        "icons": [
+          {
+            "glyph": "A",
+            "label": "딜러"
+          },
+          {
+            "glyph": "B",
+            "label": "딜러"
+          },
+          {
+            "glyph": "C",
+            "label": "딜러"
+          },
+          {
+            "glyph": "D",
+            "label": "딜러"
+          }
+        ],
+        "collapseTo": {
+          "glyph": "카",
+          "label": "카피아"
+        }
+      }
+    },
+    {
+      "type": "prompt-run",
+      "role": "demo",
+      "layout": "card",
+      "palette": "ivory",
+      "durationInFrames": 210,
+      "card": {
+        "app": "카피아",
+        "glyph": "카",
+        "status": "전국 딜러 연결됨",
+        "tint": "#1E4FD8"
+      },
+      "captions": [
+        {
+          "text": "차종만 알려주면",
+          "at": 0
+        },
+        {
+          "text": "전국 견적을 모아요",
+          "at": 70,
+          "hl": "전국"
+        },
+        {
+          "text": "비교표로 한눈에",
+          "at": 140,
+          "hl": "비교표"
+        }
+      ],
+      "props": {
+        "prompt": "BMW 5시리즈 이번 달 최저가 알려줘",
+        "tool": {
+          "name": "collect_quotes",
+          "target": "전국 딜러"
+        },
+        "sample": true,
+        "result": {
+          "kind": "table",
+          "title": "이번 달 견적 비교",
+          "columns": [
+            "지역",
+            "출고",
+            "상태"
+          ],
+          "rows": [
+            {
+              "label": "딜러 A",
+              "badge": "최저가"
+            },
+            {
+              "label": "딜러 B"
+            },
+            {
+              "label": "딜러 C"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "statement",
+      "role": "differentiation",
+      "layout": "full-graphic",
+      "palette": "ivory",
+      "durationInFrames": 180,
+      "captions": [],
+      "props": {
+        "kicker": "WHAT MAKES IT DIFFERENT",
+        "lines": [
+          "비교만 해주는 게 아니라",
+          "소통까지 대신해요"
+        ],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "before-after",
+      "role": "result",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 180,
+      "captions": [
+        {
+          "text": "시간도, 비용도",
+          "at": 0
+        },
+        {
+          "text": "줄어듭니다",
+          "at": 90,
+          "hl": "줄어"
+        }
+      ],
+      "props": {
+        "label": "구매까지",
+        "chipBefore": "내가 다 함",
+        "chipAfter": "맡기면 끝",
+        "before": {
+          "label": "직접 알아볼 때",
+          "value": 0.92,
+          "text": "발품"
+        },
+        "after": {
+          "label": "카피아",
+          "value": 0.22,
+          "text": "한 번"
+        }
+      }
+    },
+    {
+      "type": "title-card",
+      "role": "cta",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 210,
+      "captions": [
+        {
+          "text": "지금 받아보세요",
+          "at": 0,
+          "hl": "지금"
+        }
+      ],
+      "props": {
+        "kicker": "무료 컨설팅",
+        "glyph": "→",
+        "name": "carfia.co.kr",
+        "subtitle": "이번 달 최저가, 무료로 받아보기"
+      }
+    }
+  ]
+}
