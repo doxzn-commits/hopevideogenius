@@ -2,13 +2,18 @@
 // 화면 교체는 **스켈레톤 → 콘텐츠** 순서다. 로딩을 연출해야 "진짜 앱"처럼 보인다.
 import React from "react";
 import { AbsoluteFill, Img, interpolate, random, staticFile, useCurrentFrame } from "remotion";
+import { Video } from "@remotion/media";
 import { CodeWindow } from "../components/CodeWindow";
 import { FONT_UI } from "../fonts";
 import { clamp, EASE_OUT } from "../theme";
 import { SHOWCASE } from "../spec/layout";
 import { screenCycleTimeline } from "../spec/timelines";
+import { VIDEO_EXT } from "../spec/gate";
 import type { SceneProps } from "./registry";
 import type { Palette } from "../theme";
+
+/** 확장자로 영상인지 본다. 판정 기준은 게이트와 공유한다(갈리면 렌더와 검사가 어긋난다). */
+const isVideo = (src: string) => VIDEO_EXT.test(src);
 
 /** 스크린샷이 없을 때 깔리는 회색 블록 — 레퍼런스의 로딩 상태와 같은 역할 */
 const Skeleton: React.FC<{ seed: string; p: Palette }> = ({ seed, p }) => (
@@ -89,16 +94,31 @@ export const ScreenCycle: React.FC<SceneProps<"screen-cycle">> = ({ scene, p }) 
         }}
       >
         {screen.src && shown ? (
-          <Img
-            src={staticFile(screen.src)}
-            style={{
-              width: "100%",
-              height: "100%",
-              objectFit: "cover",
-              objectPosition: "top center",
-              opacity: interpolate(localF, [tl.skeleton, tl.skeleton + 8], [0, 1], clamp),
-            }}
-          />
+          isVideo(screen.src) ? (
+            <Video
+              src={staticFile(screen.src)}
+              trimBefore={screen.trimBefore}
+              volume={0}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "top center",
+                opacity: interpolate(localF, [tl.skeleton, tl.skeleton + 8], [0, 1], clamp),
+              }}
+            />
+          ) : (
+            <Img
+              src={staticFile(screen.src)}
+              style={{
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                objectPosition: "top center",
+                opacity: interpolate(localF, [tl.skeleton, tl.skeleton + 8], [0, 1], clamp),
+              }}
+            />
+          )
         ) : (
           <Skeleton seed={`s${index}`} p={p} />
         )}

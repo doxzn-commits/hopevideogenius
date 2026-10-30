@@ -196,8 +196,21 @@ export const screenRecordProps = z.object({
  */
 export const screenCycleProps = z.object({
   title: z.object({ line1: z.string().min(1), line2: z.string().min(1) }),
-  /** 차례로 교체되는 UI 스크린. 각 화면은 스켈레톤 → 콘텐츠 순서로 들어온다 */
-  screens: z.array(z.object({ src: z.string().min(1).nullable(), label: z.string().optional() })).min(1).max(6),
+  /**
+   * 차례로 교체되는 UI 스크린. 각 화면은 스켈레톤 → 콘텐츠 순서로 들어온다.
+   * src 는 **이미지(png·jpg)와 영상(mp4·webm·mov) 둘 다** 된다 — 확장자로 알아서 갈린다.
+   */
+  screens: z
+    .array(
+      z.object({
+        src: z.string().min(1).nullable(),
+        label: z.string().optional(),
+        /** 영상일 때 앞부분을 잘라내고 시작할 프레임 수 */
+        trimBefore: z.number().int().min(0).optional(),
+      }),
+    )
+    .min(1)
+    .max(6),
   /** 코드 창 — 읽으라고가 아니라 "코드로 만들었다"는 증거물이다 */
   code: z.object({ lang: z.string().min(1), lines: z.array(z.string()).min(1).max(16) }).optional(),
   /** 마지막에 지나가는 대각선 스윕 (루프 이음새를 가린다) */

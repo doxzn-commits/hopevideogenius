@@ -8,6 +8,9 @@ import { CAPTION_HALF, LAYOUTS, SAFE, TEXT, maxCharsAt } from "./layout";
 export const RULES = {
   sceneMinFrames: 18, // 레퍼런스 최단 샷 ≈0.6초
   sceneMaxFrames: 240, // 레퍼런스 최장 샷 ≈6초 + 여유. 넘으면 씬을 쪼갠다
+  // 영상이 들어간 씬은 예외다. 소재가 시간을 끌고 가므로 "정보가 정체된다" 는 논리가 적용되지 않는다
+  // (레퍼런스 5 는 46초 한 컷, 레퍼런스 4 는 53초 한 컷이다)
+  mediaSceneMaxFrames: 1800, // 60초
   // 자막·문구는 폭에 맞춰 자동 축소된다. 최소 크기에서도 안 들어가면 오류 (layout.ts TEXT 가 원천)
   captionMaxChars: maxCharsAt(TEXT.captionMin),
   captionMinFrames: 15, // 자막이 0.5초 미만 보이면 못 읽는다
@@ -19,6 +22,7 @@ export const RULES = {
   captionsPerSceneMax: 3, // 한 장면에 자막을 더 넣고 싶으면 씬을 쪼갠다
   cursorPointsMax: 6, // 커서 키프레임. 더 많으면 시선이 따라오지 못한다
   promptMaxChars: 46,
+  videoScreenMinFrames: 60, // 영상 화면은 2초 이상 머물러야 움직임이 읽힌다
   screenMinFrames: 24, // 전시형 화면 하나가 머무는 최소 시간(0.8초). 레퍼런스 최단 0.4초 + 여유
   ctaKeywordMaxChars: 6, // 댓글 키워드는 한 단어 (본문 규칙과 동일 기준) // 요청문 말풍선 2줄(38px, 카드 폭 838px) 한계
 } as const;
@@ -38,6 +42,9 @@ export const PROFILES = {
     roles: ROLE_NAMES, // hook → problem → solution → demo → differentiation → result → cta
   },
 } as const;
+
+/** 영상 확장자 — 씬 컴포넌트(ScreenCycle)와 같은 기준을 쓴다 */
+export const VIDEO_EXT = /\.(mp4|webm|mov|m4v)$/i;
 
 export type Issue = { level: "error" | "warn"; where: string; msg: string };
 
@@ -96,8 +103,14 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     const d = s.durationInFrames;
     total += d;
 
+    // 영상을 품은 씬은 더 길어도 된다 (녹화·스크롤은 소재 자체가 시간을 끌고 간다)
+    const holdsVideo =
+      s.type === "screen-record" ||
+      (s.type === "screen-cycle" && s.props.screens.some((scr) => scr.src && VIDEO_EXT.test(scr.src)));
+    const maxFrames = holdsVideo ? RULES.mediaSceneMaxFrames : RULES.sceneMaxFrames;
+
     if (d < RULES.sceneMinFrames) err(w, `씬 ${d}f < 최소 ${RULES.sceneMinFrames}f`);
-    if (d > RULES.sceneMaxFrames) err(w, `씬 ${d}f > 최대 ${RULES.sceneMaxFrames}f — 씬을 쪼개라`);
+    if (d > maxFrames) err(w, `씬 ${d}f > 최대 ${maxFrames}f — 씬을 쪼개라`);
     const end = sceneEnd(s);
     if (d < end) err(w, `애니메이션이 ${end}f 에 끝나는데 씬이 ${d}f 에서 잘림`);
 
@@ -120,6 +133,10 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
       const perScreen = d / s.props.screens.length;
       if (perScreen < RULES.screenMinFrames)
         err(w, `화면당 ${perScreen.toFixed(0)}f < 최소 ${RULES.screenMinFrames}f — 화면 수를 줄이거나 씬을 늘려라`);
+      // 영상 화면은 움직임을 보여줘야 하므로 더 오래 머물러야 한다
+      const hasVideo = s.props.screens.some((scr) => scr.src && VIDEO_EXT.test(scr.src));
+      if (hasVideo && perScreen < RULES.videoScreenMinFrames)
+        err(w, `영상 화면이 있는데 화면당 ${perScreen.toFixed(0)}f < ${RULES.videoScreenMinFrames}f(2초) — 움직임이 안 보인다`);
     }
     if (s.layout === "phone" && s.type !== "screen-record") err(w, "layout: phone 은 screen-record 전용이다");
     if (s.type === "screen-record") {

@@ -13,13 +13,28 @@
       "durationInFrames": 200,
       "captions": [],
       "props": {
-        "title": { "line1": "Dashboard", "line2": "V14" },
+        "title": {
+          "line1": "Dashboard",
+          "line2": "V14"
+        },
         "sweep": true,
         "screens": [
-          { "src": null, "label": "Overview" },
-          { "src": null, "label": "Messages" },
-          { "src": null, "label": "Rewards" },
-          { "src": null, "label": "Settings" }
+          {
+            "src": null,
+            "label": "Overview"
+          },
+          {
+            "src": null,
+            "label": "Messages"
+          },
+          {
+            "src": null,
+            "label": "Rewards"
+          },
+          {
+            "src": null,
+            "label": "Settings"
+          }
         ],
         "code": {
           "lang": "jsx",
