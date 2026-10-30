@@ -51,6 +51,15 @@ export const CARD = {
   pad: 36,
 } as const;
 
+/** 폰 목업 geometry (레퍼런스 실측 ×1.5). 녹화 영상이 이 안에서 재생된다. */
+export const PHONE = {
+  width: 555,
+  height: 1013,
+  top: 427,
+  radius: 56,
+  bezel: 12, // 흰 테두리 두께
+} as const;
+
 /** 카드 안쪽 내용 영역 */
 export const CARD_BODY = {
   left: CARD.x + CARD.pad,
@@ -69,4 +78,7 @@ export const LAYOUTS: Record<LayoutName, LayoutBox> = {
   card: { graphic: null, face: null, captionY: CARD.top + CARD.height + 90 },
   // stack: 카드 여러 장을 세로로 쌓는 씬(CTA 등). 자막 위치는 card 와 같게 맞춰 전환이 매끄럽다.
   stack: { graphic: { top: 260, bottom: 1340 }, face: null, captionY: CARD.top + CARD.height + 90 },
+  // phone: 녹화형 — 폰 목업 안에서 화면 녹화가 흐른다. **자막이 위에 있다**
+  // (폰 화면 하단에 탭 바가 있어 아래를 비워야 한다. 근거: 레퍼런스분석_스마트홈녹화형 §2)
+  phone: { graphic: { top: PHONE.top, bottom: PHONE.top + PHONE.height }, face: null, captionY: 322 },
 };

@@ -12,6 +12,7 @@ import { PromptRun } from "./PromptRun";
 import { AppIntro } from "./AppIntro";
 import { ToggleList } from "./ToggleList";
 import { SocialCta } from "./SocialCta";
+import { ScreenRecord } from "./ScreenRecord";
 
 export type SceneProps<T extends SceneType> = { scene: SceneOf<T>; p: Palette };
 
@@ -28,5 +29,6 @@ export const SCENES: { [K in SceneType]: React.FC<SceneProps<K>> } = {
   "app-intro": AppIntro,
   "toggle-list": ToggleList,
   "social-cta": SocialCta,
+  "screen-record": ScreenRecord,
   "face-only": FaceOnly,
 };

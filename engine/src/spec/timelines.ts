@@ -55,6 +55,9 @@ export const promptRunTimeline = (p: SceneOf<"prompt-run">["props"]) => {
   return { promptStart, promptEnd, toolAt, doneAt, resultAt, resultEnd, end: resultEnd + T.settle };
 };
 
+/** 녹화 씬은 내부 애니메이션이 없다(영상이 알아서 흐른다). 프레임 등장만 있으면 된다. */
+export const screenRecordTimeline = () => ({ frameIn: 12, end: 12 + T.settle });
+
 export const appIntroTimeline = () => ({ glyphIn: 0, roleAt: 10, captionAt: 18, end: 18 + 12 + T.settle });
 
 export const toggleListTimeline = (p: SceneOf<"toggle-list">["props"]) => {
@@ -120,6 +123,8 @@ export const sceneEnd = (s: Scene): number => {
       return promptRunTimeline(s.props).end;
     case "app-intro":
       return appIntroTimeline().end;
+    case "screen-record":
+      return screenRecordTimeline().end;
     case "toggle-list":
       return toggleListTimeline(s.props).end;
     case "social-cta":

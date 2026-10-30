@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 52행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 55행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -38,6 +38,7 @@
 
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
 |---|---|---|
+| [labs/녹화형_구현_20261030.md](labs/녹화형_구현_20261030.md) | **녹화형 구현 기록** — 게이트에 node:fs 를 넣어 렌더 번들이 깨진 실수와 경계, 자막 겹침 불변식 일반화 | 게이트 번들 깨짐, node:fs, 자막 위로, 겹침 불변식, 녹화 경로, 왜 CLI 에서 검사 |
 | [labs/레포세팅_엔진부트스트랩_20260914.md](labs/레포세팅_엔진부트스트랩_20260914.md) | **레포 세팅 + 엔진 부트스트랩 기록** — 자막 겹침·아이콘 위치 버그를 코드로 고친 과정과 게이트 수치의 **근거**(왜 18자·왜 18프레임인지) + 게이트 역방향 테스트 결과 | 왜 이 값이야, 왜 18자, 왜 18프레임, 18자 근거, 자막 겹침, 버그 기록, 부트스트랩, 구조가 왜 이래, 실패한 것 |
 | [labs/제품데모프로필_도입_20260914.md](labs/제품데모프로필_도입_20260914.md) | **제품 데모 프로필 도입 기록** — 지침을 문서/코드로 나눈 근거와 문구 넘침·커서 모양·쏠림 수정 기록. 글자 수 상한을 상수에서 역산하는 이유 | 왜 15자, 왜 프로필, 문구 넘침, 커서 모양, 글자 크기 자동, 지침 반영, 근거 |
 | [labs/카드형_구현_20261016.md](labs/카드형_구현_20261016.md) | **카드형 구현 기록** — 지속 카드를 씬 밖에 둔 이유, 카드 안/밖 색 기준을 틀렸던 실수, 게이트 추가 규칙 | 카드형 왜, 카드 안 색, 흰 글씨, 자막 색, 구현 기록, 지속 카드 원리 |
@@ -50,6 +51,7 @@
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
 | [engine/specs/template-card-tools.json](engine/specs/template-card-tools.json) | **카드형 도구 소개 템플릿 spec** — 카드 1장 유지 + prompt-run 2개 + CTA. 카드형 영상을 만들 때 복사해서 시작 | 카드형 템플릿, 도구 소개, 커넥터 영상, 복사해서 시작, 카드 spec |
 | [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
+| [engine/specs/template-screen-record.json](engine/specs/template-screen-record.json) | **녹화형 템플릿 spec** — 폰 목업 3씬 + 상단 자막. 녹화 파일 경로만 채우면 된다(없으면 자리표시) | 녹화형 템플릿, 폰 영상, 복사해서 시작, screen-record spec |
 | [engine/src/fonts.ts](engine/src/fonts.ts) | **폰트 로딩** — 라벨=Montserrat, 코드=JetBrains Mono, 한글 자막=Noto Sans KR (Google Fonts 원격 로딩) | 폰트, 글꼴, 한글 폰트, 자막 폰트, 몬세라트, 모노스페이스, 폰트 바꾸기 |
 | [engine/src/index.ts](engine/src/index.ts) | **Remotion 엔트리** — registerRoot 로 Root 를 등록하는 진입점. 건드릴 일 거의 없다 | 엔트리, 진입점, registerRoot, index.ts |
 | [engine/src/specs.ts](engine/src/specs.ts) | **spec 등록 목록 (새 spec 은 여기)** — specs/*.json 을 Studio 에 등록한다. **새 spec 이 Studio 에 안 보이면 가장 먼저 고칠 곳** | spec 등록, Studio 에 안 보임, 컴포지션이 없음, import 추가, 새 spec 추가 |
@@ -65,6 +67,7 @@
 | [engine/src/scenes/BrowserMock.tsx](engine/src/scenes/BrowserMock.tsx) | **씬 구현 — browser-mock** — 브라우저 목업 + 커서 이동 + 클릭 글로우 + 105~115% 확대. UI 모션그래픽의 기본 씬 | 브라우저, 목업, 커서, 마우스, 클릭, 글로우, 확대, 줌, 화면 조작, UI 시연 |
 | [engine/src/scenes/IconFlow.tsx](engine/src/scenes/IconFlow.tsx) | **씬 구현 — icon-flow** — 아이콘들이 선으로 이어지고 마지막에 하나로 합쳐진다. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 아이콘, 연결, 흐름, 합쳐짐, 도구 연결, 탭 호핑, 씬 구현 수정 |
 | [engine/src/scenes/PromptRun.tsx](engine/src/scenes/PromptRun.tsx) | **씬 구현 — prompt-run** — 요청문 타이핑 → 툴 호출(실행 중→완료) → 결과 패널 4종(썸네일/표/퍼널/업로드). 카드형의 핵심 | 요청문, 프롬프트 씬, 툴 실행, 결과 패널, 퍼널, 표, 썸네일, 업로드 예약, 커넥터 시연 |
+| [engine/src/scenes/ScreenRecord.tsx](engine/src/scenes/ScreenRecord.tsx) | **씬 구현 — screen-record** — 폰 목업 + 화면 녹화 영상 임베드(trimBefore·fit) 또는 자리표시. layout phone 전용 | 녹화 영상, 화면 녹화, 폰 목업, 영상 넣기, mp4 임베드, 워크스루, 앱 화면 |
 | [engine/src/scenes/SocialCta.tsx](engine/src/scenes/SocialCta.tsx) | **씬 구현 — social-cta** — 팔로우 → 댓글 키워드 타이핑 → DM 카드. layout stack 전용 | CTA, 팔로우, 댓글, 키워드, DM, 다음 행동, 마무리 장면 |
 | [engine/src/scenes/Statement.tsx](engine/src/scenes/Statement.tsx) | **씬 구현 — statement** — 화면 문구 전용(최대 두 줄, 폭에 맞춰 글자 크기 자동 축소). (영상에 넣는 법은 runbooks/제품데모영상_기획절차.md) | 문구만, 텍스트 씬, 훅 화면, 두 줄, 큰 글씨, 강조 문장 |
 | [engine/src/scenes/TerminalList.tsx](engine/src/scenes/TerminalList.tsx) | **씬 구현 — terminal-list** — 명령 타이핑 → 결과 행 등장 → 진행바 → 1위 하이라이트. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 터미널, 목록, 랭킹, 설치 화면, 리스트 씬, 하이라이트, 진행바, 씬 구현 수정 |

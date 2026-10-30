@@ -22,6 +22,7 @@
 | UI 킷 쇼케이스 / 자막 없는 영상 / 포트폴리오 전시 / 6초 루프 | factsheets/레퍼런스분석_UI킷쇼케이스_20261030.md |
 | 화면 녹화 영상 / 앱 사용 흐름 / 폰 목업 | factsheets/레퍼런스분석_스마트홈녹화형_20261030.md |
 | 이 레퍼런스처럼 / 스타일 / 색·폰트·레이아웃 수치 | factsheets/레퍼런스분석_claude스킬5_20260914.md |
+| 녹화 영상 넣기 / 폰 목업 / 자막 위로 | engine/src/scenes/ScreenRecord.tsx, runbooks/요청하는법.md §2-E |
 | 씬 타입 뭐 있어 / 새 씬 추가 | engine/src/scenes/registry.ts, runbooks/씬타입_추가절차.md |
 | spec 에러 / 게이트 실패 / lint | engine/scripts/lint-spec.ts |
 | 렌더 / 내보내기 / 미리보기 | runbooks/정보전달영상_제작절차.md §렌더 |

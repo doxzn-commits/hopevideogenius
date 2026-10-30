@@ -1,5 +1,5 @@
 // 요약: spec 게이트 CLI. 인자 없으면 specs/*.json 전부 검사. 오류 1개라도 있으면 exit 1 (pre-commit 훅이 이걸 부른다).
-import { readFileSync, readdirSync } from "node:fs";
+import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { checkLayouts, checkSpec } from "../src/spec/gate";
 
@@ -27,6 +27,17 @@ for (const file of files) {
   if (!registry.includes(`/specs/${name}`)) {
     issues.push({ level: "error", where: "src/specs.ts", msg: `${name} 미등록 — Studio 에 안 보인다` });
   }
+  // 녹화 파일이 없으면 렌더가 검은 화면으로 조용히 나간다 → 여기서 막는다 (Node 전용 검사)
+  if (spec)
+    spec.scenes.forEach((sc, i) => {
+      if (sc.type === "screen-record" && sc.props.src && !existsSync(join(root, "public", sc.props.src)))
+        issues.push({
+          level: "error",
+          where: `scenes[${i}] screen-record`,
+          msg: `녹화 파일을 찾을 수 없다: engine/public/${sc.props.src}`,
+        });
+    });
+
   const errors = issues.filter((i) => i.level === "error");
   const warns = issues.filter((i) => i.level === "warn");
   errorCount += errors.length;

@@ -1,0 +1,80 @@
+{
+  "id": "TemplateScreenRecord",
+  "title": "녹화형 템플릿 — 폰 목업 + 화면 녹화 + 상단 자막 (src 에 녹화 경로를 넣는다)",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "scenes": [
+    {
+      "type": "screen-record",
+      "layout": "phone",
+      "palette": "paper",
+      "durationInFrames": 110,
+      "captions": [
+        {
+          "text": "홈: 우리 집 3D 평면도",
+          "at": 0,
+          "hl": "홈"
+        },
+        {
+          "text": "한 화면에서 다 보여요",
+          "at": 60,
+          "hl": "한 화면"
+        }
+      ],
+      "props": {
+        "src": null,
+        "placeholder": "녹화 1 — 홈 화면 진입 후 스크롤",
+        "fit": "cover"
+      }
+    },
+    {
+      "type": "screen-record",
+      "layout": "phone",
+      "palette": "paper",
+      "durationInFrames": 110,
+      "captions": [
+        {
+          "text": "기기: 등록된 기기 그대로",
+          "at": 0,
+          "hl": "기기"
+        },
+        {
+          "text": "따로 설정할 게 없어요",
+          "at": 60,
+          "hl": "따로"
+        }
+      ],
+      "props": {
+        "src": null,
+        "placeholder": "녹화 2 — 기기 탭에서 목록 스크롤",
+        "trimBefore": 0,
+        "fit": "cover"
+      }
+    },
+    {
+      "type": "screen-record",
+      "layout": "phone",
+      "palette": "paper",
+      "durationInFrames": 120,
+      "captions": [
+        {
+          "text": "자동화: 루틴을 만드는 곳",
+          "at": 0,
+          "hl": "자동화"
+        },
+        {
+          "text": "외출하면 불이 꺼져요",
+          "at": 65,
+          "hl": "외출"
+        }
+      ],
+      "props": {
+        "src": null,
+        "placeholder": "녹화 3 — 루틴 생성 화면",
+        "fit": "cover"
+      }
+    }
+  ]
+}

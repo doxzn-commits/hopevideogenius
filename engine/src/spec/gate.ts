@@ -4,6 +4,7 @@ import { ROLE_NAMES, videoSpecSchema, type VideoSpec } from "./schema";
 import { sceneEnd } from "./timelines";
 import { CAPTION_HALF, LAYOUTS, SAFE, TEXT, maxCharsAt } from "./layout";
 
+
 export const RULES = {
   sceneMinFrames: 18, // 레퍼런스 최단 샷 ≈0.6초
   sceneMaxFrames: 240, // 레퍼런스 최장 샷 ≈6초 + 여유. 넘으면 씬을 쪼갠다
@@ -53,12 +54,17 @@ export const checkLayouts = (): Issue[] => {
         where: `LAYOUTS.${name}`,
         msg: `자막 Y ${box.captionY} 가 안전 영역(상하 ${SAFE}px) 밖`,
       });
-    if (box.face === null && box.graphic && box.graphic.bottom > box.captionY - CAPTION_HALF) {
-      issues.push({
-        level: "error",
-        where: `LAYOUTS.${name}`,
-        msg: `그래픽 하단 ${box.graphic.bottom} 이 자막 상단 ${box.captionY - CAPTION_HALF} 과 겹침`,
-      });
+    // 자막이 그래픽 위에 있든 아래에 있든(녹화형은 위다) 두 영역이 겹치면 둘 다 못 읽는다.
+    // 사람이 있는 레이아웃(split)은 카드 하단에 자막이 겹치는 것이 의도된 모습이라 예외.
+    if (box.face === null && box.graphic) {
+      const capTop = box.captionY - CAPTION_HALF;
+      const capBottom = box.captionY + CAPTION_HALF;
+      if (capTop < box.graphic.bottom && capBottom > box.graphic.top)
+        issues.push({
+          level: "error",
+          where: `LAYOUTS.${name}`,
+          msg: `자막 영역(${capTop}~${capBottom}) 이 그래픽 영역(${box.graphic.top}~${box.graphic.bottom}) 과 겹침`,
+        });
     }
     if (box.graphic && box.graphic.top >= box.graphic.bottom)
       issues.push({ level: "error", where: `LAYOUTS.${name}`, msg: "graphic.top >= graphic.bottom" });
@@ -102,6 +108,13 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     if ((s.type === "prompt-run" || s.type === "app-intro" || s.type === "toggle-list") && s.layout !== "card")
       err(w, `${s.type} 은 layout: card 에서만 쓴다`);
     if (s.type === "social-cta" && s.layout !== "stack") err(w, "social-cta 는 layout: stack 에서만 쓴다");
+    if (s.type === "screen-record" && s.layout !== "phone") err(w, "screen-record 는 layout: phone 에서만 쓴다");
+    if (s.layout === "phone" && s.type !== "screen-record") err(w, "layout: phone 은 screen-record 전용이다");
+    if (s.type === "screen-record") {
+      // 파일이 실제로 있는지는 Node 에서만 볼 수 있다 → scripts/lint-spec.ts 가 검사한다.
+      // (여기서 node:fs 를 쓰면 Studio·렌더 번들이 깨진다)
+      if (s.props.src === null) warn(w, "녹화 파일 없음 — 자리표시 프레임으로 렌더된다");
+    }
     if (s.type === "toggle-list") {
       // 머리글의 total 과 실제 항목 수가 다르면 "5개 중 3개"처럼 말이 안 되는 화면이 된다
       if (!s.card?.total) err(w, "toggle-list 는 card.total 이 필요하다");

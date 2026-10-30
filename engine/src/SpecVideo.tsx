@@ -134,10 +134,10 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
             <Captions
               captions={s.captions}
               y={LAYOUTS[s.layout].captionY}
-              style={s.captionStyle ?? (s.layout === "card" || s.layout === "stack" ? "plain" : "overlay")}
+              style={s.captionStyle ?? (["card", "stack", "phone"].includes(s.layout) ? "plain" : "overlay")}
               // 자막은 카드 밖(배경 위)이라 색은 배경 기준이다. 카드 안쪽 색(CARD_INK)과 혼동하지 말 것.
               color={PALETTES[s.palette].text}
-              hlColor={s.layout === "card" || s.layout === "stack" ? PALETTES[s.palette].accent : undefined}
+              hlColor={["card", "stack", "phone"].includes(s.layout) ? PALETTES[s.palette].accent : undefined}
             />
           </Series.Sequence>
         ))}

@@ -62,6 +62,13 @@ export const PALETTES: Record<PaletteName, Palette> = {
     text: "#1A1A1A", sub: "rgba(26,26,26,0.45)", accent: "#1E8E54", track: "rgba(30,25,20,0.08)",
     dark: false, flat: true, cardBody: "#F7F5F1", bubble: "#E6E6DD", cardAccent: "#1E8E54",
   },
+  // 녹화형 — 녹화 화면이 이미 복잡하므로 프레임은 최대한 조용하게 둔다
+  paper: {
+    bg: "#FDFFFF", glowA: "transparent", glowB: "transparent",
+    card: "#FFFFFF", cardBorder: "rgba(20,20,30,0.08)",
+    text: "#111111", sub: "rgba(17,17,17,0.45)", accent: "#3B5BFE", track: "rgba(20,20,30,0.08)",
+    dark: false, flat: true, cardBody: "#F7F7F9", bubble: "#EFEFF3", cardAccent: "#3B5BFE",
+  },
   olive: {
     bg: "#20261D", glowA: "transparent", glowB: "transparent",
     card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.08)",

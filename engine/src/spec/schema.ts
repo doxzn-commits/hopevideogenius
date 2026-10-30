@@ -1,8 +1,8 @@
 // 요약: 영상 spec(JSON)의 유일한 스키마. 씬 타입·레이아웃·팔레트 이름은 여기서만 정의한다.
 import { z } from "zod";
 
-export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive"] as const;
-export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stack"] as const;
+export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive", "paper"] as const;
+export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stack", "phone"] as const;
 /** 자막 표현: overlay = 흰 글씨 + 외곽선(그래픽 위), plain = 어두운 글씨(단색 배경 위) */
 export const CAPTION_STYLES = ["overlay", "plain"] as const;
 /** 제품 데모 영상의 7단 구조. profile 이 걸리면 이 순서를 강제한다. */
@@ -175,7 +175,23 @@ export const socialCtaProps = z.object({
     .optional(),
 });
 
+/**
+ * 폰 목업 안에서 화면 녹화를 재생한다. 소재가 코드가 아니라 **실제 녹화 파일**이다.
+ * 파일은 engine/public/screens/ 에 두고 경로만 적는다(산출물이라 커밋되지 않는다).
+ */
+export const screenRecordProps = z.object({
+  /** public/ 기준 경로. null 이면 자리표시 프레임만 그린다(파일 없이 구성을 먼저 잡을 때) */
+  src: z.string().min(1).nullable(),
+  /** 녹화의 앞부분을 잘라내고 시작할 프레임 수 */
+  trimBefore: z.number().int().min(0).optional(),
+  /** 폰 화면에 맞추는 방식 */
+  fit: z.enum(["cover", "contain"]).optional(),
+  /** 자리표시일 때 보여줄 설명 */
+  placeholder: z.string().optional(),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("screen-record"), ...base, props: screenRecordProps }),
   z.object({ type: z.literal("prompt-run"), ...base, props: promptRunProps }),
   z.object({ type: z.literal("toggle-list"), ...base, props: toggleListProps }),
   z.object({ type: z.literal("social-cta"), ...base, props: socialCtaProps }),
