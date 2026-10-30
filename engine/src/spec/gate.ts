@@ -19,6 +19,7 @@ export const RULES = {
   captionsPerSceneMax: 3, // 한 장면에 자막을 더 넣고 싶으면 씬을 쪼갠다
   cursorPointsMax: 6, // 커서 키프레임. 더 많으면 시선이 따라오지 못한다
   promptMaxChars: 46,
+  screenMinFrames: 24, // 전시형 화면 하나가 머무는 최소 시간(0.8초). 레퍼런스 최단 0.4초 + 여유
   ctaKeywordMaxChars: 6, // 댓글 키워드는 한 단어 (본문 규칙과 동일 기준) // 요청문 말풍선 2줄(38px, 카드 폭 838px) 한계
 } as const;
 
@@ -109,6 +110,17 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
       err(w, `${s.type} 은 layout: card 에서만 쓴다`);
     if (s.type === "social-cta" && s.layout !== "stack") err(w, "social-cta 는 layout: stack 에서만 쓴다");
     if (s.type === "screen-record" && s.layout !== "phone") err(w, "screen-record 는 layout: phone 에서만 쓴다");
+    if (s.type === "screen-cycle" && s.layout !== "showcase") err(w, "screen-cycle 은 layout: showcase 에서만 쓴다");
+    if (s.layout === "showcase") {
+      if (s.type !== "screen-cycle") err(w, "layout: showcase 는 screen-cycle 전용이다");
+      // 전시형에 설명을 넣으면 설명형·시연형의 열화판이 된다 (레퍼런스분석_UI킷쇼케이스 §2-D)
+      if (s.captions.length > 0) err(w, "전시형은 자막을 쓰지 않는다 — 설명이 필요하면 layout 을 바꿔라");
+    }
+    if (s.type === "screen-cycle") {
+      const perScreen = d / s.props.screens.length;
+      if (perScreen < RULES.screenMinFrames)
+        err(w, `화면당 ${perScreen.toFixed(0)}f < 최소 ${RULES.screenMinFrames}f — 화면 수를 줄이거나 씬을 늘려라`);
+    }
     if (s.layout === "phone" && s.type !== "screen-record") err(w, "layout: phone 은 screen-record 전용이다");
     if (s.type === "screen-record") {
       // 파일이 실제로 있는지는 Node 에서만 볼 수 있다 → scripts/lint-spec.ts 가 검사한다.

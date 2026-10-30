@@ -1,0 +1,45 @@
+{
+  "id": "TemplateShowcase",
+  "title": "전시형 템플릿 — 타이틀 + UI 밴드 + 코드 창 (자막 없음, 6~10초 루프)",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "scenes": [
+    {
+      "type": "screen-cycle",
+      "layout": "showcase",
+      "palette": "ink",
+      "durationInFrames": 200,
+      "captions": [],
+      "props": {
+        "title": { "line1": "Dashboard", "line2": "V14" },
+        "sweep": true,
+        "screens": [
+          { "src": null, "label": "Overview" },
+          { "src": null, "label": "Messages" },
+          { "src": null, "label": "Rewards" },
+          { "src": null, "label": "Settings" }
+        ],
+        "code": {
+          "lang": "jsx",
+          "lines": [
+            "import { motion } from 'framer-motion';",
+            "import { ShoppingBag, Users, DollarSign } from 'lucide-react';",
+            "",
+            "const StatsCard = ({ title, value, change, icon: Icon }) => {",
+            "  return (",
+            "    <motion.div whileHover={{ y: -5 }} className=\"glass-card p-6\">",
+            "      <div className=\"flex items-center justify-between\">",
+            "        <p className=\"text-sm text-white/60\">{title}</p>",
+            "        <h2 className=\"text-2xl font-bold\">{value}</h2>",
+            "      </div>",
+            "    </motion.div>",
+            "  );",
+            "};"
+          ]
+        }
+      }
+    }
+  ]
+}

@@ -1,8 +1,8 @@
 // 요약: 영상 spec(JSON)의 유일한 스키마. 씬 타입·레이아웃·팔레트 이름은 여기서만 정의한다.
 import { z } from "zod";
 
-export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive", "paper"] as const;
-export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stack", "phone"] as const;
+export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive", "paper", "ink"] as const;
+export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stack", "phone", "showcase"] as const;
 /** 자막 표현: overlay = 흰 글씨 + 외곽선(그래픽 위), plain = 어두운 글씨(단색 배경 위) */
 export const CAPTION_STYLES = ["overlay", "plain"] as const;
 /** 제품 데모 영상의 7단 구조. profile 이 걸리면 이 순서를 강제한다. */
@@ -190,7 +190,22 @@ export const screenRecordProps = z.object({
   placeholder: z.string().optional(),
 });
 
+/**
+ * 전시형 — 타이틀 + UI 스크린 사이클 + 코드 창. 설명하지 않고 전시한다.
+ * 스크린샷은 engine/public/screens/ 에 두고 경로만 적는다(없으면 스켈레톤으로 렌더).
+ */
+export const screenCycleProps = z.object({
+  title: z.object({ line1: z.string().min(1), line2: z.string().min(1) }),
+  /** 차례로 교체되는 UI 스크린. 각 화면은 스켈레톤 → 콘텐츠 순서로 들어온다 */
+  screens: z.array(z.object({ src: z.string().min(1).nullable(), label: z.string().optional() })).min(1).max(6),
+  /** 코드 창 — 읽으라고가 아니라 "코드로 만들었다"는 증거물이다 */
+  code: z.object({ lang: z.string().min(1), lines: z.array(z.string()).min(1).max(16) }).optional(),
+  /** 마지막에 지나가는 대각선 스윕 (루프 이음새를 가린다) */
+  sweep: z.boolean().optional(),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("screen-cycle"), ...base, props: screenCycleProps }),
   z.object({ type: z.literal("screen-record"), ...base, props: screenRecordProps }),
   z.object({ type: z.literal("prompt-run"), ...base, props: promptRunProps }),
   z.object({ type: z.literal("toggle-list"), ...base, props: toggleListProps }),

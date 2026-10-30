@@ -23,6 +23,12 @@ const SceneFrame: React.FC<{ scene: Scene }> = ({ scene }) => {
   const Comp = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;
   // 자막이 없고 사람도 없는 씬은 그래픽이 화면 전체(안전 영역까지)를 쓴다 — 위로 쏠려 보이지 않게
   const bottom = box && layout.face === null && scene.captions.length === 0 ? 1920 - SAFE : box?.bottom;
+  // 전시형: 타이틀·밴드·코드 창까지 씬이 화면 전체를 직접 그린다
+  if (scene.layout === "showcase") {
+    const Full = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;
+    return <Full scene={scene} p={p} />;
+  }
+
   // 카드형: 틀은 SpecVideo 가 씬 밖에서 그리고(그래서 씬이 바뀌어도 유지된다), 여기서는 내용만 카드 안쪽에 그린다
   if (scene.layout === "card") {
     const Inner = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;

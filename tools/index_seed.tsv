@@ -54,3 +54,7 @@ factsheets/레퍼런스분석_스마트홈녹화형_20261030.md	factsheets	레�
 engine/src/scenes/ScreenRecord.tsx	engine	씬 구현 — screen-record	폰 목업 + 화면 녹화 영상 임베드(trimBefore·fit) 또는 자리표시. layout phone 전용	녹화 영상, 화면 녹화, 폰 목업, 영상 넣기, mp4 임베드, 워크스루, 앱 화면
 engine/specs/template-screen-record.json	engine	녹화형 템플릿 spec	폰 목업 3씬 + 상단 자막. 녹화 파일 경로만 채우면 된다(없으면 자리표시)	녹화형 템플릿, 폰 영상, 복사해서 시작, screen-record spec
 labs/녹화형_구현_20261030.md	labs	녹화형 구현 기록	게이트에 node:fs 를 넣어 렌더 번들이 깨진 실수와 경계, 자막 겹침 불변식 일반화	게이트 번들 깨짐, node:fs, 자막 위로, 겹침 불변식, 녹화 경로, 왜 CLI 에서 검사
+engine/src/scenes/ScreenCycle.tsx	engine	씬 구현 — screen-cycle	전시형: 타이틀 2행 + 전체폭 UI 밴드(스켈레톤→스크린샷 교체) + 코드 창 + 마무리 스윕	전시형, 쇼케이스, UI 킷, 자막 없는, 스크린샷 교체, 스켈레톤, 루프 영상
+engine/src/components/CodeWindow.tsx	engine	코드 창 컴포넌트	정규식 한 번으로 신택스 색칠(라이브러리 없음) + 트래픽 라이트 + 언어 라벨. 읽으라고가 아닌 증거물	코드 창, 신택스 하이라이트, 코드 보여주기, jsx 창, 색칠
+engine/specs/template-showcase.json	engine	전시형 템플릿 spec	타이틀 + 화면 4개 + 코드 13줄, 6.7초 루프. 스크린샷 경로만 채우면 된다	전시형 템플릿, 쇼케이스 spec, 복사해서 시작, UI 킷 영상
+labs/전시형_구현_20261030.md	labs	전시형 구현 기록	타이틀 좌표를 쌓아서 어긋난 실수, 코드 창 줄 높이 실측, 자막 금지를 게이트로 내린 이유	왜 자막 금지, 타이틀 가림, 코드 줄 높이, 전시형 구현, 신택스 라이브러리 안 쓴 이유

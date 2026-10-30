@@ -60,6 +60,22 @@ export const PHONE = {
   bezel: 12, // 흰 테두리 두께
 } as const;
 
+/**
+ * 전시형 geometry (레퍼런스 실측 ×0.75). 타이틀 2행 + 전체폭 UI 밴드 + 하단 코드 창.
+ * UI 밴드는 **좌우가 화면 밖으로 잘린다** — 작게 줄여 전부 보여주면 디테일이 죽는다.
+ * 근거: factsheets/레퍼런스분석_UI킷쇼케이스_20261030.md §2
+ */
+export const SHOWCASE = {
+  title1Y: 537,
+  title2Y: 615,
+  bandTop: 665,
+  bandHeight: 590,
+  codeX: 117,
+  codeWidth: 848,
+  codeTop: 1400,
+  codeHeight: 367,
+} as const;
+
 /** 카드 안쪽 내용 영역 */
 export const CARD_BODY = {
   left: CARD.x + CARD.pad,
@@ -81,4 +97,6 @@ export const LAYOUTS: Record<LayoutName, LayoutBox> = {
   // phone: 녹화형 — 폰 목업 안에서 화면 녹화가 흐른다. **자막이 위에 있다**
   // (폰 화면 하단에 탭 바가 있어 아래를 비워야 한다. 근거: 레퍼런스분석_스마트홈녹화형 §2)
   phone: { graphic: { top: PHONE.top, bottom: PHONE.top + PHONE.height }, face: null, captionY: 322 },
+  // showcase: 전시형 — 씬이 화면 전체를 직접 그린다(타이틀·밴드·코드 창). 자막은 쓰지 않는다(게이트가 막는다).
+  showcase: { graphic: null, face: null, captionY: 1452 },
 };

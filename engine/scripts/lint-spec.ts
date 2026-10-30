@@ -36,6 +36,21 @@ for (const file of files) {
           where: `scenes[${i}] screen-record`,
           msg: `녹화 파일을 찾을 수 없다: engine/public/${sc.props.src}`,
         });
+      if (sc.type === "screen-cycle")
+        sc.props.screens.forEach((scr, j) => {
+          if (scr.src && !existsSync(join(root, "public", scr.src)))
+            issues.push({
+              level: "error",
+              where: `scenes[${i}] screen-cycle screens[${j}]`,
+              msg: `스크린샷을 찾을 수 없다: engine/public/${scr.src}`,
+            });
+          if (!scr.src)
+            issues.push({
+              level: "warn",
+              where: `scenes[${i}] screen-cycle screens[${j}]`,
+              msg: "스크린샷 없음 — 스켈레톤으로 렌더된다",
+            });
+        });
     });
 
   const errors = issues.filter((i) => i.level === "error");

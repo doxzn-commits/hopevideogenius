@@ -56,6 +56,14 @@ export const promptRunTimeline = (p: SceneOf<"prompt-run">["props"]) => {
 };
 
 /** 녹화 씬은 내부 애니메이션이 없다(영상이 알아서 흐른다). 프레임 등장만 있으면 된다. */
+export const screenCycleTimeline = (p: SceneOf<"screen-cycle">["props"]) => {
+  const titleIn = 0;
+  const bandIn = 10;
+  const codeIn = 20;
+  const skeleton = 8; // 화면마다 스켈레톤이 먼저 깔리는 시간
+  return { titleIn, bandIn, codeIn, skeleton, end: codeIn + 12 + T.settle };
+};
+
 export const screenRecordTimeline = () => ({ frameIn: 12, end: 12 + T.settle });
 
 export const appIntroTimeline = () => ({ glyphIn: 0, roleAt: 10, captionAt: 18, end: 18 + 12 + T.settle });
@@ -123,6 +131,8 @@ export const sceneEnd = (s: Scene): number => {
       return promptRunTimeline(s.props).end;
     case "app-intro":
       return appIntroTimeline().end;
+    case "screen-cycle":
+      return screenCycleTimeline(s.props).end;
     case "screen-record":
       return screenRecordTimeline().end;
     case "toggle-list":

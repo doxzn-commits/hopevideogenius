@@ -69,6 +69,13 @@ export const PALETTES: Record<PaletteName, Palette> = {
     text: "#111111", sub: "rgba(17,17,17,0.45)", accent: "#3B5BFE", track: "rgba(20,20,30,0.08)",
     dark: false, flat: true, cardBody: "#F7F7F9", bubble: "#EFEFF3", cardAccent: "#3B5BFE",
   },
+  // 전시형 — 검정 + 흰 UI + 주황 포인트. 색이 3개뿐이라 스크린샷이 주인공이 된다
+  ink: {
+    bg: "#020002", glowA: "transparent", glowB: "transparent",
+    card: "#12121D", cardBorder: "rgba(255,255,255,0.1)",
+    text: "#FFFFFF", sub: "rgba(255,255,255,0.45)", accent: "#F06036", track: "rgba(255,255,255,0.1)",
+    dark: true, flat: true, cardBody: "#12121D", bubble: "#1B1B28", cardAccent: "#F06036",
+  },
   olive: {
     bg: "#20261D", glowA: "transparent", glowB: "transparent",
     card: "#FFFFFF", cardBorder: "rgba(0,0,0,0.08)",

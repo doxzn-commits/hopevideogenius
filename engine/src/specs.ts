@@ -3,10 +3,11 @@ import demo from "../specs/demo-repo-rules.json";
 import productDemo from "../specs/template-product-demo-40.json";
 import cardTools from "../specs/template-card-tools.json";
 import screenRecord from "../specs/template-screen-record.json";
+import showcase from "../specs/template-showcase.json";
 import { checkSpec, type Issue } from "./spec/gate";
 import type { VideoSpec } from "./spec/schema";
 
-const RAW: unknown[] = [demo, productDemo, cardTools, screenRecord];
+const RAW: unknown[] = [demo, productDemo, cardTools, screenRecord, showcase];
 
 export const SPECS: { spec: VideoSpec; issues: Issue[] }[] = RAW.flatMap((raw) => {
   const { spec, issues } = checkSpec(raw);
