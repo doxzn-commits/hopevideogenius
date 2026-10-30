@@ -77,6 +77,9 @@ def classify(info: dict, n_cuts: int) -> tuple[str, str]:
     per_min = n_cuts / (dur / 60)
     if n_cuts == 0 and dur <= SHOWCASE_MAX_SEC:
         return "전시형", f"컷 0회 + {dur:.1f}초(≤{SHOWCASE_MAX_SEC}초) — 보여주기만 하는 루프"
+    if n_cuts == 0:
+        # 레퍼런스 4(53초·컷 0회)가 여기 해당. 녹화가 연속으로 흐르면 컷이 안 잡힌다.
+        return "녹화·유지형", f"컷 0회인데 {dur:.1f}초 — 화면 녹화일 가능성이 높다. 자막 유무로 시연형/전시형을 가른다"
     if per_min >= CUTS_PER_MIN_EXPLAINER:
         return "설명형", f"분당 컷 {per_min:.1f}회(≥{CUTS_PER_MIN_EXPLAINER}) — 말이 끌고 가는 영상"
     if per_min >= CUTS_PER_MIN_DEMO:
@@ -124,6 +127,7 @@ def main() -> int:
     print("대표 색: " + ", ".join(f"{k} {v}" for k, v in colors.items()))
     print(f"컨택트시트 {len(made)}장 → {out_dir} ({every}초 간격)")
     print(f"\n▶ 추정 형식: {kind} — {why}")
+    print("  ⚠ 컷만 보고 한 추정이다. 자막 유무·소재(코드/녹화/실사)는 못 본다 — 컨택트시트를 눈으로 확인해라.")
     print("  다음: runbooks/레퍼런스분석_절차.md §4 대로 레이아웃·모티프를 재고 factsheets/ 에 기록한다.")
     return 0
 
