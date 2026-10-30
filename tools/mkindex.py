@@ -19,13 +19,14 @@ SEED = ROOT / "tools" / "index_seed.tsv"
 OUT = ROOT / "INDEX.md"
 
 # 분류 순서 = INDEX.md 섹션 순서
-CATEGORIES = ["root", "runbooks", "factsheets", "labs", "engine", "tools"]
+CATEGORIES = ["root", "runbooks", "factsheets", "labs", "engine", "previews", "tools"]
 CATEGORY_TITLE = {
     "root": "루트 문서",
     "runbooks": "runbooks — 확정 절차",
     "factsheets": "factsheets — 사실·수치·출처",
     "labs": "labs — 날짜별 실험 로그",
     "engine": "engine — 실행 코드",
+    "previews": "previews — 유형 미리보기 페이지",
     "tools": "tools — 색인·패키징",
 }
 DOC_EXT = {".md", ".txt"}
@@ -84,13 +85,13 @@ def collect_files() -> list[tuple[str, str]]:
     for p in sorted(ROOT.glob("*.md")):
         if p.name != "INDEX.md":
             files.append((p.name, "root"))
-    for cat in ("runbooks", "factsheets", "labs", "tools"):
+    for cat in ("runbooks", "factsheets", "labs", "previews", "tools"):
         base = ROOT / cat
         if not base.exists():
             continue
         for p in sorted(base.rglob("*")):
             if p.is_file() and not (set(p.relative_to(ROOT).parts) & SKIP_DIRS):
-                if p.suffix in DOC_EXT or cat == "tools":
+                if p.suffix in DOC_EXT or cat in ("tools", "previews"):
                     files.append((p.relative_to(ROOT).as_posix(), cat))
     engine = ROOT / "engine"
     if engine.exists():

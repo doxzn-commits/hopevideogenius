@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 59행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 61행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -84,6 +84,13 @@
 | [engine/src/components/ui.tsx](engine/src/components/ui.tsx) | **공용 프리미티브** — 배경 글로우·카드·칩·글리프 타일·모노 명령줄 | 카드, 칩, 배경, 글로우, 타일, 공통 컴포넌트, 터미널 창 |
 | [engine/scripts/lint-spec.ts](engine/scripts/lint-spec.ts) | **게이트 실행 CLI (값은 gate.ts)** — specs/*.json 검사 + 레이아웃 불변식 + spec 등록 여부. 오류 시 exit 1 | lint:spec, 게이트 실행, 검사 명령, 커밋이 막힘, 오류 확인 |
 
+## previews — 유형 미리보기 페이지
+
+| 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
+|---|---|---|
+| [previews/README.md](previews/README.md) | **유형 미리보기 페이지 — 다시 만드는 법** — types.html 이 뭔지와 렌더→발행 절차, 영상 5개의 경로 대응표 | 미리보기 페이지, 유형 비교, 다시 만들기, 아티팩트 발행, 페이지 고치기 |
+| [previews/types.html](previews/types.html) | **유형 미리보기 페이지 (HTML)** — 유형 4종 + 템플릿 렌더 영상 + 측정 수치·망하는 방식. Artifact 로 발행하는 한 장짜리 문서 | 유형 페이지, 미리보기 html, 비교 페이지, 유형 설명 페이지 |
+
 ## tools — 색인·패키징
 
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
@@ -92,7 +99,3 @@
 | [tools/hooks/pre-commit](tools/hooks/pre-commit) | **pre-commit 훅** — 커밋마다 INDEX.md 갱신 + 스테이징된 spec 게이트 실행. git config core.hooksPath tools/hooks 로 설치 | 훅, hook, pre-commit, 자동 색인, 커밋할 때, hooksPath, 설치 |
 | [tools/index_seed.tsv](tools/index_seed.tsv) | **색인 시드** — 파일별 분류·제목·요약·키워드 5열 TSV. **검색이 안 되면 여기를 고치고 반드시 python tools/mkindex.py 를 실행**한다 | 시드, 키워드 추가, 색인 보강, tsv, 요약이 이상해, 검색이 안 됨, 문서를 못 찾음 |
 | [tools/mkindex.py](tools/mkindex.py) | **INDEX 자동 생성기** — index_seed.tsv + 본문 자동 추출로 INDEX.md 생성. --check 는 최신 여부만 판정 | 색인 갱신, INDEX 만들기, mkindex, 인덱스 스크립트, seed 반영, 색인 생성 |
-
-## 색인 건강 상태
-
-- ⚠ seed 에 있으나 실제로 없는 경로 2개: `previews/README.md`, `previews/types.html`
