@@ -7,7 +7,7 @@ export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stac
 export const CAPTION_STYLES = ["overlay", "plain"] as const;
 /** 제품 데모 영상의 7단 구조. profile 이 걸리면 이 순서를 강제한다. */
 export const ROLE_NAMES = ["hook", "problem", "solution", "demo", "differentiation", "result", "cta"] as const;
-export const PROFILE_NAMES = ["free", "product-demo-40"] as const;
+export const PROFILE_NAMES = ["free", "product-demo-30", "product-demo-40"] as const;
 export type PaletteName = (typeof PALETTE_NAMES)[number];
 export type LayoutName = (typeof LAYOUT_NAMES)[number];
 export type RoleName = (typeof ROLE_NAMES)[number];

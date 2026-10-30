@@ -33,6 +33,21 @@ export const TEXT = {
 export const fitSize = (chars: number, base: number, min: number) =>
   Math.max(min, Math.min(base, Math.floor(TEXT.availWidth / Math.max(1, chars * TEXT.glyphRatio))));
 
+/**
+ * 씬이 실제로 쓸 레이아웃. 사람이 없고 full-graphic 이면 화면을 더 크게 쓴다.
+ * 자막이 아예 없으면 안전 영역까지 전부 쓴다.
+ */
+export const resolveLayout = (
+  layout: LayoutName,
+  opts: { faceless: boolean; hasCaptions: boolean },
+): LayoutBox => {
+  const base = LAYOUTS[layout];
+  if (layout !== "full-graphic") return base;
+  const box = opts.faceless ? { ...base, ...FACELESS_FULL } : base;
+  if (!opts.hasCaptions && box.graphic) return { ...box, graphic: { ...box.graphic, bottom: 1920 - SAFE } };
+  return box;
+};
+
 /** 최소 크기에서 한 줄에 들어가는 최대 글자 수 */
 export const maxCharsAt = (minSize: number) => Math.floor(TEXT.availWidth / (minSize * TEXT.glyphRatio));
 
@@ -83,6 +98,13 @@ export const CARD_BODY = {
   width: CARD.width - CARD.pad * 2,
   height: CARD.height - CARD.headerH - CARD.pad * 2,
 } as const;
+
+/**
+ * 사람이 없을 때(talkingHead: null) full-graphic 이 쓰는 더 넓은 박스.
+ * 기본 full-graphic 은 아래쪽을 비워 두는데, 그 공간은 **원래 토킹헤드 자리**다.
+ * 사람을 안 쓰면 그 자리가 그냥 빈 공간으로 남아 화면이 위로 쏠린다.
+ */
+export const FACELESS_FULL = { graphic: { top: 240, bottom: 1290 }, captionY: 1460 } as const;
 
 export const LAYOUTS: Record<LayoutName, LayoutBox> = {
   // split: 자막이 카드 하단에 살짝 겹치는 것이 레퍼런스의 의도된 모습이다.

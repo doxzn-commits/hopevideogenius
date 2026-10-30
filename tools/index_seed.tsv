@@ -67,3 +67,4 @@ factsheets/레퍼런스분석_웹사이트스크롤_20261030.md	factsheets	레�
 engine/specs/carfia-40.json	engine	카피아 데모 40초 spec	실제 제품 첫 영상. 서사형 7단에 browser-mock·icon-flow·prompt-run 을 섞어 짰다	카피아, carfia, 자동차, 딜러, 최저가, 실제 영상, 제품 데모 예시, 섞어 쓴 예시
 engine/specs/carfia-40.본문.md	engine	카피아 데모 본문(캡션)	게시물 본문 초안과 왜 그렇게 썼는지, 바꿀 때 같이 고칠 것	카피아 본문, 캡션 초안, 게시물 글, 해시태그
 labs/카피아데모_제작_20261030.md	labs	카피아 데모 제작 기록	유형을 섞은 방법과 flat 팔레트 자막 규칙을 코드로 내린 근거	유형 섞기, 첫 실제 영상, 자막 겉돎, flat 팔레트, 강조 한 단어
+engine/specs/carfia-30.json	engine	카피아 데모 30초 spec	훅을 움직임(견적 막대)으로 바꾸고 자막을 1.2~1.6초로 압축한 2차본	카피아 30초, 속도감, 훅 개선, 빠른 자막, product-demo-30

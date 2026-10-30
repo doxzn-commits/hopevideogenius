@@ -7,22 +7,21 @@ import { Glow } from "./components/ui";
 import { Captions } from "./components/Captions";
 import { CardShell } from "./components/CardShell";
 import { TalkingHead } from "./components/TalkingHead";
-import { CARD_BODY } from "./spec/layout";
+import { CARD_BODY, resolveLayout } from "./spec/layout";
 import { toggleOnCount } from "./spec/timelines";
-import { LAYOUTS, PALETTES, SAFE, SIDE } from "./theme";
+import { PALETTES, SIDE } from "./theme";
 import { FONT_MONO } from "./fonts";
 import type { Scene, VideoSpec } from "./spec/schema";
 import type { Issue } from "./spec/gate";
 
 export const totalFrames = (spec: VideoSpec) => spec.scenes.reduce((a, s) => a + s.durationInFrames, 0);
 
-const SceneFrame: React.FC<{ scene: Scene }> = ({ scene }) => {
+const SceneFrame: React.FC<{ scene: Scene; faceless: boolean }> = ({ scene, faceless }) => {
   const p = PALETTES[scene.palette];
-  const layout = LAYOUTS[scene.layout];
+  const layout = resolveLayout(scene.layout, { faceless, hasCaptions: scene.captions.length > 0 });
   const box = layout.graphic;
   const Comp = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;
-  // 자막이 없고 사람도 없는 씬은 그래픽이 화면 전체(안전 영역까지)를 쓴다 — 위로 쏠려 보이지 않게
-  const bottom = box && layout.face === null && scene.captions.length === 0 ? 1920 - SAFE : box?.bottom;
+  const bottom = box?.bottom; // 확장은 resolveLayout 이 이미 했다
   // 전시형: 타이틀·밴드·코드 창까지 씬이 화면 전체를 직접 그린다
   if (scene.layout === "showcase") {
     const Full = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;
@@ -57,7 +56,10 @@ const SceneFrame: React.FC<{ scene: Scene }> = ({ scene }) => {
             justifyContent: "center",
           }}
         >
-          <Comp scene={scene} p={p} />
+          {/* 사람이 없으면 그래픽을 12% 키운다 (폭 960×1.12=1075 로 1080 안에 겨우 들어간다) */}
+          <div style={{ width: "100%", scale: faceless && scene.layout === "full-graphic" ? 1.12 : 1 }}>
+            <Comp scene={scene} p={p} />
+          </div>
         </div>
       ) : null}
     </AbsoluteFill>
@@ -129,7 +131,7 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
       <Series>
         {spec.scenes.map((s, i) => (
           <Series.Sequence key={i} durationInFrames={s.durationInFrames} name={`${i + 1}·${s.type}`}>
-            <SceneFrame scene={s} />
+            <SceneFrame scene={s} faceless={spec.talkingHead === null} />
           </Series.Sequence>
         ))}
       </Series>
@@ -139,7 +141,7 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
           <Series.Sequence key={i} durationInFrames={s.durationInFrames} name={`자막 ${i + 1}`}>
             <Captions
               captions={s.captions}
-              y={LAYOUTS[s.layout].captionY}
+              y={resolveLayout(s.layout, { faceless: spec.talkingHead === null, hasCaptions: s.captions.length > 0 }).captionY}
               // 단색 배경(flat 팔레트)에서는 외곽선이 필요 없다 — 외곽선·노란 강조는 사진/그래픽 위에서만 쓴다
               style={s.captionStyle ?? (["card", "stack", "phone"].includes(s.layout) || PALETTES[s.palette].flat ? "plain" : "overlay")}
               // 자막은 카드 밖(배경 위)이라 색은 배경 기준이다. 카드 안쪽 색(CARD_INK)과 혼동하지 말 것.

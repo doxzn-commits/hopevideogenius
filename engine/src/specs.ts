@@ -5,10 +5,11 @@ import cardTools from "../specs/template-card-tools.json";
 import screenRecord from "../specs/template-screen-record.json";
 import showcase from "../specs/template-showcase.json";
 import carfia from "../specs/carfia-40.json";
+import carfia30 from "../specs/carfia-30.json";
 import { checkSpec, type Issue } from "./spec/gate";
 import type { VideoSpec } from "./spec/schema";
 
-const RAW: unknown[] = [demo, productDemo, cardTools, screenRecord, showcase, carfia];
+const RAW: unknown[] = [demo, productDemo, cardTools, screenRecord, showcase, carfia, carfia30];
 
 export const SPECS: { spec: VideoSpec; issues: Issue[] }[] = RAW.flatMap((raw) => {
   const { spec, issues } = checkSpec(raw);

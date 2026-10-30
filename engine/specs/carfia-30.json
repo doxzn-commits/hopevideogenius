@@ -1,0 +1,158 @@
+{
+  "id": "Carfia30",
+  "title": "카피아 데모 30초 — 훅을 움직임으로, 자막을 1.2~1.5초로",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "profile": "product-demo-30",
+  "scenes": [
+    {
+      "type": "terminal-list",
+      "role": "hook",
+      "layout": "full-graphic",
+      "palette": "navy",
+      "durationInFrames": 90,
+      "captions": [
+        { "text": "같은 차인데", "at": 0 },
+        { "text": "딜러마다 가격이 달라요", "at": 42, "hl": "가격이 달라요" }
+      ],
+      "props": {
+        "header": "같은 차 · 같은 달",
+        "chip": "예시",
+        "command": "quotes --car BMW",
+        "rows": [
+          { "glyph": "A", "name": "딜러 A", "value": 0.92 },
+          { "glyph": "B", "name": "딜러 B", "value": 0.64 },
+          { "glyph": "C", "name": "딜러 C", "value": 0.81 },
+          { "glyph": "D", "name": "딜러 D", "value": 0.55 }
+        ]
+      }
+    },
+    {
+      "type": "browser-mock",
+      "role": "problem",
+      "layout": "full-graphic",
+      "palette": "navy",
+      "durationInFrames": 120,
+      "captions": [
+        { "text": "다 물어보셨어요?", "at": 0 },
+        { "text": "한 곳씩, 또 한 곳씩", "at": 42 },
+        { "text": "답은 제각각", "at": 84, "hl": "제각각" }
+      ],
+      "props": {
+        "url": "견적 문의 · 딜러 채팅",
+        "chip": "직접 연락",
+        "blocks": [
+          { "w": 0.5, "label": "딜러 A 견적" },
+          { "w": 0.45, "label": "딜러 B 견적" },
+          { "w": 0.55, "label": "딜러 C 견적" },
+          { "w": 0.32, "label": "다시 문의", "accent": true }
+        ],
+        "cursor": [
+          { "at": 8, "x": 0.22, "y": 0.06, "click": true },
+          { "at": 30, "x": 0.18, "y": 0.26, "click": true },
+          { "at": 52, "x": 0.24, "y": 0.46, "click": true },
+          { "at": 74, "x": 0.15, "y": 0.72, "click": true }
+        ]
+      }
+    },
+    {
+      "type": "icon-flow",
+      "role": "solution",
+      "layout": "full-graphic",
+      "palette": "ivory",
+      "durationInFrames": 120,
+      "captions": [
+        { "text": "그걸 카피아가 합니다", "at": 0, "hl": "카피아" },
+        { "text": "연락은 한 곳만", "at": 55, "hl": "한 곳" }
+      ],
+      "props": {
+        "label": "전국 딜러",
+        "chip": "한 번에",
+        "icons": [
+          { "glyph": "A", "label": "딜러" },
+          { "glyph": "B", "label": "딜러" },
+          { "glyph": "C", "label": "딜러" },
+          { "glyph": "D", "label": "딜러" }
+        ],
+        "collapseTo": { "glyph": "카", "label": "카피아" }
+      }
+    },
+    {
+      "type": "prompt-run",
+      "role": "demo",
+      "layout": "card",
+      "palette": "ivory",
+      "durationInFrames": 180,
+      "card": { "app": "카피아", "glyph": "카", "status": "전국 딜러 연결됨", "tint": "#1E4FD8" },
+      "captions": [
+        { "text": "차종만 말하면", "at": 0 },
+        { "text": "전국 견적을 모아서", "at": 48, "hl": "전국" },
+        { "text": "최저가까지 찍어줘요", "at": 110, "hl": "최저가" }
+      ],
+      "props": {
+        "prompt": "BMW 5시리즈 이번 달 최저가 알려줘",
+        "tool": { "name": "collect_quotes", "target": "전국 딜러" },
+        "sample": true,
+        "result": {
+          "kind": "table",
+          "title": "이번 달 견적 비교",
+          "columns": ["지역", "출고", "상태"],
+          "rows": [
+            { "label": "딜러 A", "badge": "최저가" },
+            { "label": "딜러 B" },
+            { "label": "딜러 C" }
+          ]
+        }
+      }
+    },
+    {
+      "type": "statement",
+      "role": "differentiation",
+      "layout": "full-graphic",
+      "palette": "ivory",
+      "durationInFrames": 105,
+      "captions": [],
+      "props": {
+        "lines": ["비교만 해주는 게 아니라", "소통까지 대신해요"],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "before-after",
+      "role": "result",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 135,
+      "captions": [
+        { "text": "발품도, 비용도", "at": 0 },
+        { "text": "줄어듭니다", "at": 68, "hl": "줄어" }
+      ],
+      "props": {
+        "label": "출고까지",
+        "chipBefore": "내가 다 함",
+        "chipAfter": "맡기면 끝",
+        "before": { "label": "직접 알아볼 때", "value": 0.92, "text": "발품" },
+        "after": { "label": "카피아", "value": 0.22, "text": "한 번" }
+      }
+    },
+    {
+      "type": "title-card",
+      "role": "cta",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 150,
+      "captions": [
+        { "text": "이번 달 최저가", "at": 0 },
+        { "text": "무료로 받아보세요", "at": 62, "hl": "무료" }
+      ],
+      "props": {
+        "kicker": "무료 컨설팅",
+        "glyph": "→",
+        "name": "carfia.co.kr",
+        "subtitle": "차종만 알려주시면 됩니다"
+      }
+    }
+  ]
+}

@@ -32,6 +32,16 @@ export const RULES = {
  * spec 의 profile 필드가 걸리면 아래 값들이 강제된다.
  */
 export const PROFILES = {
+  // 30초가 숏폼의 기본이다. 40초는 같은 내용을 담으면 속도감이 떨어진다.
+  "product-demo-30": {
+    label: "제품 데모 30초",
+    totalFrames: 900,
+    sceneCount: 7,
+    sceneMinFrames: 60, // 2초
+    sceneMaxFrames: 180, // 6초
+    ctaMinFrames: 60,
+    roles: ROLE_NAMES,
+  },
   "product-demo-40": {
     label: "제품 데모 40초",
     totalFrames: 1200, // 40초 × 30fps
