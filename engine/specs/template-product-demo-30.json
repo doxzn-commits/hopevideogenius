@@ -1,0 +1,302 @@
+{
+  "id": "TemplateProductDemo30",
+  "title": "제품 데모 30초 템플릿 (7단 구조) — ○○ 자리를 제품 내용으로 바꿔 쓴다",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "profile": "product-demo-30",
+  "scenes": [
+    {
+      "type": "terminal-list",
+      "role": "hook",
+      "layout": "full-graphic",
+      "palette": "navy",
+      "durationInFrames": 90,
+      "captions": [
+        {
+          "text": "○○ 고르는데",
+          "at": 0
+        },
+        {
+          "text": "기준이 제각각이에요",
+          "hl": "제각각",
+          "at": 42
+        }
+      ],
+      "props": {
+        "header": "같은 ○○ · 같은 조건",
+        "chip": "예시",
+        "command": "quotes --item ○○",
+        "rows": [
+          {
+            "glyph": "A",
+            "name": "후보 A",
+            "value": 0.92
+          },
+          {
+            "glyph": "B",
+            "name": "후보 B",
+            "value": 0.64
+          },
+          {
+            "glyph": "C",
+            "name": "후보 C",
+            "value": 0.81
+          },
+          {
+            "glyph": "D",
+            "name": "후보 D",
+            "value": 0.55
+          }
+        ]
+      }
+    },
+    {
+      "type": "browser-mock",
+      "role": "problem",
+      "layout": "full-graphic",
+      "palette": "navy",
+      "durationInFrames": 120,
+      "captions": [
+        {
+          "text": "다 확인하셨어요?",
+          "at": 0
+        },
+        {
+          "text": "하나씩, 또 하나씩",
+          "at": 42
+        },
+        {
+          "text": "결과는 제각각",
+          "hl": "제각각",
+          "at": 84
+        }
+      ],
+      "props": {
+        "url": "○○ 알아보기 · 직접",
+        "chip": "직접 하기",
+        "blocks": [
+          {
+            "w": 0.5,
+            "label": "○○ 확인 1"
+          },
+          {
+            "w": 0.45,
+            "label": "○○ 확인 2"
+          },
+          {
+            "w": 0.55,
+            "label": "○○ 확인 3"
+          },
+          {
+            "w": 0.32,
+            "label": "다시 확인",
+            "accent": true
+          }
+        ],
+        "cursor": [
+          {
+            "at": 8,
+            "x": 0.22,
+            "y": 0.06,
+            "click": true
+          },
+          {
+            "at": 30,
+            "x": 0.18,
+            "y": 0.26,
+            "click": true
+          },
+          {
+            "at": 52,
+            "x": 0.24,
+            "y": 0.46,
+            "click": true
+          },
+          {
+            "at": 74,
+            "x": 0.15,
+            "y": 0.72,
+            "click": true
+          }
+        ]
+      }
+    },
+    {
+      "type": "icon-flow",
+      "role": "solution",
+      "layout": "full-graphic",
+      "palette": "ivory",
+      "durationInFrames": 120,
+      "captions": [
+        {
+          "text": "그걸 ○○가 합니다",
+          "hl": "○○",
+          "at": 0
+        },
+        {
+          "text": "한 곳에서 끝나요",
+          "hl": "한 곳",
+          "at": 55
+        }
+      ],
+      "props": {
+        "label": "흩어진 ○○",
+        "chip": "한 번에",
+        "icons": [
+          {
+            "glyph": "A",
+            "label": "후보"
+          },
+          {
+            "glyph": "B",
+            "label": "후보"
+          },
+          {
+            "glyph": "C",
+            "label": "후보"
+          },
+          {
+            "glyph": "D",
+            "label": "후보"
+          }
+        ],
+        "collapseTo": {
+          "glyph": "○",
+          "label": "○○"
+        }
+      }
+    },
+    {
+      "type": "prompt-run",
+      "role": "demo",
+      "layout": "card",
+      "palette": "ivory",
+      "durationInFrames": 180,
+      "card": {
+        "app": "○○",
+        "glyph": "○",
+        "status": "연결됨",
+        "tint": "#1E4FD8"
+      },
+      "captions": [
+        {
+          "text": "조건만 말하면",
+          "at": 0
+        },
+        {
+          "text": "결과를 모아서",
+          "hl": "결과",
+          "at": 48
+        },
+        {
+          "text": "한눈에 보여줘요",
+          "hl": "한눈에",
+          "at": 110
+        }
+      ],
+      "props": {
+        "prompt": "○○ 알려줘",
+        "tool": {
+          "name": "collect",
+          "target": "○○"
+        },
+        "sample": true,
+        "result": {
+          "kind": "table",
+          "title": "○○ 비교",
+          "columns": [
+            "항목",
+            "값",
+            "상태"
+          ],
+          "rows": [
+            {
+              "label": "후보 A",
+              "badge": "최저가"
+            },
+            {
+              "label": "후보 B"
+            },
+            {
+              "label": "후보 C"
+            }
+          ]
+        }
+      }
+    },
+    {
+      "type": "statement",
+      "role": "differentiation",
+      "layout": "full-graphic",
+      "palette": "ivory",
+      "durationInFrames": 105,
+      "captions": [],
+      "props": {
+        "lines": [
+          "○○만 하는 게 아니라",
+          "△△까지 해줘요"
+        ],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "before-after",
+      "role": "result",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 135,
+      "captions": [
+        {
+          "text": "시간도, 비용도",
+          "at": 0
+        },
+        {
+          "text": "줄어듭니다",
+          "hl": "줄어",
+          "at": 68
+        }
+      ],
+      "props": {
+        "label": "○○까지",
+        "chipBefore": "내가 다 함",
+        "chipAfter": "맡기면 끝",
+        "before": {
+          "label": "직접 할 때",
+          "value": 0.92,
+          "text": "많이"
+        },
+        "after": {
+          "label": "○○",
+          "value": 0.22,
+          "text": "조금"
+        }
+      }
+    },
+    {
+      "type": "title-card",
+      "role": "cta",
+      "layout": "full-graphic",
+      "palette": "pastel",
+      "durationInFrames": 150,
+      "captions": [
+        {
+          "text": "지금 ○○",
+          "at": 0,
+          "hl": "지금"
+        },
+        {
+          "text": "확인해 보세요",
+          "at": 62
+        }
+      ],
+      "props": {
+        "kicker": "○○",
+        "glyph": "→",
+        "name": "example.com",
+        "subtitle": "○○ 한 줄 설명"
+      }
+    }
+  ]
+}

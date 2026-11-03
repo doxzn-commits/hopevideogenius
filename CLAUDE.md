@@ -40,7 +40,7 @@
 ```bash
 cd engine
 npm run lint:spec -- specs/<이름>.json   # 게이트
-npx remotion studio --no-open             # 미리보기
+npm run studio                            # 미리보기
 npx remotion render <CompId> out/<이름>.mp4
 ```
 

@@ -1,7 +1,7 @@
 // 요약: spec 게이트 CLI. 인자 없으면 specs/*.json 전부 검사. 오류 1개라도 있으면 exit 1 (pre-commit 훅이 이걸 부른다).
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
-import { checkLayouts, checkSpec } from "../src/spec/gate";
+import { RULES, checkLayouts, checkSpec } from "../src/spec/gate";
 
 const root = resolve(__dirname, "..");
 const args = process.argv.slice(2);
@@ -64,5 +64,10 @@ for (const file of files) {
   for (const i of warns) console.log(`   [경고] ${i.where}: ${i.msg}`);
 }
 
+// 문구를 쓰기 전에 알아야 하는 값이라 매번 같이 찍는다 (상한은 layout.ts 의 폰트 크기에서 역산된다)
+console.log(
+  `\n글자 수 상한(공백 포함) — 자막 ${RULES.captionMaxChars}자 · statement 한 줄 ${RULES.statementLineMaxChars}자 · ` +
+    `title-card name ${RULES.titleNameMaxChars}자 · prompt ${RULES.promptMaxChars}자`,
+);
 console.log(errorCount ? `\n게이트 실패: 오류 ${errorCount}개` : "\n게이트 통과");
 process.exit(errorCount ? 1 : 0);

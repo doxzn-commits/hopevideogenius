@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 68행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 71행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -41,6 +41,7 @@
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
 |---|---|---|
 | [labs/녹화형_구현_20261030.md](labs/녹화형_구현_20261030.md) | **녹화형 구현 기록** — 게이트에 node:fs 를 넣어 렌더 번들이 깨진 실수와 경계, 자막 겹침 불변식 일반화 | 게이트 번들 깨짐, node:fs, 자막 위로, 겹침 불변식, 녹화 경로, 왜 CLI 에서 검사 |
+| [labs/레포검증_20261103.md](labs/레포검증_20261103.md) | **레포 검증 — 문서만으로 영상을 만들 수 있나** — 문서 모순 7건·구멍 4건을 찾은 검증 결과와 조치. 문서가 코드보다 빨리 낡는다는 교훈 | 레포 검증, 문서 모순, 낡은 문서, 검증 결과, 30초 40초 충돌, 섞어도 되나 |
 | [labs/레포세팅_엔진부트스트랩_20260914.md](labs/레포세팅_엔진부트스트랩_20260914.md) | **레포 세팅 + 엔진 부트스트랩 기록** — 자막 겹침·아이콘 위치 버그를 코드로 고친 과정과 게이트 수치의 **근거**(왜 18자·왜 18프레임인지) + 게이트 역방향 테스트 결과 | 왜 이 값이야, 왜 18자, 왜 18프레임, 18자 근거, 자막 겹침, 버그 기록, 부트스트랩, 구조가 왜 이래, 실패한 것 |
 | [labs/전시형_구현_20261030.md](labs/전시형_구현_20261030.md) | **전시형 구현 기록** — 타이틀 좌표를 쌓아서 어긋난 실수, 코드 창 줄 높이 실측, 자막 금지를 게이트로 내린 이유 | 왜 자막 금지, 타이틀 가림, 코드 줄 높이, 전시형 구현, 신택스 라이브러리 안 쓴 이유 |
 | [labs/제품데모프로필_도입_20260914.md](labs/제품데모프로필_도입_20260914.md) | **제품 데모 프로필 도입 기록** — 지침을 문서/코드로 나눈 근거와 문구 넘침·커서 모양·쏠림 수정 기록. 글자 수 상한을 상수에서 역산하는 이유 | 왜 15자, 왜 프로필, 문구 넘침, 커서 모양, 글자 크기 자동, 지침 반영, 근거 |
@@ -58,9 +59,11 @@
 | [engine/specs/carfia-40.json](engine/specs/carfia-40.json) | **카피아 데모 40초 spec** — 실제 제품 첫 영상. 서사형 7단에 browser-mock·icon-flow·prompt-run 을 섞어 짰다 | 카피아, carfia, 자동차, 딜러, 최저가, 실제 영상, 제품 데모 예시, 섞어 쓴 예시 |
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
 | [engine/specs/template-card-tools.json](engine/specs/template-card-tools.json) | **카드형 도구 소개 템플릿 spec** — 카드 1장 유지 + prompt-run 2개 + CTA. 카드형 영상을 만들 때 복사해서 시작 | 카드형 템플릿, 도구 소개, 커넥터 영상, 복사해서 시작, 카드 spec |
+| [engine/specs/template-product-demo-30.json](engine/specs/template-product-demo-30.json) | **제품 데모 30초 템플릿 spec** — 7단 구조 900프레임 중립 템플릿. ○○ 자리를 제품 내용으로 바꿔 쓴다(고객 사례 복사 금지) | 30초 템플릿, 제품 데모 시작, 복사해서 시작, product-demo-30 |
 | [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
 | [engine/specs/template-screen-record.json](engine/specs/template-screen-record.json) | **녹화형 템플릿 spec** — 폰 목업 3씬 + 상단 자막. 녹화 파일 경로만 채우면 된다(없으면 자리표시) | 녹화형 템플릿, 폰 영상, 복사해서 시작, screen-record spec |
 | [engine/specs/template-showcase.json](engine/specs/template-showcase.json) | **전시형 템플릿 spec** — 타이틀 + 화면 4개 + 코드 13줄, 6.7초 루프. 스크린샷 경로만 채우면 된다 | 전시형 템플릿, 쇼케이스 spec, 복사해서 시작, UI 킷 영상 |
+| [engine/specs/carfia-40.본문.md](engine/specs/carfia-40.본문.md) | **카피아 데모 본문(캡션)** — 게시물 본문 초안과 왜 그렇게 썼는지, 바꿀 때 같이 고칠 것 | 카피아 본문, 캡션 초안, 게시물 글, 해시태그 |
 | [engine/src/fonts.ts](engine/src/fonts.ts) | **폰트 로딩** — 라벨=Montserrat, 코드=JetBrains Mono, 한글 자막=Noto Sans KR (Google Fonts 원격 로딩) | 폰트, 글꼴, 한글 폰트, 자막 폰트, 몬세라트, 모노스페이스, 폰트 바꾸기 |
 | [engine/src/index.ts](engine/src/index.ts) | **Remotion 엔트리** — registerRoot 로 Root 를 등록하는 진입점. 건드릴 일 거의 없다 | 엔트리, 진입점, registerRoot, index.ts |
 | [engine/src/specs.ts](engine/src/specs.ts) | **spec 등록 목록 (새 spec 은 여기)** — specs/*.json 을 Studio 에 등록한다. **새 spec 이 Studio 에 안 보이면 가장 먼저 고칠 곳** | spec 등록, Studio 에 안 보임, 컴포지션이 없음, import 추가, 새 spec 추가 |
@@ -106,7 +109,3 @@
 | [tools/hooks/pre-commit](tools/hooks/pre-commit) | **pre-commit 훅** — 커밋마다 INDEX.md 갱신 + 스테이징된 spec 게이트 실행. git config core.hooksPath tools/hooks 로 설치 | 훅, hook, pre-commit, 자동 색인, 커밋할 때, hooksPath, 설치 |
 | [tools/index_seed.tsv](tools/index_seed.tsv) | **색인 시드** — 파일별 분류·제목·요약·키워드 5열 TSV. **검색이 안 되면 여기를 고치고 반드시 python tools/mkindex.py 를 실행**한다 | 시드, 키워드 추가, 색인 보강, tsv, 요약이 이상해, 검색이 안 됨, 문서를 못 찾음 |
 | [tools/mkindex.py](tools/mkindex.py) | **INDEX 자동 생성기** — index_seed.tsv + 본문 자동 추출로 INDEX.md 생성. --check 는 최신 여부만 판정 | 색인 갱신, INDEX 만들기, mkindex, 인덱스 스크립트, seed 반영, 색인 생성 |
-
-## 색인 건강 상태
-
-- ⚠ seed 에 있으나 실제로 없는 경로 1개: `engine/specs/carfia-40.본문.md`

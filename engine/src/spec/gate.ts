@@ -28,7 +28,7 @@ export const RULES = {
 } as const;
 
 /**
- * 제작 규격(프로필). 제품 데모 영상은 7단 구조·장면당 3~7초·총 40초가 규격이다.
+ * 제작 규격(프로필). 기본은 30초(product-demo-30), 내용이 많을 때만 40초.
  * spec 의 profile 필드가 걸리면 아래 값들이 강제된다.
  */
 export const PROFILES = {
@@ -224,7 +224,10 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     spec.scenes.forEach((s, i) => {
       const w = `${p} scenes[${i}]`;
       if (s.durationInFrames < prof.sceneMinFrames || s.durationInFrames > prof.sceneMaxFrames)
-        err(w, `${s.durationInFrames}f 가 규격 ${prof.sceneMinFrames}~${prof.sceneMaxFrames}f(3~7초) 밖`);
+        err(
+          w,
+          `${s.durationInFrames}f 가 규격 ${prof.sceneMinFrames}~${prof.sceneMaxFrames}f(${prof.sceneMinFrames / spec.fps}~${prof.sceneMaxFrames / spec.fps}초) 밖`,
+        );
       const want = prof.roles[i];
       if (!s.role) err(w, `role 누락 — "${want}" 이어야 함`);
       else if (s.role !== want) err(w, `role "${s.role}" ≠ 규격 순서상 "${want}"`);
