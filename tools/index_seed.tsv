@@ -72,3 +72,4 @@ labs/레포검증_20261103.md	labs	레포 검증 — 문서만으로 영상을 �
 engine/specs/template-product-demo-30.json	engine	제품 데모 30초 템플릿 spec	7단 구조 900프레임 중립 템플릿. ○○ 자리를 제품 내용으로 바꿔 쓴다(고객 사례 복사 금지)	30초 템플릿, 제품 데모 시작, 복사해서 시작, product-demo-30
 engine/src/scenes/ContactCard.tsx	engine	씬 구현 — contact-card	상호·위치·전화번호를 크게. 키오스크·사이니지용이라 전화번호가 가장 크고 6초 이상 떠야 한다	연락처, 전화번호, 키오스크, 사이니지, 광고 마무리, 모집, 상호
 engine/specs/kimseyeon-math-kiosk.json	engine	김세연 매쓰 키오스크 광고 spec	무음·루프 세로 광고 22.7초. 훅(AI vs 나) → 주제 → 3단계 → 연락처 8초	키오스크 광고, 학원 광고, 세로 광고, 서술형 수학, 오프라인 광고, 루프 영상
+factsheets/레퍼런스분석_제품필름형_20261105.md	factsheets	레퍼런스 분석 — 제품 필름형(B2)	37.5초 SaaS 프로모의 프레임 단위 분석. 흰/다크 하드컷 교대·고정 헤드라인·상시 로고·감속 모션의 측정값, 재현 규칙 12개, 새 씬 5종 명세	제품 필름, 고급 프로모, B2, 다크 화이트 교대, 감도, 이징 실측, 헤드라인 자막, 상시 로고, 콜백, 마퀴, 3D 기울기, 내레이션 BGM, SaaS 홍보

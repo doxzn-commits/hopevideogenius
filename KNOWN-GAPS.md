@@ -67,6 +67,13 @@
 - 녹화 구간 자동 분할 — 지금은 `trimBefore` 를 사람이 적는다
 - 폰 기종별 프레임(노치·펀치홀) — 지금은 단순 라운드 프레임 하나
 
+## 제품 필름형(B2) — 전부 미구현 (2026-11-05)
+근거: `factsheets/레퍼런스분석_제품필름형_20261105.md` §9 (파라미터까지 명세됨)
+- 씬 5종: `select-hook`, `ai-answer`(list·tilt), `ui-stage`(패널 5종·줌·PiP), `cta-marquee`, `logo-outro`
+- `film` 레이아웃(헤드라인 슬롯 3곳), `captionStyle: "headline"`, `film-light`·`film-dark` 팔레트 + `bgImage`
+- spec `brand`(상시 로고), `audio`, 이징 `EASE_MOVE`·`EASE_REVEAL`, `outro` 역할, `product-film` 프로필과 게이트 규칙
+- Pretendard 로컬 폰트
+
 ## 엔진 기능
 - **오디오·내레이션·보이스오버·BGM·효과음 없음** — 현재 spec 에 음성/배경음악/사운드 필드가 없다. 타이밍은 전부 수동 프레임.
   (자동 싱크가 필요하면 Remotion captions 스킬 + `@remotion/media` 를 조사해야 한다)
