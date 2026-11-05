@@ -116,6 +116,99 @@ export const iconFlowTimeline = (p: SceneOf<"icon-flow">["props"]) => {
   return { popEnd, linksEnd, collapseAt, end: (collapseAt !== null ? collapseAt + 18 : linksEnd) + T.settle };
 };
 
+/** 필름형 공통 값. 근거: 팩트시트 §6.1, §9.2 */
+export const FILM_T = {
+  moveMin: 14, // 위치 이동 최소·최대 — 벗어나면 급하거나 늘어진다
+  moveMax: 22,
+  panelSlide: 15,
+  handPerChar: 1.5, // 손글씨 써지는 속도(프레임/글자)
+  markFrames: 14, // 밑줄 하나가 그어지는 시간
+  markStagger: 10,
+  inkLead: 6, // 슬라이드가 끝나기 이만큼 전에 쓰기 시작한다(감속 곡선이라 이미 94% 와 있다). 빈 페이지를 줄인다
+  inkHold: 39, // 필기가 끝난 뒤 다 읽을 때까지 머무는 최소 시간(1.3초)
+} as const;
+
+export const selectHookTimeline = () => ({ riseEnd: 14, fadeEnd: 6, selectStart: 2, selectEnd: 24, end: 24 + T.settle });
+
+export const filmTextTimeline = () => ({ riseEnd: 14, markAt: 8, markEnd: 30, end: 30 });
+
+export const aiAnswerTimeline = (p: SceneOf<"ai-answer">["props"]) => {
+  const started = p.startTyped ?? 0;
+  const typeStart = started > 0 ? 0 : 4; // pill 은 컷 시점에 이미 떠 있다
+  const typeEnd = typeStart + Math.ceil(18 * (1 - started));
+  const sentAt = typeEnd + 2;
+  const riseStart = sentAt + 4;
+  const riseEnd = riseStart + 20;
+  const answerStart = riseEnd - 6;
+  const answerStagger = 5;
+  const answerEnd = answerStart + Math.max(0, p.answer.length - 1) * answerStagger + 10;
+  const stackAt = answerEnd + 6; // 카드·공책이 올라오기 시작하는 시점
+  const cardRise = 20;
+  const cardHold = 24;
+  const cardSlide = 18;
+  const nCards = p.cards?.length ?? 0;
+  const tiltRise = 18;
+  const tiltDrift = 45;
+  const end =
+    p.mode === "tilt"
+      ? stackAt + tiltRise + T.settle
+      : nCards > 0
+        ? stackAt + cardRise + (nCards - 1) * (cardHold + cardSlide) + T.settle
+        : answerEnd + T.settle;
+  return { typeStart, typeEnd, sentAt, riseStart, riseEnd, answerStart, answerStagger, answerEnd, stackAt, cardRise, cardHold, cardSlide, tiltRise, tiltDrift, end };
+};
+
+export const notebookStepsTimeline = (p: SceneOf<"notebook-steps">["props"]) => {
+  const slide = p.transition === "cut" ? 0 : FILM_T.panelSlide;
+  const pages = p.pages.map((pg, i) => {
+    const moveStart = i === 0 ? 0 : pg.at + 1; // 헤드라인 교체가 슬라이드보다 1프레임 먼저다
+    let cursor = i === 0 ? 6 : moveStart + Math.max(2, slide - FILM_T.inkLead);
+    const lines = pg.lines.map((ln) => {
+      const hand = ln.ink === "hand";
+      const start = cursor;
+      const writeEnd = hand ? start + Math.ceil([...ln.text].length * FILM_T.handPerChar) : start;
+      const marks = (ln.marks ?? []).map((_, m) => ({
+        at: writeEnd + m * FILM_T.markStagger,
+        end: writeEnd + m * FILM_T.markStagger + FILM_T.markFrames,
+      }));
+      const lineEnd = marks.length ? marks[marks.length - 1].end : writeEnd;
+      // 밑줄은 끊기지 않고 이어서 그어진다. 손글씨는 앞 줄이 끝나야 다음 줄을 쓴다
+      cursor = hand ? lineEnd + 2 : marks.length ? marks[marks.length - 1].at + FILM_T.markStagger : cursor;
+      return { start, writeEnd, marks, lineEnd, hand };
+    });
+    const inkEnd = Math.max(0, ...lines.filter((l) => l.hand).map((l) => l.writeEnd));
+    return { moveStart, moveEnd: moveStart + slide, lines, inkEnd, end: Math.max(moveStart + slide, ...lines.map((l) => l.lineEnd)) };
+  });
+  return { slide, pages, end: pages[pages.length - 1].end + T.settle };
+};
+
+export const uiStageTimeline = (p: SceneOf<"ui-stage">["props"]) => {
+  const slide = FILM_T.panelSlide;
+  const draw = { "line-chart": 40, "rank-list": 25, "doc-columns": 0 } as const;
+  const panels = p.panels.map((pn, i) => {
+    const moveStart = i === 0 ? 0 : pn.at + 1;
+    const moveEnd = i === 0 || pn.cut ? moveStart : moveStart + slide;
+    return { moveStart, moveEnd, drawEnd: moveEnd + draw[pn.kind] };
+  });
+  const zoomFrames = p.zoom?.frames ?? 26;
+  const zoomEnd = p.zoom ? p.zoom.at + zoomFrames : 0;
+  return { slide, panels, zoomFrames, zoomEnd, end: Math.max(zoomEnd, panels[panels.length - 1].drawEnd) + T.settle };
+};
+
+/** 연락처는 컷 시점에 이미 다 떠 있다. 움직이는 것은 맥동·마퀴처럼 느린 것뿐이다 */
+export const ctaMarqueeTimeline = () => ({
+  pulsePeriod: 64, // 레퍼런스 32f 는 버튼용이다. 받아적는 글자는 절반 속도로 둔다
+  rowSpeeds: [-15, 22.5, -15], // px/s
+  end: 0,
+});
+
+export const logoOutroTimeline = () => ({ settleEnd: 12, driftFrames: 72, end: 12 + T.settle });
+
+/** 상시 로고를 숨기는 씬. 클라이맥스(tilt)·끝 로고·상호가 크게 찍힌 CTA 뿐이다 */
+export const brandHidden = (s: Scene): boolean =>
+  s.hideBrand ??
+  (s.type === "logo-outro" || (s.type === "ai-answer" && s.props.mode === "tilt") || (s.type === "cta-marquee" && Boolean(s.props.name)));
+
 /** 씬 애니메이션이 끝나는 프레임. durationInFrames 는 이 값 이상이어야 한다. */
 export const sceneEnd = (s: Scene): number => {
   switch (s.type) {
@@ -145,6 +238,20 @@ export const sceneEnd = (s: Scene): number => {
       return socialCtaTimeline(s.props).end;
     case "browser-mock":
       return browserMockTimeline(s.props).end;
+    case "select-hook":
+      return selectHookTimeline().end;
+    case "film-text":
+      return s.props.mark ? filmTextTimeline().markEnd : s.props.rise ? filmTextTimeline().riseEnd : 0;
+    case "ai-answer":
+      return aiAnswerTimeline(s.props).end;
+    case "notebook-steps":
+      return notebookStepsTimeline(s.props).end;
+    case "ui-stage":
+      return uiStageTimeline(s.props).end;
+    case "cta-marquee":
+      return ctaMarqueeTimeline().end;
+    case "logo-outro":
+      return logoOutroTimeline().end;
     case "face-only":
       return 0;
   }

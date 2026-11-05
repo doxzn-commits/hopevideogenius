@@ -9,7 +9,8 @@
 | **토킹헤드 영상** (사람이 말하는 세로 영상) | `public/talking-head.mp4` | 최상위 `"talkingHead": "talking-head.mp4"` | A 설명형 |
 | **앱 화면 녹화** (세로 mp4) | `public/screens/<이름>.mp4` | `props.src: "screens/<이름>.mp4"` | E 녹화형 |
 | **UI 스크린샷** (가로로 넓은 png·jpg) | `public/screens/<이름>.png` | `props.screens[].src: "screens/<이름>.png"` | F 전시형 |
-| **폰트 파일** (쓸 경우) | `public/fonts/` | `src/fonts.ts` 에서 local-fonts 방식으로 교체 | 전부 |
+| **폰트 파일** | `public/fonts/` | `src/fonts.ts` 의 `LOCAL_FONTS` 에 한 줄 추가 | 필름형(Pretendard·나눔손글씨 펜, OFL). **깃에 올라간다** |
+| **내레이션·BGM** | `public/audio/<이름>.mp3` | 최상위 `"audio": { "voice": "audio/<이름>.mp3", "bgm": "...", "voiceAt": 0 }` | 필름형. 라이선스 확인 |
 
 경로는 항상 **`public/` 을 뺀 상대경로**다. `staticFile("screens/a.mp4")` → `engine/public/screens/a.mp4`
 

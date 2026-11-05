@@ -1,14 +1,15 @@
 // 요약: spec 하나를 영상으로 조립한다. 레이어 순서 = 배경 → 그래픽 → 사람 → 자막 → (게이트 경고). 순서를 바꾸면 자막이 얼굴에 가린다.
 import React from "react";
-import { AbsoluteFill, Series } from "remotion";
+import { AbsoluteFill, Audio, Sequence, Series, staticFile } from "remotion";
 import { useCurrentFrame } from "remotion";
 import { SCENES } from "./scenes/registry";
 import { Glow } from "./components/ui";
 import { Captions } from "./components/Captions";
 import { CardShell } from "./components/CardShell";
 import { TalkingHead } from "./components/TalkingHead";
-import { CARD_BODY, resolveLayout } from "./spec/layout";
-import { toggleOnCount } from "./spec/timelines";
+import { Brand, FilmContext } from "./components/film";
+import { CARD_BODY, FILM, filmTokens, resolveLayout } from "./spec/layout";
+import { brandHidden, toggleOnCount } from "./spec/timelines";
 import { PALETTES, SIDE } from "./theme";
 import { FONT_MONO } from "./fonts";
 import type { Scene, VideoSpec } from "./spec/schema";
@@ -26,6 +27,16 @@ const SceneFrame: React.FC<{ scene: Scene; faceless: boolean }> = ({ scene, face
   if (scene.layout === "showcase") {
     const Full = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;
     return <Full scene={scene} p={p} />;
+  }
+
+  // 필름형: 배경은 순백 또는 고정 그라데이션 둘뿐이고, 씬이 1080×1920 좌표로 직접 그린다
+  if (scene.layout === "film") {
+    const Film = SCENES[scene.type] as React.FC<{ scene: Scene; p: typeof p }>;
+    return (
+      <AbsoluteFill style={{ background: p.bgImage ?? p.bg, overflow: "hidden" }}>
+        <Film scene={scene} p={p} />
+      </AbsoluteFill>
+    );
   }
 
   // 카드형: 틀은 SpecVideo 가 씬 밖에서 그리고(그래서 씬이 바뀌어도 유지된다), 여기서는 내용만 카드 안쪽에 그린다
@@ -110,7 +121,14 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
   const activeP = PALETTES[active.palette];
 
   return (
+    <FilmContext.Provider value={filmTokens(spec.profile)}>
     <AbsoluteFill style={{ backgroundColor: "#000" }}>
+      {spec.audio?.bgm ? <Audio src={staticFile(spec.audio.bgm)} loop volume={() => spec.audio?.bgmVolume ?? 1} /> : null}
+      {spec.audio?.voice ? (
+        <Sequence from={spec.audio.voiceAt ?? 0} name="내레이션">
+          <Audio src={staticFile(spec.audio.voice)} volume={() => spec.audio?.voiceVolume ?? 1} />
+        </Sequence>
+      ) : null}
       {/* 카드형 배경 + 카드 틀 — 씬 밖에 있으므로 씬이 바뀌어도 그대로 있다 (컷 없이 내용만 교체) */}
       {active.layout === "card" ? (
         <>
@@ -136,14 +154,23 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
         ))}
       </Series>
       <TalkingHead src={spec.talkingHead} layout={active.layout} />
+      {/* 상시 로고 — 씬 밖에 있어서 슬라이드·줌 중에도 움직이지 않는다. 색만 팔레트를 따라 0프레임에 바뀐다 */}
+      {spec.brand && active.layout === "film" && !brandHidden(active) ? <Brand brand={spec.brand} color={activeP.text} /> : null}
       <Series>
         {spec.scenes.map((s, i) => (
           <Series.Sequence key={i} durationInFrames={s.durationInFrames} name={`자막 ${i + 1}`}>
             <Captions
               captions={s.captions}
-              y={resolveLayout(s.layout, { faceless: spec.talkingHead === null, hasCaptions: s.captions.length > 0 }).captionY}
+              y={
+                s.layout === "film"
+                  ? FILM.slots[s.captionSlot ?? "low"]
+                  : resolveLayout(s.layout, { faceless: spec.talkingHead === null, hasCaptions: s.captions.length > 0 }).captionY
+              }
               // 단색 배경(flat 팔레트)에서는 외곽선이 필요 없다 — 외곽선·노란 강조는 사진/그래픽 위에서만 쓴다
-              style={s.captionStyle ?? (["card", "stack", "phone"].includes(s.layout) || PALETTES[s.palette].flat ? "plain" : "overlay")}
+              style={
+                s.captionStyle ??
+                (s.layout === "film" ? "headline" : ["card", "stack", "phone"].includes(s.layout) || PALETTES[s.palette].flat ? "plain" : "overlay")
+              }
               // 자막은 카드 밖(배경 위)이라 색은 배경 기준이다. 카드 안쪽 색(CARD_INK)과 혼동하지 말 것.
               color={PALETTES[s.palette].text}
               hlColor={
@@ -157,5 +184,6 @@ export const SpecVideo: React.FC<{ spec: VideoSpec; issues: Issue[] }> = ({ spec
       </Series>
       {errors.length > 0 ? <GateBanner issues={errors} /> : null}
     </AbsoluteFill>
+    </FilmContext.Provider>
   );
 };

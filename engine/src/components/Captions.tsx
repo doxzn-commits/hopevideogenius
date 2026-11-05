@@ -3,7 +3,8 @@ import React from "react";
 import { interpolate, useCurrentFrame } from "remotion";
 import { CAPTION, clamp, EASE_OUT, SAFE } from "../theme";
 import { TEXT, fitSize } from "../spec/layout";
-import { FONT_KR } from "../fonts";
+import { FONT_FILM, FONT_KR } from "../fonts";
+import { useFilm } from "./film";
 import type { Caption } from "../spec/schema";
 
 const Piece: React.FC<{ text: string; hl?: string; hlColor: string }> = ({ text, hl, hlColor }) => {
@@ -18,7 +19,7 @@ const Piece: React.FC<{ text: string; hl?: string; hlColor: string }> = ({ text,
   );
 };
 
-export const Captions: React.FC<{ captions: Caption[]; y: number; style?: "overlay" | "plain"; color?: string; hlColor?: string }> = ({
+export const Captions: React.FC<{ captions: Caption[]; y: number; style?: "overlay" | "plain" | "headline"; color?: string; hlColor?: string }> = ({
   captions,
   y,
   style = "overlay",
@@ -26,9 +27,33 @@ export const Captions: React.FC<{ captions: Caption[]; y: number; style?: "overl
   hlColor,
 }) => {
   const f = useCurrentFrame();
+  const film = useFilm();
   let active: Caption | null = null;
   for (const c of captions) if (f >= c.at) active = c;
   if (!active) return null;
+  // 필름형 헤드라인: 무장식, 0프레임 교체. 진입 애니메이션을 넣으면 이 형식이 깨진다
+  if (style === "headline")
+    return (
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          right: 0,
+          top: y,
+          translate: "0 -50%",
+          textAlign: "center",
+          fontFamily: FONT_FILM,
+          fontWeight: film.headlineWeight,
+          fontSize: film.headline,
+          lineHeight: 1.25,
+          whiteSpace: "nowrap",
+          letterSpacing: "-0.02em",
+          color,
+        }}
+      >
+        {active.text}
+      </div>
+    );
   const local = f - active.at;
   return (
     <div

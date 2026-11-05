@@ -2,7 +2,7 @@
 import { Easing } from "remotion";
 import type { PaletteName } from "./spec/schema";
 
-export { LAYOUTS, SIDE, SAFE, CAPTION, CAPTION_HALF } from "./spec/layout";
+export { LAYOUTS, SIDE, SAFE, CAPTION, CAPTION_HALF, FILM } from "./spec/layout";
 
 export type Palette = {
   bg: string;
@@ -23,6 +23,15 @@ export type Palette = {
   bubble?: string;
   /** 카드(흰 바탕) 안에서 쓰는 강조색 — 배경용 accent 가 흰 바탕에서 안 보일 때를 위한 값 */
   cardAccent?: string;
+  /** 있으면 단색 대신 이 배경을 깐다. 필름형 다크 그라데이션 — 움직이지 않는다 */
+  bgImage?: string;
+  /** 필름형: 드래그 선택 영역과 핸들 */
+  selection?: string;
+  selectionHandle?: string;
+  /** 필름형: 밑줄·강조 — 화면의 유일한 색 */
+  mark?: string;
+  /** 필름형: 답변 안 링크색 */
+  link?: string;
 };
 
 /** 카드 안은 항상 흰 바탕이라 글자색이 팔레트와 무관하게 고정이다 */
@@ -82,7 +91,29 @@ export const PALETTES: Record<PaletteName, Palette> = {
     text: "#F2F3EE", sub: "rgba(242,243,238,0.5)", accent: "#B9D84A", track: "rgba(255,255,255,0.1)",
     dark: true, flat: true, cardBody: "#F7F5F1", bubble: "#E6E6DD", cardAccent: "#4C6B14",
   },
+  // 필름형 — 순백과 다크 그라데이션 둘뿐이다. 실측: factsheets/레퍼런스분석_제품필름형_20261105.md §4
+  "film-light": {
+    bg: "#FFFFFF", glowA: "transparent", glowB: "transparent",
+    card: "#FFFFFF", cardBorder: "#D9E0E6",
+    text: "#0B0B0B", sub: "rgba(11,11,11,0.45)", accent: "#1429A6", track: "rgba(11,11,11,0.08)",
+    dark: false, flat: true, cardBody: "#E5ECF2", cardAccent: "#1429A6",
+    // 레퍼런스 선택 영역은 #B2D1FC 지만 키오스크는 글자가 커서 면적이 2배다 → 채도를 낮춰 흰 샷 채도 픽셀 2% 를 지킨다
+    selection: "#CBDFFD", selectionHandle: "#3B7AD7", mark: "#2F6BE0", link: "#3B7AD7",
+  },
+  "film-dark": {
+    bg: "#04070B", glowA: "transparent", glowB: "transparent",
+    card: "#1D1D1D", cardBorder: "#81848B",
+    text: "#FFFFFF", sub: "rgba(255,255,255,0.55)", accent: "#1429A6", track: "rgba(255,255,255,0.1)",
+    dark: true, flat: true, cardBody: "#1D1D1D", cardAccent: "#1429A6",
+    bgImage:
+      "radial-gradient(120% 62% at 0% 100%, #000D51 0%, rgba(0,13,81,0) 100%), radial-gradient(110% 50% at 100% 100%, #042E47 0%, rgba(4,46,71,0) 100%), linear-gradient(115deg, #000206 0%, #0B1014 100%)",
+    selection: "#2A3F6B", selectionHandle: "#5594B8", mark: "#5C93F2", link: "#5594B8",
+  },
 };
 
 export const EASE_OUT = Easing.bezier(0.16, 1, 0.3, 1);
+/** 필름형 위치 이동 — easeOutCubic. 실측 RMSE 0.012~0.045 (팩트시트 §6.1). EASE_OUT 은 앞이 너무 빠르다 */
+export const EASE_MOVE = Easing.bezier(0.33, 1, 0.68, 1);
+/** 필름형 공개(와이프·카드 상승) — easeOutQuint */
+export const EASE_REVEAL = Easing.bezier(0.22, 1, 0.36, 1);
 export const clamp = { extrapolateLeft: "clamp", extrapolateRight: "clamp" } as const;

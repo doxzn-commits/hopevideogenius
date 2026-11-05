@@ -15,6 +15,13 @@ import { SocialCta } from "./SocialCta";
 import { ScreenRecord } from "./ScreenRecord";
 import { ScreenCycle } from "./ScreenCycle";
 import { ContactCard } from "./ContactCard";
+import { SelectHook } from "./SelectHook";
+import { FilmText } from "./FilmText";
+import { AiAnswer } from "./AiAnswer";
+import { NotebookSteps } from "./NotebookSteps";
+import { UiStage } from "./UiStage";
+import { CtaMarquee } from "./CtaMarquee";
+import { LogoOutro } from "./LogoOutro";
 
 export type SceneProps<T extends SceneType> = { scene: SceneOf<T>; p: Palette };
 
@@ -34,5 +41,12 @@ export const SCENES: { [K in SceneType]: React.FC<SceneProps<K>> } = {
   "screen-record": ScreenRecord,
   "screen-cycle": ScreenCycle,
   "contact-card": ContactCard,
+  "select-hook": SelectHook,
+  "film-text": FilmText,
+  "ai-answer": AiAnswer,
+  "notebook-steps": NotebookSteps,
+  "ui-stage": UiStage,
+  "cta-marquee": CtaMarquee,
+  "logo-outro": LogoOutro,
   "face-only": FaceOnly,
 };

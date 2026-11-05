@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 74행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 86행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -41,6 +41,7 @@
 
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
 |---|---|---|
+| [labs/김세연매쓰_필름형제작_20261105.md](labs/김세연매쓰_필름형제작_20261105.md) | **김세연 매쓰 키오스크 v2 — 필름형 구현 기록** — 필름형 엔진 구현과 무음 변형 film-kiosk 의 수치 근거, 합격 기준 실측, 실패한 것 | 키오스크, 사이니지, 무음 광고, 필름형, 제품 필름, 왜 이 글자 크기, 헤드라인 80, 전화번호 크기, 측정값, 합격 기준, 콜백, 공책, 손글씨 |
 | [labs/녹화형_구현_20261030.md](labs/녹화형_구현_20261030.md) | **녹화형 구현 기록** — 게이트에 node:fs 를 넣어 렌더 번들이 깨진 실수와 경계, 자막 겹침 불변식 일반화 | 게이트 번들 깨짐, node:fs, 자막 위로, 겹침 불변식, 녹화 경로, 왜 CLI 에서 검사 |
 | [labs/레포검증_20261103.md](labs/레포검증_20261103.md) | **레포 검증 — 문서만으로 영상을 만들 수 있나** — 문서 모순 7건·구멍 4건을 찾은 검증 결과와 조치. 문서가 코드보다 빨리 낡는다는 교훈 | 레포 검증, 문서 모순, 낡은 문서, 검증 결과, 30초 40초 충돌, 섞어도 되나 |
 | [labs/레포세팅_엔진부트스트랩_20260914.md](labs/레포세팅_엔진부트스트랩_20260914.md) | **레포 세팅 + 엔진 부트스트랩 기록** — 자막 겹침·아이콘 위치 버그를 코드로 고친 과정과 게이트 수치의 **근거**(왜 18자·왜 18프레임인지) + 게이트 역방향 테스트 결과 | 왜 이 값이야, 왜 18자, 왜 18프레임, 18자 근거, 자막 겹침, 버그 기록, 부트스트랩, 구조가 왜 이래, 실패한 것 |
@@ -59,10 +60,12 @@
 | [engine/specs/carfia-30.json](engine/specs/carfia-30.json) | **카피아 데모 30초 spec** — 훅을 움직임(견적 막대)으로 바꾸고 자막을 1.2~1.6초로 압축한 2차본 | 카피아 30초, 속도감, 훅 개선, 빠른 자막, product-demo-30 |
 | [engine/specs/carfia-40.json](engine/specs/carfia-40.json) | **카피아 데모 40초 spec** — 실제 제품 첫 영상. 서사형 7단에 browser-mock·icon-flow·prompt-run 을 섞어 짰다 | 카피아, carfia, 자동차, 딜러, 최저가, 실제 영상, 제품 데모 예시, 섞어 쓴 예시 |
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
+| [engine/specs/kimseyeon-math-kiosk-v2.json](engine/specs/kimseyeon-math-kiosk-v2.json) | **kimseyeon-math-kiosk-v2** — "id": "KimseyeonMathKioskV2", | ⚠ 키워드 없음 |
 | [engine/specs/kimseyeon-math-kiosk.json](engine/specs/kimseyeon-math-kiosk.json) | **김세연 매쓰 키오스크 광고 spec** — 무음·루프 세로 광고 22.7초. 훅(AI vs 나) → 주제 → 3단계 → 연락처 8초 | 키오스크 광고, 학원 광고, 세로 광고, 서술형 수학, 오프라인 광고, 루프 영상 |
 | [engine/specs/template-card-tools.json](engine/specs/template-card-tools.json) | **카드형 도구 소개 템플릿 spec** — 카드 1장 유지 + prompt-run 2개 + CTA. 카드형 영상을 만들 때 복사해서 시작 | 카드형 템플릿, 도구 소개, 커넥터 영상, 복사해서 시작, 카드 spec |
 | [engine/specs/template-product-demo-30.json](engine/specs/template-product-demo-30.json) | **제품 데모 30초 템플릿 spec** — 7단 구조 900프레임 중립 템플릿. ○○ 자리를 제품 내용으로 바꿔 쓴다(고객 사례 복사 금지) | 30초 템플릿, 제품 데모 시작, 복사해서 시작, product-demo-30 |
 | [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
+| [engine/specs/template-product-film.json](engine/specs/template-product-film.json) | **template-product-film** — "id": "TemplateProductFilm", | ⚠ 키워드 없음 |
 | [engine/specs/template-screen-record.json](engine/specs/template-screen-record.json) | **녹화형 템플릿 spec** — 폰 목업 3씬 + 상단 자막. 녹화 파일 경로만 채우면 된다(없으면 자리표시) | 녹화형 템플릿, 폰 영상, 복사해서 시작, screen-record spec |
 | [engine/specs/template-showcase.json](engine/specs/template-showcase.json) | **전시형 템플릿 spec** — 타이틀 + 화면 4개 + 코드 13줄, 6.7초 루프. 스크린샷 경로만 채우면 된다 | 전시형 템플릿, 쇼케이스 spec, 복사해서 시작, UI 킷 영상 |
 | [engine/specs/carfia-40.본문.md](engine/specs/carfia-40.본문.md) | **카피아 데모 본문(캡션)** — 게시물 본문 초안과 왜 그렇게 썼는지, 바꿀 때 같이 고칠 것 | 카피아 본문, 캡션 초안, 게시물 글, 해시태그 |
@@ -76,23 +79,31 @@
 | [engine/src/spec/layout.ts](engine/src/spec/layout.ts) | **레이아웃 좌표** — split·full-graphic·full-face 좌표와 자막 Y. **자막이 겹친다/위치를 바꾸고 싶다 → 여기부터** | 레이아웃, 좌표, 자막 위치, 토킹헤드 위치, 안전 영역, split 가 뭐야, 자막이 겹침 |
 | [engine/src/spec/schema.ts](engine/src/spec/schema.ts) | **spec 스키마 (zod)** — 씬별 props 와 필드 정의. **씬 타입 목록의 원천은 registry.ts, 팔레트 색은 theme.ts** | 스키마, zod, props 뭐 넣나, 필드, 필수 값, spec 형식, 유효성 |
 | [engine/src/spec/timelines.ts](engine/src/spec/timelines.ts) | **씬 내부 타이밍** — 씬별 프레임 계산의 원천(컴포넌트·게이트 공용). 잘림 여부를 **판정**하는 기준값은 gate.ts | 타이밍, 프레임 수, 애니메이션 길이, 잘림, sceneEnd, 타이핑 속도, 등장 간격 |
+| [engine/src/scenes/AiAnswer.tsx](engine/src/scenes/AiAnswer.tsx) | **AiAnswer** — 프롬프트 pill → 답변 → (유리 카드 \| 공책). 같은 prompt 를 두 번 쓰고 두 번째를 tilt 로 두면 콜백이 된다. 3D 는 tilt 에서만. | ⚠ 키워드 없음 |
 | [engine/src/scenes/AppIntro.tsx](engine/src/scenes/AppIntro.tsx) | **씬 구현 — app-intro** — 카드 안 큰 아이콘 + 역할 한 줄. "첫 번째, ○○" 표지의 카드 버전 | 앱 소개, 도구 표지, 아이콘 크게, N 번째는, 카드 표지 |
 | [engine/src/scenes/BeforeAfter.tsx](engine/src/scenes/BeforeAfter.tsx) | **씬 구현 — before-after** — OLD WAY vs WITH IT 막대 비교 + 숫자 카운트업. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 비교, 전후, before after, 시간 절감, 막대 그래프, 카운트업, 씬 구현 수정 |
 | [engine/src/scenes/BrowserMock.tsx](engine/src/scenes/BrowserMock.tsx) | **씬 구현 — browser-mock** — 브라우저 목업 + 커서 이동 + 클릭 글로우 + 105~115% 확대. UI 모션그래픽의 기본 씬 | 브라우저, 목업, 커서, 마우스, 클릭, 글로우, 확대, 줌, 화면 조작, UI 시연 |
 | [engine/src/scenes/ContactCard.tsx](engine/src/scenes/ContactCard.tsx) | **씬 구현 — contact-card** — 상호·위치·전화번호를 크게. 키오스크·사이니지용이라 전화번호가 가장 크고 6초 이상 떠야 한다 | 연락처, 전화번호, 키오스크, 사이니지, 광고 마무리, 모집, 상호 |
+| [engine/src/scenes/CtaMarquee.tsx](engine/src/scenes/CtaMarquee.tsx) | **CtaMarquee** — 필름형 CTA. 전화번호(또는 행동 버튼)가 검정 pill 안에서 화면의 가장 큰 글자다. 컷 시점에 전부 떠 있고 움직임은 느린 것만 쓴다. | ⚠ 키워드 없음 |
+| [engine/src/scenes/FilmText.tsx](engine/src/scenes/FilmText.tsx) | **FilmText** — 필름형 문구 단독 화면. 컷 시점에 이미 떠 있다. 명암 하드컷이 이 씬의 움직임 전부다. | ⚠ 키워드 없음 |
 | [engine/src/scenes/IconFlow.tsx](engine/src/scenes/IconFlow.tsx) | **씬 구현 — icon-flow** — 아이콘들이 선으로 이어지고 마지막에 하나로 합쳐진다. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 아이콘, 연결, 흐름, 합쳐짐, 도구 연결, 탭 호핑, 씬 구현 수정 |
+| [engine/src/scenes/LogoOutro.tsx](engine/src/scenes/LogoOutro.tsx) | **LogoOutro** — 끝 로고 단독. 1.12→1 수축 뒤 아주 느리게 후퇴한다. 다음 루프의 흰 훅으로 하드컷된다. | ⚠ 키워드 없음 |
+| [engine/src/scenes/NotebookSteps.tsx](engine/src/scenes/NotebookSteps.tsx) | **NotebookSteps** — 공책 오브제 하나가 지속되고 페이지만 바뀐다(슬라이드 15f 또는 하드 스왑). 밑줄·손글씨가 쓰여지는 표현은 이 공책 안에서만 쓴다. | ⚠ 키워드 없음 |
 | [engine/src/scenes/PromptRun.tsx](engine/src/scenes/PromptRun.tsx) | **씬 구현 — prompt-run** — 요청문 타이핑 → 툴 호출(실행 중→완료) → 결과 패널 4종(썸네일/표/퍼널/업로드). 카드형의 핵심 | 요청문, 프롬프트 씬, 툴 실행, 결과 패널, 퍼널, 표, 썸네일, 업로드 예약, 커넥터 시연 |
 | [engine/src/scenes/ScreenCycle.tsx](engine/src/scenes/ScreenCycle.tsx) | **씬 구현 — screen-cycle** — 전시형: 타이틀 2행 + 전체폭 UI 밴드(스켈레톤→스크린샷 교체) + 코드 창 + 마무리 스윕 | 전시형, 쇼케이스, UI 킷, 자막 없는, 스크린샷 교체, 스켈레톤, 루프 영상 |
 | [engine/src/scenes/ScreenRecord.tsx](engine/src/scenes/ScreenRecord.tsx) | **씬 구현 — screen-record** — 폰 목업 + 화면 녹화 영상 임베드(trimBefore·fit) 또는 자리표시. layout phone 전용 | 녹화 영상, 화면 녹화, 폰 목업, 영상 넣기, mp4 임베드, 워크스루, 앱 화면 |
+| [engine/src/scenes/SelectHook.tsx](engine/src/scenes/SelectHook.tsx) | **SelectHook** — 필름형 훅 — 문장이 뜨고 한 줄이 드래그 선택된다. 선택 영역이 흰 샷의 유일한 색이다. | ⚠ 키워드 없음 |
 | [engine/src/scenes/SocialCta.tsx](engine/src/scenes/SocialCta.tsx) | **씬 구현 — social-cta** — 팔로우 → 댓글 키워드 타이핑 → DM 카드. layout stack 전용 | CTA, 팔로우, 댓글, 키워드, DM, 다음 행동, 마무리 장면 |
 | [engine/src/scenes/Statement.tsx](engine/src/scenes/Statement.tsx) | **씬 구현 — statement** — 화면 문구 전용(최대 두 줄, 폭에 맞춰 글자 크기 자동 축소). (영상에 넣는 법은 runbooks/제품데모영상_기획절차.md) | 문구만, 텍스트 씬, 훅 화면, 두 줄, 큰 글씨, 강조 문장 |
 | [engine/src/scenes/TerminalList.tsx](engine/src/scenes/TerminalList.tsx) | **씬 구현 — terminal-list** — 명령 타이핑 → 결과 행 등장 → 진행바 → 1위 하이라이트. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 터미널, 목록, 랭킹, 설치 화면, 리스트 씬, 하이라이트, 진행바, 씬 구현 수정 |
 | [engine/src/scenes/TitleCard.tsx](engine/src/scenes/TitleCard.tsx) | **씬 구현 — title-card** — 카드 스택에서 이름이 타이핑되는 챕터 표지. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 타이틀, 챕터, N 번째는, 표지, 이름 카드, 씬 구현 수정 |
 | [engine/src/scenes/ToggleList.tsx](engine/src/scenes/ToggleList.tsx) | **씬 구현 — toggle-list** — 목록 토글이 차례로 켜지는 인트로. 카드 머리글 N/total 이 같이 올라간다 | 토글, 인트로, 목록 켜짐, 커넥터 목록, 스위치, 목차, N/5 카운터 |
+| [engine/src/scenes/UiStage.tsx](engine/src/scenes/UiStage.tsx) | **UiStage** — 고정 틀(soft·browser·panel) 안에서 패널이 슬라이드·하드 스왑된다. 틀은 움직이지 않고 내용만 바뀐다. 패널 3종 + 줌 + PiP. 수치는 sample 로 표시한다. | ⚠ 키워드 없음 |
 | [engine/src/scenes/registry.ts](engine/src/scenes/registry.ts) | **씬 레지스트리 — 씬 타입 목록의 원천** — 씬 타입 → 컴포넌트 매핑. **어떤 씬이 있는지 확인할 때 여기** (face-only 는 이 파일 안에 정의) | 씬 목록, 어떤 씬 있나, 씬 종류, registry, 타입 매핑, 사용 가능한 장면 |
 | [engine/src/components/Captions.tsx](engine/src/components/Captions.tsx) | **자막 레이어** — 자막 글꼴·강조 색·외곽선 스타일. (위치·겹침 좌표는 spec/layout.ts) | 자막 스타일, 캡션, 강조 색, 노란색, 글자 크기, 외곽선, 폰트 굵기 |
 | [engine/src/components/CardShell.tsx](engine/src/components/CardShell.tsx) | **지속 카드 틀** — 씬 밖에서 그려지는 카드 머리글(아이콘·이름·연결 상태·N/5). 씬이 바뀌어도 유지된다 | 지속 카드, 카드 틀, 머리글, 카드가 유지, 컷 없이, N/5 진행 |
 | [engine/src/components/CodeWindow.tsx](engine/src/components/CodeWindow.tsx) | **코드 창 컴포넌트** — 정규식 한 번으로 신택스 색칠(라이브러리 없음) + 트래픽 라이트 + 언어 라벨. 읽으라고가 아닌 증거물 | 코드 창, 신택스 하이라이트, 코드 보여주기, jsx 창, 색칠 |
+| [engine/src/components/film.tsx](engine/src/components/film.tsx) | **film** — 필름형 공용 부품 — 글자 토큰 컨텍스트, 상시 로고, 스파크, 공책 종이, 손글씨, 밑줄. 값은 전부 layout.ts FILM·FILM_TOKENS 에서 온다. | ⚠ 키워드 없음 |
 | [engine/src/components/TalkingHead.tsx](engine/src/components/TalkingHead.tsx) | **토킹헤드 레이어** — 사람 영상 배치·크롭·자리표시 실루엣 | 사람 영상, 토킹헤드, 얼굴, 영상 합성, 크롭, 자리표시, 인물 위치 |
 | [engine/src/components/ui.tsx](engine/src/components/ui.tsx) | **공용 프리미티브** — 배경 글로우·카드·칩·글리프 타일·모노 명령줄 | 카드, 칩, 배경, 글로우, 타일, 공통 컴포넌트, 터미널 창 |
 | [engine/scripts/lint-spec.ts](engine/scripts/lint-spec.ts) | **게이트 실행 CLI (값은 gate.ts)** — specs/*.json 검사 + 레이아웃 불변식 + spec 등록 여부. 오류 시 exit 1 | lint:spec, 게이트 실행, 검사 명령, 커밋이 막힘, 오류 확인 |
@@ -111,4 +122,9 @@
 | [tools/analyze_video.py](tools/analyze_video.py) | **레퍼런스 영상 분석기** — 길이·컷 지점(임계값 2단)·컷 간격·대표 색·컨택트시트·형식 자동 추정을 한 번에. 레퍼런스를 받으면 가장 먼저 돌린다 | 영상 분석 스크립트, 컷 검출, 길이 재기, 색 추출, 컨택트시트, 자동 분류, analyze_video |
 | [tools/hooks/pre-commit](tools/hooks/pre-commit) | **pre-commit 훅** — 커밋마다 INDEX.md 갱신 + 스테이징된 spec 게이트 실행. git config core.hooksPath tools/hooks 로 설치 | 훅, hook, pre-commit, 자동 색인, 커밋할 때, hooksPath, 설치 |
 | [tools/index_seed.tsv](tools/index_seed.tsv) | **색인 시드** — 파일별 분류·제목·요약·키워드 5열 TSV. **검색이 안 되면 여기를 고치고 반드시 python tools/mkindex.py 를 실행**한다 | 시드, 키워드 추가, 색인 보강, tsv, 요약이 이상해, 검색이 안 됨, 문서를 못 찾음 |
+| [tools/measure_film.py](tools/measure_film.py) | **필름형 렌더 측정기** — 렌더 mp4 와 spec 으로 흰·채도 픽셀, 명암 전환, 다크 비율, 정지 프레임, 로고 고정을 재고 씬별 시작·중간·끝 시트를 만든다 | 측정, 합격 기준, 정지 프레임, MAD, 흰 픽셀, 채도 픽셀, 하드컷 횟수, 다크 비율, 검수 시트 |
 | [tools/mkindex.py](tools/mkindex.py) | **INDEX 자동 생성기** — index_seed.tsv + 본문 자동 추출로 INDEX.md 생성. --check 는 최신 여부만 판정 | 색인 갱신, INDEX 만들기, mkindex, 인덱스 스크립트, seed 반영, 색인 생성 |
+
+## 색인 건강 상태
+
+- ⚠ seed 에 키워드가 없는 파일 10개: `engine/specs/kimseyeon-math-kiosk-v2.json`, `engine/specs/template-product-film.json`, `engine/src/scenes/AiAnswer.tsx`, `engine/src/scenes/CtaMarquee.tsx`, `engine/src/scenes/FilmText.tsx`, `engine/src/scenes/LogoOutro.tsx`, `engine/src/scenes/NotebookSteps.tsx`, `engine/src/scenes/SelectHook.tsx`, `engine/src/scenes/UiStage.tsx`, `engine/src/components/film.tsx`

@@ -1,16 +1,21 @@
 // 요약: 영상 spec(JSON)의 유일한 스키마. 씬 타입·레이아웃·팔레트 이름은 여기서만 정의한다.
 import { z } from "zod";
 
-export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive", "paper", "ink"] as const;
-export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stack", "phone", "showcase"] as const;
-/** 자막 표현: overlay = 흰 글씨 + 외곽선(그래픽 위), plain = 어두운 글씨(단색 배경 위) */
-export const CAPTION_STYLES = ["overlay", "plain"] as const;
+export const PALETTE_NAMES = ["ember", "navy", "violet", "forest", "pastel", "ivory", "olive", "paper", "ink", "film-light", "film-dark"] as const;
+export const LAYOUT_NAMES = ["split", "full-graphic", "full-face", "card", "stack", "phone", "showcase", "film"] as const;
+/** 자막 표현: overlay = 흰 글씨 + 외곽선(그래픽 위), plain = 어두운 글씨(단색 배경 위), headline = 필름형 무장식·진입 없음 */
+export const CAPTION_STYLES = ["overlay", "plain", "headline"] as const;
+/** 필름형 헤드라인 슬롯. 좌표는 layout.ts FILM.slots */
+export const CAPTION_SLOTS = ["low", "top", "mid", "center", "peak"] as const;
 /** 제품 데모 영상의 7단 구조. profile 이 걸리면 이 순서를 강제한다. */
-export const ROLE_NAMES = ["hook", "problem", "solution", "demo", "differentiation", "result", "cta"] as const;
-export const PROFILE_NAMES = ["free", "product-demo-30", "product-demo-40"] as const;
+export const DEMO_ROLES = ["hook", "problem", "solution", "demo", "differentiation", "result", "cta"] as const;
+/** outro 는 필름형에서만 쓴다. 제품 데모 프로필의 순서 강제는 DEMO_ROLES 만 본다 */
+export const ROLE_NAMES = [...DEMO_ROLES, "outro"] as const;
+export const PROFILE_NAMES = ["free", "product-demo-30", "product-demo-40", "product-film", "film-kiosk"] as const;
 export type PaletteName = (typeof PALETTE_NAMES)[number];
 export type LayoutName = (typeof LAYOUT_NAMES)[number];
 export type RoleName = (typeof ROLE_NAMES)[number];
+export type ProfileName = (typeof PROFILE_NAMES)[number];
 
 const captionSchema = z.object({
   text: z.string().min(1),
@@ -44,6 +49,10 @@ const base = {
   captionStyle: z.enum(CAPTION_STYLES).optional(),
   /** 7단 구조에서 이 씬이 맡는 역할 (제품 데모 프로필에서 필수) */
   role: z.enum(ROLE_NAMES).optional(),
+  /** 필름형 헤드라인 슬롯 (없으면 low) */
+  captionSlot: z.enum(CAPTION_SLOTS).optional(),
+  /** 상시 로고 숨김. 없으면 씬 타입이 정한다(brandHidden) */
+  hideBrand: z.boolean().optional(),
 };
 
 export const titleCardProps = z.object({
@@ -230,7 +239,168 @@ export const contactCardProps = z.object({
   phone: z.string().min(1),
 });
 
+/**
+ * 필름형 훅 — 대상 고객이 실제로 치는 문장이 뜨고 한 줄이 드래그 선택된다.
+ * 키오스크는 글자가 커서 한 줄 13자 제한에 걸리므로 3줄까지 허용한다.
+ */
+export const selectHookProps = z.object({
+  lines: z.array(z.string().min(1)).min(2).max(3),
+  selectLine: z.number().int().min(0).max(2),
+});
+
+/** 필름형 문구 단독 화면. 진입 애니메이션이 없는 것이 기본이다(rise 를 켜면 37px 14f 상승) */
+export const filmTextProps = z.object({
+  lines: z.array(z.string().min(1)).min(1).max(3),
+  /** 이 줄만 한 단계 낮은 톤으로 */
+  subLine: z.number().int().min(0).max(2).optional(),
+  rise: z.boolean().optional(),
+  /** 이 단어에 손 밑줄을 긋는다. 영상의 급소 한 곳에만 쓴다 */
+  mark: z.string().min(1).optional(),
+});
+
+const answerLineSchema = z.object({
+  text: z.string().min(1),
+  /** 답 하나만 크게 보여줄 때 */
+  big: z.boolean().optional(),
+  /** 줄 안에서 링크색으로 칠할 구절 */
+  hl: z.string().optional(),
+});
+
+const glassCardSchema = z.object({
+  title: z.string().min(1),
+  meta: z.string().optional(),
+  /** public/ 기준 이미지. 없으면 그라데이션 자리표시 */
+  images: z.array(z.string().min(1).nullable()).max(2).optional(),
+  button: z.string().optional(),
+  /** 평점·수치가 지어낸 값이면 true — "예시" 라벨이 붙는다 */
+  sample: z.boolean().optional(),
+});
+
+/** 공책 한 줄. print = 활자(즉시), hand = 손글씨(왼→오로 써진다). marks 는 밑줄 칠 단어 */
+const noteLineSchema = z.object({
+  text: z.string().min(1),
+  ink: z.enum(["print", "hand"]).optional(),
+  marks: z.array(z.string().min(1)).max(4).optional(),
+});
+
+/**
+ * 프롬프트 pill → 답변 → (카드 | 공책). 같은 prompt 를 두 번 쓰고 두 번째를 tilt 로 하면 콜백이 된다.
+ * list = 평면 공개, tilt = 카드/공책이 원근으로 기울어 올라온다(영상당 1회, 게이트가 막는다).
+ */
+export const aiAnswerProps = z.object({
+  /** 줄바꿈은 \n 으로 직접 끊는다. 타이핑 도중 줄이 바뀌지 않게 하려는 것이다 */
+  prompt: z.string().min(1),
+  answer: z.array(answerLineSchema).max(6),
+  cards: z.array(glassCardSchema).max(4).optional(),
+  /** tilt 에서 카드 대신 올라오는 공책 */
+  notebook: z.object({ lines: z.array(z.string().min(1)).min(1).max(4) }).optional(),
+  mode: z.enum(["list", "tilt"]),
+  /** 타이핑 도중부터 시작(0~1). 콜백은 이미 친 문장이라 0.6 근처가 맞다 */
+  startTyped: z.number().min(0).max(1).optional(),
+});
+
+/** 공책 오브제 하나가 지속되고 안쪽 페이지만 바뀐다. 소재를 갈아 끼우면 "단계 설명" 어디에나 쓴다. */
+export const notebookStepsProps = z.object({
+  pages: z
+    .array(
+      z.object({
+        /** 씬 시작 기준 프레임. 헤드라인 at 과 같게 둔다(슬라이드는 1f 뒤에 시작한다) */
+        at: z.number().int().min(0),
+        label: z.string().min(1),
+        lines: z.array(noteLineSchema).min(1).max(4),
+      }),
+    )
+    .min(1)
+    .max(4),
+  /** slide = 15f 슬라이드, cut = 하드 스왑 */
+  transition: z.enum(["slide", "cut"]).optional(),
+});
+
+const panelBase = {
+  /** 씬 시작 기준 프레임 */
+  at: z.number().int().min(0),
+  /** true 면 슬라이드 없이 하드 스왑 */
+  cut: z.boolean().optional(),
+  /** 지어낸 수치면 true — 패널에 "예시" 라벨이 붙는다 */
+  sample: z.boolean().optional(),
+  /** 실제 녹화·캡처가 있으면 코드 UI 대신 이 파일을 쓴다 (public/ 기준) */
+  src: z.string().min(1).optional(),
+};
+
+export const panelSchema = z.discriminatedUnion("kind", [
+  z.object({
+    kind: z.literal("line-chart"),
+    ...panelBase,
+    title: z.string().min(1),
+    from: z.number(),
+    to: z.number(),
+    suffix: z.string().optional(),
+    chip: z.string().optional(),
+    /** 선 모양. 0~1, 왼→오 */
+    points: z.array(z.number().min(0).max(1)).min(3).max(12),
+  }),
+  z.object({
+    kind: z.literal("rank-list"),
+    ...panelBase,
+    title: z.string().min(1),
+    rows: z.array(z.object({ label: z.string().min(1), value: z.string(), me: z.boolean().optional() })).min(2).max(7),
+  }),
+  z.object({
+    kind: z.literal("doc-columns"),
+    ...panelBase,
+    left: z.array(z.string().min(1)).min(2).max(8),
+    right: z.array(z.string().min(1)).min(2).max(8),
+  }),
+]);
+
+/** 고정 틀 안에서 패널이 바뀐다. 틀은 움직이지 않고 내용만 슬라이드·줌한다. */
+export const uiStageProps = z.object({
+  frame: z.enum(["soft", "browser", "panel"]),
+  panels: z.array(panelSchema).min(1).max(4),
+  zoom: z
+    .object({
+      at: z.number().int().min(0),
+      to: z.number().min(1).max(2),
+      frames: z.number().int().min(12).max(40).optional(),
+      /** 줌 중심 [x, y] 0~1. 잘리면 안 되는 쪽에 둔다 */
+      origin: z.tuple([z.number().min(0).max(1), z.number().min(0).max(1)]).optional(),
+    })
+    .optional(),
+  pip: z.object({ src: z.string().min(1).nullable(), d: z.number().int().min(120).max(260).optional() }).optional(),
+});
+
+/**
+ * 필름형 CTA. 행동 버튼(button) 또는 전화번호(phone) 중 하나가 검정 pill 안에 들어간다.
+ * rows 는 **허락받은 실제 로고·이름만**. 없으면 빼고 위로 올린다(없는 실적을 꾸미지 않는다).
+ */
+export const ctaMarqueeProps = z.object({
+  badge: z.string().optional(),
+  /** 상호. 있으면 상시 로고는 숨긴다(같은 글자가 두 번 나온다) */
+  name: z.string().optional(),
+  tagline: z.string().optional(),
+  lines: z.array(z.string().min(1)).max(2).optional(),
+  phone: z.string().min(1).optional(),
+  button: z.string().min(1).optional(),
+  rows: z.array(z.array(z.string().min(1)).min(1)).max(3).optional(),
+  /** 맥동 폭. 0 이면 멈춘다. 전화번호는 받아적는 글자라 작게 둔다 */
+  pulse: z.number().min(0).max(0.1).optional(),
+});
+
+/** 끝 로고 단독. 다크 배경에서 다음 루프로 하드컷된다. */
+export const logoOutroProps = z.object({
+  text: z.string().min(1),
+  /** public/ 기준 로고 파일. 받은 로고가 없으면 비워 두고 워드마크로 쓴다 */
+  logo: z.string().min(1).optional(),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("select-hook"), ...base, props: selectHookProps }),
+  z.object({ type: z.literal("film-text"), ...base, props: filmTextProps }),
+  z.object({ type: z.literal("ai-answer"), ...base, props: aiAnswerProps }),
+  z.object({ type: z.literal("notebook-steps"), ...base, props: notebookStepsProps }),
+  z.object({ type: z.literal("ui-stage"), ...base, props: uiStageProps }),
+  z.object({ type: z.literal("cta-marquee"), ...base, props: ctaMarqueeProps }),
+  z.object({ type: z.literal("logo-outro"), ...base, props: logoOutroProps }),
   z.object({ type: z.literal("contact-card"), ...base, props: contactCardProps }),
   z.object({ type: z.literal("screen-cycle"), ...base, props: screenCycleProps }),
   z.object({ type: z.literal("screen-record"), ...base, props: screenRecordProps }),
@@ -256,6 +426,21 @@ export const videoSpecSchema = z.object({
   talkingHead: z.string().nullable(),
   /** 제작 규격. product-demo-40 은 7장면·각 3~7초·총 40초·역할 순서를 강제한다 */
   profile: z.enum(PROFILE_NAMES).optional(),
+  /** 상시 로고. 씬 밖(SpecVideo)에서 그려서 씬이 바뀌어도 움직이지 않는다. logo 가 없으면 text 워드마크 */
+  brand: z.object({ text: z.string().min(1), logo: z.string().min(1).optional() }).optional(),
+  /** 소리. 모든 경로는 public/ 기준. 없으면 무음으로 나간다 */
+  audio: z
+    .object({
+      bgm: z.string().min(1).optional(),
+      voice: z.string().min(1).optional(),
+      /** 내레이션 시작 프레임 */
+      voiceAt: z.number().int().min(0).optional(),
+      bgmVolume: z.number().min(0).max(1).optional(),
+      voiceVolume: z.number().min(0).max(1).optional(),
+    })
+    .optional(),
+  /** 템플릿 표시. 소재가 없어도 구성을 렌더해 볼 수 있게 "소리 필수" 오류를 경고로 낮춘다 */
+  template: z.boolean().optional(),
   scenes: z.array(sceneSchema).min(1),
 });
 

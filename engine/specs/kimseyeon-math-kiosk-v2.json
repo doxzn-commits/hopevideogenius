@@ -1,0 +1,145 @@
+{
+  "id": "KimseyeonMathKioskV2",
+  "title": "김세연 매쓰 키오스크 광고 v2 33초 — 필름형, 무음·루프, 연락처 8.4초",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "profile": "film-kiosk",
+  "brand": { "text": "김세연 매쓰" },
+  "scenes": [
+    {
+      "type": "select-hook",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "hook",
+      "durationInFrames": 78,
+      "captions": [],
+      "props": {
+        "lines": ["사과 12개를", "3명이 똑같이 나누면", "한 명은 몇 개일까요?"],
+        "selectLine": 2
+      }
+    },
+    {
+      "type": "ai-answer",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "problem",
+      "durationInFrames": 105,
+      "captions": [{ "text": "답은 AI도 금방 찾아요", "at": 54 }],
+      "props": {
+        "prompt": "사과 12개를 3명이 똑같이 나누면\n한 명은 몇 개일까요?",
+        "answer": [{ "text": "답: 4개", "big": true }],
+        "mode": "list"
+      }
+    },
+    {
+      "type": "film-text",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "problem",
+      "durationInFrames": 45,
+      "captions": [],
+      "props": { "lines": ["하지만 왜 그 답인지는"], "rise": true }
+    },
+    {
+      "type": "film-text",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "solution",
+      "durationInFrames": 54,
+      "captions": [],
+      "props": { "lines": ["내가 써야 해요"], "mark": "써야" }
+    },
+    {
+      "type": "film-text",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "solution",
+      "durationInFrames": 60,
+      "captions": [],
+      "props": { "lines": ["초등 서술형 수학", "AI 시대 꼭 필요한 힘"] }
+    },
+    {
+      "type": "notebook-steps",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "demo",
+      "durationInFrames": 227,
+      "captions": [
+        { "text": "문제를 꼼꼼히 읽고", "at": 0 },
+        { "text": "풀이를 글로 쓰고", "at": 62 },
+        { "text": "내 말로 설명해요", "at": 136 }
+      ],
+      "props": {
+        "pages": [
+          {
+            "at": 0,
+            "label": "읽기",
+            "lines": [
+              { "text": "사과 12개를 3명이", "marks": ["12개", "3명"] },
+              { "text": "똑같이 나누면", "marks": ["똑같이"] },
+              { "text": "한 명은 몇 개일까요?" }
+            ]
+          },
+          {
+            "at": 62,
+            "label": "쓰기",
+            "lines": [
+              { "text": "12 ÷ 3 = 4", "ink": "hand" },
+              { "text": "답: 4개", "ink": "hand" }
+            ]
+          },
+          {
+            "at": 136,
+            "label": "설명",
+            "lines": [
+              { "text": "12개를 3명에게 똑같이", "ink": "hand" },
+              { "text": "나누면 한 명은 4개예요", "ink": "hand" }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ai-answer",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "result",
+      "durationInFrames": 108,
+      "captionSlot": "peak",
+      "captions": [{ "text": "이번엔 내가 썼어요", "at": 43 }],
+      "props": {
+        "prompt": "사과 12개를 3명이 똑같이 나누면\n한 명은 몇 개일까요?",
+        "answer": [{ "text": "답: 4개", "big": true }],
+        "notebook": { "lines": ["12개를 3명에게", "똑같이 나누면", "12 ÷ 3 = 4", "한 명은 4개예요"] },
+        "mode": "tilt",
+        "startTyped": 0.6
+      }
+    },
+    {
+      "type": "cta-marquee",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "cta",
+      "durationInFrames": 252,
+      "captions": [],
+      "props": {
+        "badge": "초등학생 모집 시작",
+        "name": "김세연 매쓰",
+        "tagline": "서술형 수학 전문",
+        "lines": ["A동 7층"],
+        "phone": "010-9889-3702"
+      }
+    },
+    {
+      "type": "logo-outro",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "outro",
+      "durationInFrames": 60,
+      "captions": [],
+      "props": { "text": "김세연 매쓰" }
+    }
+  ]
+}

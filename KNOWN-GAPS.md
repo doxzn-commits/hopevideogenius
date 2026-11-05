@@ -67,21 +67,22 @@
 - 녹화 구간 자동 분할 — 지금은 `trimBefore` 를 사람이 적는다
 - 폰 기종별 프레임(노치·펀치홀) — 지금은 단순 라운드 프레임 하나
 
-## 제품 필름형(B2) — 전부 미구현 (2026-11-05)
-근거: `factsheets/레퍼런스분석_제품필름형_20261105.md` §9 (파라미터까지 명세됨)
-- 씬 5종: `select-hook`, `ai-answer`(list·tilt), `ui-stage`(패널 5종·줌·PiP), `cta-marquee`, `logo-outro`
-- `film` 레이아웃(헤드라인 슬롯 3곳), `captionStyle: "headline"`, `film-light`·`film-dark` 팔레트 + `bgImage`
-- spec `brand`(상시 로고), `audio`, 이징 `EASE_MOVE`·`EASE_REVEAL`, `outro` 역할, `product-film` 프로필과 게이트 규칙
-- Pretendard 로컬 폰트
+## 제품 필름형(B2) — 구현됨 (2026-11-05)
+근거: `factsheets/레퍼런스분석_제품필름형_20261105.md` §9, 기록: `labs/김세연매쓰_필름형제작_20261105.md`
+
+**아직 없는 것**
+- `ui-stage` 패널 2종: `detail`(표 + 막대 드로잉), `multi-line`(다색 곡선 + 커서·툴팁). `line-chart`·`rank-list`·`doc-columns` 만 있다
+- `line-chart` 의 동행 툴팁, `ui-stage` 안 커서
+- 내레이션 길이로 씬 길이를 맞추는 자동 싱크, −14 LUFS 정규화. `audio` 는 재생만 한다
+- 실제 내레이션·BGM 으로 시험한 적 없다(테스트 톤만)
 
 ## 엔진 기능
-- **오디오·내레이션·보이스오버·BGM·효과음 없음** — 현재 spec 에 음성/배경음악/사운드 필드가 없다. 타이밍은 전부 수동 프레임.
+- **효과음·자동 싱크 없음** — spec `audio`(bgm·voice·voiceAt)로 재생은 된다(2026-11-05). 효과음 필드는 없고 타이밍은 전부 수동 프레임.
   (자동 싱크가 필요하면 Remotion captions 스킬 + `@remotion/media` 를 조사해야 한다)
 - **씬 전환 효과(트랜지션·페이드) 없음** — 전부 하드컷. 레퍼런스도 대부분 하드컷이라 우선순위 낮음.
 - **업로드·배포 자동화 없음** — 유튜브/쇼츠/릴스 업로드, 썸네일 생성, 메타데이터 작성은 전부 수동이다.
 - **토킹헤드 자동 크롭 없음** — `objectPosition: 50% 25%` 고정. 인물 위치가 다르면 직접 조정해야 한다.
-- **폰트가 원격 로딩** — Google Fonts(Montserrat / JetBrains Mono / Noto Sans KR)를 렌더 시 받아온다.
-  오프라인 재현성을 원하면 폰트 파일을 `engine/public/fonts/` 에 넣고 local-fonts 방식으로 바꿔야 한다(.gitignore 는 이미 폰트를 추적하도록 예외 처리됨).
+- **폰트 일부가 원격 로딩** — Pretendard·나눔손글씨 펜은 `engine/public/fonts/` 로컬이다(2026-11-05). Montserrat / JetBrains Mono / Noto Sans KR 은 여전히 렌더 시 Google Fonts 에서 받는다.
 - **한글 자막 줄바꿈 미지원** — 한 줄(폭에 맞춰 자동 축소) + 글자 수 상한으로만 대응. 2줄이 필요하면 `statement` 씬을 쓴다.
 - **16:9 가로 영상 미지원** — 스키마가 1080×1920 을 강제한다. 레이아웃 좌표가 세로 기준 실측값이라,
   가로를 지원하려면 `src/spec/layout.ts` 를 해상도별로 나누고 게이트의 안전 영역·겹침 판정을 함께 손봐야 한다.

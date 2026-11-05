@@ -1,8 +1,8 @@
 // 요약: spec 게이트. 레퍼런스 분석에서 나온 "기계가 판정할 수 있는 규칙"을 전부 여기에 박는다. lint-spec 과 Studio 경고 배너가 공용으로 쓴다.
 // 근거 수치: factsheets/레퍼런스분석_claude스킬5_20260914.md
-import { ROLE_NAMES, videoSpecSchema, type VideoSpec } from "./schema";
-import { sceneEnd } from "./timelines";
-import { CAPTION_HALF, LAYOUTS, SAFE, TEXT, maxCharsAt } from "./layout";
+import { DEMO_ROLES, videoSpecSchema, type Scene, type VideoSpec } from "./schema";
+import { FILM_T, notebookStepsTimeline, sceneEnd } from "./timelines";
+import { CAPTION_HALF, FILM, FILM_TOKENS, LAYOUTS, SAFE, TEXT, filmTokens, maxCharsAt } from "./layout";
 
 
 export const RULES = {
@@ -22,6 +22,8 @@ export const RULES = {
   captionsPerSceneMax: 3, // 한 장면에 자막을 더 넣고 싶으면 씬을 쪼갠다
   cursorPointsMax: 6, // 커서 키프레임. 더 많으면 시선이 따라오지 못한다
   contactMinFrames: 180, // 연락처 6초 — 키오스크에서 보고 받아적는 데 걸리는 시간
+  contactMaxFrames: 360, // 연락처는 정지 화면이 일이다. 씬 8초 상한의 "정보 정체" 논리가 적용되지 않는다
+  headlineMinFrames: 39, // 레퍼런스 헤드라인 최단 1.3초 (팩트시트 §6.3)
   promptMaxChars: 46,
   videoScreenMinFrames: 60, // 영상 화면은 2초 이상 머물러야 움직임이 읽힌다
   screenMinFrames: 24, // 전시형 화면 하나가 머무는 최소 시간(0.8초). 레퍼런스 최단 0.4초 + 여유
@@ -41,7 +43,7 @@ export const PROFILES = {
     sceneMinFrames: 60, // 2초
     sceneMaxFrames: 180, // 6초
     ctaMinFrames: 60,
-    roles: ROLE_NAMES,
+    roles: DEMO_ROLES,
   },
   "product-demo-40": {
     label: "제품 데모 40초",
@@ -50,9 +52,48 @@ export const PROFILES = {
     sceneMinFrames: 90, // 3초
     sceneMaxFrames: 210, // 7초
     ctaMinFrames: 60, // CTA 최소 2초
-    roles: ROLE_NAMES, // hook → problem → solution → demo → differentiation → result → cta
+    roles: DEMO_ROLES, // hook → problem → solution → demo → differentiation → result → cta
   },
 } as const;
+
+/**
+ * 필름형 규격. 근거: factsheets/레퍼런스분석_제품필름형_20261105.md §8·§9.4.
+ * product-film = 폰 + 내레이션·BGM. film-kiosk = 무음 사이니지 — 소리가 없어 헤드라인이 메시지를 혼자 지고, 루프 이음새도 전환으로 센다.
+ */
+export const FILM_PROFILES = {
+  "product-film": {
+    label: "제품 필름",
+    totalMin: 1050,
+    totalMax: 1170,
+    sceneCountMin: 7,
+    sceneCountMax: 9,
+    sceneMinFrames: 60,
+    sceneMaxFrames: 240,
+    needsVoice: true,
+    loop: false,
+    outroMinFrames: 60,
+    contactMinFrames: 0,
+  },
+  "film-kiosk": {
+    label: "필름 키오스크(무음·루프)",
+    totalMin: 840,
+    totalMax: 1000, // 필기 유지 시간을 확보하느라 960 에서 늘렸다
+    sceneCountMin: 7,
+    sceneCountMax: 10,
+    sceneMinFrames: RULES.headlineMinFrames,
+    sceneMaxFrames: 240,
+    needsVoice: false,
+    loop: true,
+    outroMinFrames: 45,
+    contactMinFrames: 240, // 8초 — 지나가다 번호를 받아적는 시간
+  },
+} as const;
+
+const FILM_SCENE_TYPES = ["select-hook", "film-text", "ai-answer", "notebook-steps", "ui-stage", "cta-marquee", "logo-outro"];
+const isDark = (s: Scene) => s.palette === "film-dark";
+
+/** 다크 시간 비율 25~40%, 명암 전환 4~6회 — lint 와 측정 스크립트가 같은 기준을 쓴다 */
+export const FILM_BALANCE = { darkMin: 0.25, darkMax: 0.4, flipsMin: 4, flipsMax: 6, callbackMin: 0.5, callbackMax: 0.6 } as const;
 
 /** 영상 확장자 — 씬 컴포넌트(ScreenCycle)와 같은 기준을 쓴다 */
 export const VIDEO_EXT = /\.(mp4|webm|mov|m4v)$/i;
@@ -88,12 +129,148 @@ export const checkLayouts = (): Issue[] => {
     if (box.graphic && box.graphic.top >= box.graphic.bottom)
       issues.push({ level: "error", where: `LAYOUTS.${name}`, msg: "graphic.top >= graphic.bottom" });
   }
+  // 키오스크 글자 불변식: 멀리서 읽는다. 헤드라인 72~84, 오브제 44 이상, 전화번호가 제일 크다
+  const k = FILM_TOKENS["film-kiosk"];
+  const bad = (msg: string) => issues.push({ level: "error", where: "FILM_TOKENS.film-kiosk", msg });
+  if (k.headline < 72 || k.headline > 84) bad(`headline ${k.headline} 이 72~84 밖`);
+  if (k.headlineWeight < 700) bad("헤드라인 굵기는 700 이상");
+  if (k.headlineMaxChars > 13) bad("한 줄 13자 이내");
+  (["pillText", "answerText", "note", "stepLabel", "tagline", "ctaLine", "brand"] as const).forEach((key) => {
+    if (k[key] < k.objectMin) bad(`${key} ${k[key]} < 오브제 최소 ${k.objectMin}`);
+  });
+  // 연락처 위계: 전화번호 > 위치 > 상호 > 태그라인. 위치는 찾아오는 데 필요한 정보다
+  if (k.ctaLine < 64) bad(`위치 ${k.ctaLine} < 64`);
+  if (k.ctaLine <= k.name || k.name <= k.tagline) bad("연락처 위계는 전화번호 > 위치 > 상호 > 태그라인");
+  (["name", "ctaLine", "display", "headline", "answerBig"] as const).forEach((key) => {
+    if (k[key] >= k.phone) bad(`${key} ${k[key]} ≥ 전화번호 ${k.phone} — 전화번호가 가장 커야 한다`);
+  });
   return issues;
 };
 
 const visibleChars = (s: string) => [...s.replace(/\s/g, "")].length;
 /** 폭 계산용 글자 수 — 공백도 자리를 차지하므로 포함한다 (컴포넌트의 fitSize 와 같은 기준) */
 const widthChars = (s: string) => [...s].length;
+
+/** 필름형 규칙. 팩트시트 §9.4 + 키오스크 변형 */
+const checkFilm = (spec: VideoSpec, total: number, err: (w: string, m: string) => void, warn: (w: string, m: string) => void) => {
+  const name = spec.profile as keyof typeof FILM_PROFILES;
+  const prof = FILM_PROFILES[name];
+  const t = filmTokens(spec.profile);
+  const p = `profile ${name}`;
+  const n = spec.scenes.length;
+
+  if (n < prof.sceneCountMin || n > prof.sceneCountMax) err(p, `장면 ${n}개가 규격 ${prof.sceneCountMin}~${prof.sceneCountMax}개 밖`);
+  if (total < prof.totalMin || total > prof.totalMax) err(p, `총 ${total}f 가 규격 ${prof.totalMin}~${prof.totalMax}f 밖`);
+  if (!spec.brand) err(p, "brand 가 없다 — 상시 로고가 이 형식의 축이다");
+
+  // 소리: product-film 은 필수, film-kiosk 는 선택
+  if (prof.needsVoice && !spec.audio?.voice) {
+    const msg = "audio.voice 없음 — 소리 없이 내면 이 형식이 아니다. 무음이면 profile 을 film-kiosk 로";
+    if (spec.template) warn(p, msg);
+    else err(p, msg);
+  }
+
+  let dark = 0;
+  let flips = 0;
+  let tilts = 0;
+  const prompts: string[] = [];
+  let callbackAt: number | null = null;
+  let acc = 0;
+  spec.scenes.forEach((s, i) => {
+    const w = `${p} scenes[${i}] ${s.type}`;
+    const d = s.durationInFrames;
+    if (s.layout !== "film") err(w, "필름형은 모든 씬이 layout: film 이다");
+    if (s.palette !== "film-light" && s.palette !== "film-dark") err(w, `팔레트 ${s.palette} — film-light·film-dark 만 허용`);
+    if (s.captionStyle && s.captionStyle !== "headline") err(w, "captionStyle 은 headline 만 — 다른 자막은 숏폼 자막이 된다");
+    const contact = s.type === "cta-marquee" && Boolean(s.props.phone);
+    if (d < prof.sceneMinFrames) err(w, `${d}f < 규격 최소 ${prof.sceneMinFrames}f`);
+    if (d > prof.sceneMaxFrames && !contact) err(w, `${d}f > 규격 최대 ${prof.sceneMaxFrames}f`);
+    if (contact && d < prof.contactMinFrames) err(w, `연락처 ${d}f < 최소 ${prof.contactMinFrames}f`);
+
+    s.captions.forEach((c, j) => {
+      const cw = `${w} captions[${j}]`;
+      const len = [...c.text].length;
+      if (len > t.headlineMaxChars) err(cw, `헤드라인 ${len}자(공백 포함) > ${t.headlineMaxChars}자`);
+      const next = s.captions[j + 1];
+      const shown = (next ? next.at : d) - c.at;
+      if (shown < RULES.headlineMinFrames) err(cw, `헤드라인 유지 ${shown}f < ${RULES.headlineMinFrames}f(1.3초)`);
+      if (c.hl) warn(cw, "헤드라인은 강조색을 쓰지 않는다 — hl 은 무시된다");
+    });
+
+    if (s.type === "select-hook" || s.type === "film-text")
+      s.props.lines.forEach((ln, j) => {
+        const len = [...ln].length;
+        if (len > t.headlineMaxChars) err(`${w} lines[${j}]`, `${len}자(공백 포함) > 한 줄 ${t.headlineMaxChars}자`);
+      });
+    if (s.type === "ai-answer") {
+      prompts.push(s.props.prompt);
+      if (s.props.mode === "tilt") {
+        tilts += 1;
+        callbackAt = acc;
+      }
+    }
+    if (isDark(s)) dark += d;
+    const next = spec.scenes[i + 1] ?? (prof.loop ? spec.scenes[0] : null);
+    if (next && isDark(s) !== isDark(next)) flips += 1;
+    acc += d;
+  });
+
+  if (tilts > 1) err(p, `tilt ${tilts}회 — 3D 는 영상당 1회만`);
+  const ratio = dark / total;
+  if (ratio < FILM_BALANCE.darkMin || ratio > FILM_BALANCE.darkMax) warn(p, `다크 시간 ${(ratio * 100).toFixed(1)}% — 권장 25~40%`);
+  if (flips < FILM_BALANCE.flipsMin || flips > FILM_BALANCE.flipsMax) warn(p, `명암 전환 ${flips}회 — 권장 4~6회${prof.loop ? "(루프 이음새 포함)" : ""}`);
+  if (prompts.length < 2 || new Set(prompts).size === prompts.length) warn(p, "같은 prompt 를 쓰는 ai-answer 가 2회 이상이어야 콜백이 된다");
+  if (callbackAt !== null) {
+    const at = callbackAt / total;
+    if (at < FILM_BALANCE.callbackMin || at > FILM_BALANCE.callbackMax) warn(p, `콜백 시작 ${(at * 100).toFixed(0)}% — 권장 50~60%`);
+  }
+  const last = spec.scenes[n - 1];
+  if (last.type !== "logo-outro") err(p, "마지막 씬은 logo-outro 다");
+  else if (last.durationInFrames < prof.outroMinFrames) err(p, `끝 로고 ${last.durationInFrames}f < 최소 ${prof.outroMinFrames}f`);
+  if (name === "film-kiosk" && !spec.scenes.some((s) => s.type === "cta-marquee" && s.props.phone))
+    err(p, "키오스크는 전화번호가 있는 cta-marquee 가 있어야 한다");
+};
+
+/** 필름형 씬 자체 규칙 — 프로필과 무관하다 */
+const checkFilmScene = (s: Scene, w: string, err: (w: string, m: string) => void, warn: (w: string, m: string) => void) => {
+  if (s.type === "select-hook" && s.props.selectLine >= s.props.lines.length) err(w, `selectLine ${s.props.selectLine} 이 lines 범위 밖`);
+  if (s.type === "cta-marquee" && !s.props.phone && !s.props.button) err(w, "phone 또는 button 중 하나는 있어야 한다");
+  if (s.type === "ai-answer" && s.props.notebook && s.props.mode !== "tilt") warn(w, "notebook 은 tilt 에서만 그려진다");
+  if (s.type === "ai-answer" && (s.props.cards ?? []).some((c) => !c.sample && !c.images?.some(Boolean)))
+    warn(w, "카드에 실제 이미지가 없다 — 평점·수치를 지어냈다면 sample: true");
+  if (s.type === "ui-stage") {
+    s.props.panels.forEach((pn, j) => {
+      const prev = s.props.panels[j - 1];
+      if (prev && pn.at <= prev.at) err(`${w} panels[${j}]`, "at 은 오름차순이어야 함");
+      if (pn.at >= s.durationInFrames) err(`${w} panels[${j}]`, `at ${pn.at}f 가 씬 길이 밖`);
+      if (!pn.sample && !pn.src && pn.kind !== "doc-columns") warn(`${w} panels[${j}]`, "수치 패널에 sample 표시가 없다 — 실제 값이 아니면 sample: true");
+    });
+  }
+  if (s.type === "notebook-steps") {
+    const tl = notebookStepsTimeline(s.props);
+    s.props.pages.forEach((pg, j) => {
+      const pw = `${w} pages[${j}]`;
+      const prev = s.props.pages[j - 1];
+      if (prev && pg.at <= prev.at) err(pw, "at 은 오름차순이어야 함");
+      if (j === 0 && pg.at !== 0) err(pw, "첫 페이지 at 은 0 이다");
+      if (s.captions.length > 0 && !s.captions.some((c) => c.at === pg.at)) warn(pw, `at ${pg.at} 에 맞는 헤드라인이 없다 — 교체는 같은 프레임에`);
+      const next = s.props.pages[j + 1];
+      if (next && tl.pages[j].end > next.at) err(pw, `쓰기가 ${tl.pages[j].end}f 에 끝나는데 다음 페이지가 ${next.at}f 에 온다`);
+      // 다 쓰자마자 넘어가면 완성된 문장을 못 읽는다. 다음 페이지 또는 씬 끝까지 재서 막는다
+      const pageEnd = next ? next.at : s.durationInFrames;
+      const inkEnd = tl.pages[j].inkEnd;
+      if (inkEnd > 0 && pageEnd - inkEnd < FILM_T.inkHold)
+        err(pw, `필기 완료 ${inkEnd}f ~ 페이지 끝 ${pageEnd}f = ${pageEnd - inkEnd}f < 최소 ${FILM_T.inkHold}f — 완성 문장을 읽을 시간이 없다`);
+      pg.lines.forEach((ln, k) => {
+        (ln.marks ?? []).forEach((m) => {
+          if (!ln.text.includes(m)) err(`${pw} lines[${k}]`, `밑줄 "${m}" 이 text 안에 없음`);
+        });
+        if (ln.ink === "hand" && ln.marks?.length) err(`${pw} lines[${k}]`, "손글씨 줄에는 밑줄을 긋지 않는다");
+      });
+      if (pg.lines.length > Math.floor((FILM.notebook.height - FILM.notebook.header) / FILM.notebook.rule)) err(pw, "줄 수가 공책 칸을 넘는다");
+    });
+  }
+};
 
 export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue[] } => {
   const parsed = videoSpecSchema.safeParse(raw);
@@ -118,7 +295,8 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     const holdsVideo =
       s.type === "screen-record" ||
       (s.type === "screen-cycle" && s.props.screens.some((scr) => scr.src && VIDEO_EXT.test(scr.src)));
-    const maxFrames = holdsVideo ? RULES.mediaSceneMaxFrames : RULES.sceneMaxFrames;
+    const isContact = s.type === "contact-card" || (s.type === "cta-marquee" && Boolean(s.props.phone));
+    const maxFrames = holdsVideo ? RULES.mediaSceneMaxFrames : isContact ? RULES.contactMaxFrames : RULES.sceneMaxFrames;
 
     if (d < RULES.sceneMinFrames) err(w, `씬 ${d}f < 최소 ${RULES.sceneMinFrames}f`);
     if (d > maxFrames) err(w, `씬 ${d}f > 최대 ${maxFrames}f — 씬을 쪼개라`);
@@ -134,7 +312,8 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
       err(w, `${s.type} 은 layout: card 에서만 쓴다`);
     if (s.type === "social-cta" && s.layout !== "stack") err(w, "social-cta 는 layout: stack 에서만 쓴다");
     if (s.type === "screen-record" && s.layout !== "phone") err(w, "screen-record 는 layout: phone 에서만 쓴다");
-    if (s.type === "contact-card" && d < RULES.contactMinFrames)
+    if (FILM_SCENE_TYPES.includes(s.type) && s.layout !== "film") err(w, `${s.type} 은 layout: film 에서만 쓴다`);
+    if (isContact && d < RULES.contactMinFrames)
       err(w, `연락처 ${d}f < 최소 ${RULES.contactMinFrames}f(6초) — 보고 받아적을 시간이 없다`);
     if (s.type === "screen-cycle" && s.layout !== "showcase") err(w, "screen-cycle 은 layout: showcase 에서만 쓴다");
     if (s.layout === "showcase") {
@@ -187,7 +366,8 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
       const shown = (next ? next.at : d) - c.at;
       if (shown < RULES.captionMinFrames) err(cw, `자막 노출 ${shown}f < ${RULES.captionMinFrames}f`);
       const n = widthChars(c.text);
-      if (n > RULES.captionMaxChars) err(cw, `자막 ${n}자(공백 포함) > ${RULES.captionMaxChars}자 — 자막을 둘로 나눠라`);
+      // 필름형 헤드라인 글자 수는 프로필이 정한다(아래 film 블록)
+      if (s.layout !== "film" && n > RULES.captionMaxChars) err(cw, `자막 ${n}자(공백 포함) > ${RULES.captionMaxChars}자 — 자막을 둘로 나눠라`);
       if (c.hl && !c.text.includes(c.hl)) err(cw, `hl "${c.hl}" 이 text 안에 없음`);
     });
 
@@ -211,6 +391,8 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
         if (c.at >= d) err(w, `cursor[${j}].at ${c.at}f 가 씬 길이 ${d}f 밖`);
       });
     }
+    checkFilmScene(s, w, err, warn);
+
     if (s.type === "title-card") {
       if (visibleChars(s.props.name) > RULES.titleNameMaxChars)
         err(w, `name ${visibleChars(s.props.name)}자 > ${RULES.titleNameMaxChars}자`);
@@ -218,7 +400,8 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
     }
   });
 
-  if (spec.profile && spec.profile !== "free") {
+  if (spec.profile === "product-film" || spec.profile === "film-kiosk") checkFilm(spec, total, err, warn);
+  else if (spec.profile && spec.profile !== "free") {
     const prof = PROFILES[spec.profile];
     const p = `profile ${spec.profile}`;
     if (spec.scenes.length !== prof.sceneCount) err(p, `장면 ${spec.scenes.length}개 ≠ 규격 ${prof.sceneCount}개`);

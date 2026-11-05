@@ -24,6 +24,9 @@
 | 웹사이트 보여주기 / 스크롤 녹화 / 포트폴리오 사이트 | factsheets/레퍼런스분석_웹사이트스크롤_20261030.md |
 | UI 킷 쇼케이스 / 자막 없는 영상 / 포트폴리오 전시 / 6초 루프 | factsheets/레퍼런스분석_UI킷쇼케이스_20261030.md |
 | 화면 녹화 영상 / 앱 사용 흐름 / 폰 목업 | factsheets/레퍼런스분석_스마트홈녹화형_20261030.md |
+| 고급 프로모 / 제품 필름 / 다크·화이트 교대 / B2 | factsheets/레퍼런스분석_제품필름형_20261105.md, engine/specs/template-product-film.json, runbooks/요청하는법.md §2-G |
+| 키오스크 / 사이니지 / 무음 광고 / 루프 | engine/specs/kimseyeon-math-kiosk-v2.json, labs/김세연매쓰_필름형제작_20261105.md |
+| 필름형 측정 / 합격 기준 재기 | tools/measure_film.py |
 | 고급 프로모 / 제품 필름 / 다크·화이트 교대 / 감도 수치 / B2 | factsheets/레퍼런스분석_제품필름형_20261105.md |
 | 이 레퍼런스처럼 / 스타일 / 색·폰트·레이아웃 수치 | factsheets/레퍼런스분석_claude스킬5_20260914.md |
 | 녹화 영상 넣기 / 폰 목업 / 자막 위로 | engine/src/scenes/ScreenRecord.tsx, runbooks/요청하는법.md §2-E |

@@ -2,6 +2,7 @@
 import { existsSync, readFileSync, readdirSync } from "node:fs";
 import { basename, join, resolve } from "node:path";
 import { RULES, checkLayouts, checkSpec } from "../src/spec/gate";
+import { FILM_TOKENS } from "../src/spec/layout";
 
 const root = resolve(__dirname, "..");
 const args = process.argv.slice(2);
@@ -28,8 +29,24 @@ for (const file of files) {
     issues.push({ level: "error", where: "src/specs.ts", msg: `${name} 미등록 — Studio 에 안 보인다` });
   }
   // 녹화 파일이 없으면 렌더가 검은 화면으로 조용히 나간다 → 여기서 막는다 (Node 전용 검사)
+  // 소리·로고 파일 — 없으면 렌더가 깨지거나 조용히 빠진다
+  const need = (where: string, path?: string) => {
+    if (path && !existsSync(join(root, "public", path))) issues.push({ level: "error", where, msg: `파일을 찾을 수 없다: engine/public/${path}` });
+  };
+  if (spec) {
+    need("audio.bgm", spec.audio?.bgm);
+    need("audio.voice", spec.audio?.voice);
+    need("brand.logo", spec.brand?.logo);
+  }
   if (spec)
     spec.scenes.forEach((sc, i) => {
+      if (sc.type === "logo-outro") need(`scenes[${i}] logo-outro`, sc.props.logo);
+      if (sc.type === "ui-stage") {
+        sc.props.panels.forEach((pn, j) => need(`scenes[${i}] ui-stage panels[${j}]`, pn.src));
+        need(`scenes[${i}] ui-stage pip`, sc.props.pip?.src ?? undefined);
+      }
+      if (sc.type === "ai-answer")
+        (sc.props.cards ?? []).forEach((c, j) => c.images?.forEach((im) => need(`scenes[${i}] ai-answer cards[${j}]`, im ?? undefined)));
       if (sc.type === "screen-record" && sc.props.src && !existsSync(join(root, "public", sc.props.src)))
         issues.push({
           level: "error",
@@ -67,7 +84,8 @@ for (const file of files) {
 // 문구를 쓰기 전에 알아야 하는 값이라 매번 같이 찍는다 (상한은 layout.ts 의 폰트 크기에서 역산된다)
 console.log(
   `\n글자 수 상한(공백 포함) — 자막 ${RULES.captionMaxChars}자 · statement 한 줄 ${RULES.statementLineMaxChars}자 · ` +
-    `title-card name ${RULES.titleNameMaxChars}자 · prompt ${RULES.promptMaxChars}자`,
+    `title-card name ${RULES.titleNameMaxChars}자 · prompt ${RULES.promptMaxChars}자 · ` +
+    `필름 헤드라인 ${FILM_TOKENS["product-film"].headlineMaxChars}자 · 키오스크 헤드라인 ${FILM_TOKENS["film-kiosk"].headlineMaxChars}자`,
 );
 console.log(errorCount ? `\n게이트 실패: 오류 ${errorCount}개` : "\n게이트 통과");
 process.exit(errorCount ? 1 : 0);
