@@ -1,6 +1,6 @@
 # previews — 유형 미리보기 페이지
 
-> 요약: 영상 유형 4종을 템플릿 렌더 영상과 함께 보여주는 한 장짜리 HTML. Artifact 로 발행해 공유한다. 다시 만드는 절차가 여기 있다.
+> 요약: 영상 유형(A·B·B2·C·D)을 템플릿 렌더 영상과 함께 보여주는 한 장짜리 HTML. Artifact 로 발행해 공유한다. 다시 만드는 절차가 여기 있다.
 
 ## 무엇인가
 `types.html` 한 파일이 전부다. 유형마다 **우리 템플릿을 실제로 렌더한 mp4** 를 걸어 두고,
@@ -14,6 +14,7 @@
 cd engine && npm ci
 npx remotion render DemoRepoRules        out/demo.mp4            # A 설명형
 npx remotion render TemplateProductDemo40 out/product-demo-40.mp4 # B 서사형
+npx remotion render TemplateProductFilm  out/template-product-film.mp4 # B2 필름형(소리 소재 없음)
 npx remotion render TemplateCardTools     out/card-tools.mp4      # C 시연형(코드)
 npx remotion render TemplateScreenRecord  out/screen-record.mp4   # C 시연형(녹화)
 npx remotion render TemplateShowcase      out/showcase.mp4        # D 전시형
@@ -23,12 +24,13 @@ npx remotion render TemplateShowcase      out/showcase.mp4        # D 전시형
 `engine/public/screens/` 에 mp4 를 넣고 `specs/template-screen-record.json` 의 `src` 를 채운 뒤 렌더한다.
 전시형도 같다 — 스크린샷이 없으면 스켈레톤(로딩 상태)으로 돌아간다. 그 상태로도 형식은 보인다.
 
-그다음 Artifact 로 발행한다(파일 맵으로 mp4 5개를 같이 올린다):
+그다음 Artifact 로 발행한다(파일 맵으로 mp4 6개를 같이 올린다):
 
 | 페이지가 참조하는 경로 | 실제 파일 |
 |---|---|
 | `previews/explainer.mp4` | `engine/out/demo.mp4` |
 | `previews/pitch.mp4` | `engine/out/product-demo-40.mp4` |
+| `previews/film.mp4` | `engine/out/template-product-film.mp4` |
 | `previews/demo-code.mp4` | `engine/out/card-tools.mp4` |
 | `previews/demo-record.mp4` | `engine/out/screen-record.mp4` |
 | `previews/showcase.mp4` | `engine/out/showcase.mp4` |
