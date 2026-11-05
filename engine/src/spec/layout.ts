@@ -165,7 +165,7 @@ export type FilmTokens = {
 
 /**
  * 프로필별 글자 토큰. product-film 은 폰 기준 실측값(§5), film-kiosk 는 멀리서 지나가며 보는 기준이다.
- * 키오스크 값이 큰 이유와 한계: labs/김세연매쓰_필름형제작_20261105.md
+ * 키오스크 값이 큰 이유와 한계: labs/필름키오스크_구현기록_20261105.md
  */
 export const FILM_TOKENS: Record<"product-film" | "film-kiosk", FilmTokens> = {
   "product-film": {

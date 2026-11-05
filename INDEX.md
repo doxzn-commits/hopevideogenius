@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 86행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 85행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -41,7 +41,6 @@
 
 | 경로 | 요약 (무엇 / 언제 여나) | 키워드 |
 |---|---|---|
-| [labs/김세연매쓰_필름형제작_20261105.md](labs/김세연매쓰_필름형제작_20261105.md) | **김세연 매쓰 키오스크 v2 — 필름형 구현 기록** — 필름형 엔진 구현과 무음 변형 film-kiosk 의 수치 근거, 합격 기준 실측, 실패한 것 | 키오스크, 사이니지, 무음 광고, 필름형, 제품 필름, 왜 이 글자 크기, 헤드라인 80, 전화번호 크기, 측정값, 합격 기준, 콜백, 공책, 손글씨 |
 | [labs/녹화형_구현_20261030.md](labs/녹화형_구현_20261030.md) | **녹화형 구현 기록** — 게이트에 node:fs 를 넣어 렌더 번들이 깨진 실수와 경계, 자막 겹침 불변식 일반화 | 게이트 번들 깨짐, node:fs, 자막 위로, 겹침 불변식, 녹화 경로, 왜 CLI 에서 검사 |
 | [labs/레포검증_20261103.md](labs/레포검증_20261103.md) | **레포 검증 — 문서만으로 영상을 만들 수 있나** — 문서 모순 7건·구멍 4건을 찾은 검증 결과와 조치. 문서가 코드보다 빨리 낡는다는 교훈 | 레포 검증, 문서 모순, 낡은 문서, 검증 결과, 30초 40초 충돌, 섞어도 되나 |
 | [labs/레포세팅_엔진부트스트랩_20260914.md](labs/레포세팅_엔진부트스트랩_20260914.md) | **레포 세팅 + 엔진 부트스트랩 기록** — 자막 겹침·아이콘 위치 버그를 코드로 고친 과정과 게이트 수치의 **근거**(왜 18자·왜 18프레임인지) + 게이트 역방향 테스트 결과 | 왜 이 값이야, 왜 18자, 왜 18프레임, 18자 근거, 자막 겹침, 버그 기록, 부트스트랩, 구조가 왜 이래, 실패한 것 |
@@ -49,6 +48,7 @@
 | [labs/제품데모프로필_도입_20260914.md](labs/제품데모프로필_도입_20260914.md) | **제품 데모 프로필 도입 기록** — 지침을 문서/코드로 나눈 근거와 문구 넘침·커서 모양·쏠림 수정 기록. 글자 수 상한을 상수에서 역산하는 이유 | 왜 15자, 왜 프로필, 문구 넘침, 커서 모양, 글자 크기 자동, 지침 반영, 근거 |
 | [labs/카드형_구현_20261016.md](labs/카드형_구현_20261016.md) | **카드형 구현 기록** — 지속 카드를 씬 밖에 둔 이유, 카드 안/밖 색 기준을 틀렸던 실수, 게이트 추가 규칙 | 카드형 왜, 카드 안 색, 흰 글씨, 자막 색, 구현 기록, 지속 카드 원리 |
 | [labs/카피아데모_제작_20261030.md](labs/카피아데모_제작_20261030.md) | **카피아 데모 제작 기록** — 유형을 섞은 방법과 flat 팔레트 자막 규칙을 코드로 내린 근거 | 유형 섞기, 첫 실제 영상, 자막 겉돎, flat 팔레트, 강조 한 단어 |
+| [labs/필름키오스크_구현기록_20261105.md](labs/필름키오스크_구현기록_20261105.md) | **필름 키오스크 — 필름형 구현 기록** — 필름형 엔진 구현과 무음 변형 film-kiosk 의 수치 근거, 합격 기준 실측, 실패한 것 | 키오스크, 사이니지, 무음 광고, 필름형, 제품 필름, 왜 이 글자 크기, 헤드라인 80, 전화번호 크기, 측정값, 합격 기준, 콜백, 공책, 손글씨 |
 
 ## engine — 실행 코드
 
@@ -60,9 +60,8 @@
 | [engine/specs/carfia-30.json](engine/specs/carfia-30.json) | **카피아 데모 30초 spec** — 훅을 움직임(견적 막대)으로 바꾸고 자막을 1.2~1.6초로 압축한 2차본 | 카피아 30초, 속도감, 훅 개선, 빠른 자막, product-demo-30 |
 | [engine/specs/carfia-40.json](engine/specs/carfia-40.json) | **카피아 데모 40초 spec** — 실제 제품 첫 영상. 서사형 7단에 browser-mock·icon-flow·prompt-run 을 섞어 짰다 | 카피아, carfia, 자동차, 딜러, 최저가, 실제 영상, 제품 데모 예시, 섞어 쓴 예시 |
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
-| [engine/specs/kimseyeon-math-kiosk-v2.json](engine/specs/kimseyeon-math-kiosk-v2.json) | **kimseyeon-math-kiosk-v2** — "id": "KimseyeonMathKioskV2", | ⚠ 키워드 없음 |
-| [engine/specs/kimseyeon-math-kiosk.json](engine/specs/kimseyeon-math-kiosk.json) | **김세연 매쓰 키오스크 광고 spec** — 무음·루프 세로 광고 22.7초. 훅(AI vs 나) → 주제 → 3단계 → 연락처 8초 | 키오스크 광고, 학원 광고, 세로 광고, 서술형 수학, 오프라인 광고, 루프 영상 |
 | [engine/specs/template-card-tools.json](engine/specs/template-card-tools.json) | **카드형 도구 소개 템플릿 spec** — 카드 1장 유지 + prompt-run 2개 + CTA. 카드형 영상을 만들 때 복사해서 시작 | 카드형 템플릿, 도구 소개, 커넥터 영상, 복사해서 시작, 카드 spec |
+| [engine/specs/template-film-kiosk.json](engine/specs/template-film-kiosk.json) | **필름 키오스크 템플릿** — 무음·루프 33초 B2. 흰/다크 교대, 콜백, 공책 오브제, 연락처 8.4초. 문구는 전부 샘플 | 키오스크, 사이니지, 무음 광고, 루프 영상, 세로 광고, 오프라인 광고, 필름형 템플릿, 공책, 콜백 |
 | [engine/specs/template-product-demo-30.json](engine/specs/template-product-demo-30.json) | **제품 데모 30초 템플릿 spec** — 7단 구조 900프레임 중립 템플릿. ○○ 자리를 제품 내용으로 바꿔 쓴다(고객 사례 복사 금지) | 30초 템플릿, 제품 데모 시작, 복사해서 시작, product-demo-30 |
 | [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
 | [engine/specs/template-product-film.json](engine/specs/template-product-film.json) | **template-product-film** — "id": "TemplateProductFilm", | ⚠ 키워드 없음 |
@@ -127,4 +126,4 @@
 
 ## 색인 건강 상태
 
-- ⚠ seed 에 키워드가 없는 파일 10개: `engine/specs/kimseyeon-math-kiosk-v2.json`, `engine/specs/template-product-film.json`, `engine/src/scenes/AiAnswer.tsx`, `engine/src/scenes/CtaMarquee.tsx`, `engine/src/scenes/FilmText.tsx`, `engine/src/scenes/LogoOutro.tsx`, `engine/src/scenes/NotebookSteps.tsx`, `engine/src/scenes/SelectHook.tsx`, `engine/src/scenes/UiStage.tsx`, `engine/src/components/film.tsx`
+- ⚠ seed 에 키워드가 없는 파일 9개: `engine/specs/template-product-film.json`, `engine/src/scenes/AiAnswer.tsx`, `engine/src/scenes/CtaMarquee.tsx`, `engine/src/scenes/FilmText.tsx`, `engine/src/scenes/LogoOutro.tsx`, `engine/src/scenes/NotebookSteps.tsx`, `engine/src/scenes/SelectHook.tsx`, `engine/src/scenes/UiStage.tsx`, `engine/src/components/film.tsx`

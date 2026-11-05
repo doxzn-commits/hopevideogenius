@@ -1,0 +1,231 @@
+{
+  "id": "TemplateFilmKiosk",
+  "title": "템플릿 — 필름 키오스크 33초(B2 무음·루프). 문구는 전부 샘플이다",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "profile": "film-kiosk",
+  "brand": {
+    "text": "샘플 브랜드"
+  },
+  "scenes": [
+    {
+      "type": "select-hook",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "hook",
+      "durationInFrames": 78,
+      "captions": [],
+      "props": {
+        "lines": [
+          "고객이 실제로",
+          "궁금해하는",
+          "질문을 넣어요"
+        ],
+        "selectLine": 2
+      }
+    },
+    {
+      "type": "ai-answer",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "problem",
+      "durationInFrames": 105,
+      "captions": [
+        {
+          "text": "흔한 답은 쉽게 나와요",
+          "at": 54
+        }
+      ],
+      "props": {
+        "prompt": "고객이 실제로 궁금해하는\n질문을 넣어요",
+        "answer": [
+          {
+            "text": "짧은 답",
+            "big": true
+          }
+        ],
+        "mode": "list"
+      }
+    },
+    {
+      "type": "film-text",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "problem",
+      "durationInFrames": 45,
+      "captions": [],
+      "props": {
+        "lines": [
+          "하지만 진짜 필요한 건"
+        ],
+        "rise": true
+      }
+    },
+    {
+      "type": "film-text",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "solution",
+      "durationInFrames": 54,
+      "captions": [],
+      "props": {
+        "lines": [
+          "직접 해보는 힘"
+        ],
+        "mark": "직접"
+      }
+    },
+    {
+      "type": "film-text",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "solution",
+      "durationInFrames": 60,
+      "captions": [],
+      "props": {
+        "lines": [
+          "서비스 한 줄 소개",
+          "왜 필요한지 한 줄"
+        ]
+      }
+    },
+    {
+      "type": "notebook-steps",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "demo",
+      "durationInFrames": 227,
+      "captions": [
+        {
+          "text": "첫 단계 문구",
+          "at": 0
+        },
+        {
+          "text": "둘째 단계 문구",
+          "at": 62
+        },
+        {
+          "text": "셋째 단계 문구",
+          "at": 136
+        }
+      ],
+      "props": {
+        "pages": [
+          {
+            "at": 0,
+            "label": "하나",
+            "lines": [
+              {
+                "text": "인쇄 글자 첫째 줄",
+                "marks": [
+                  "첫째"
+                ]
+              },
+              {
+                "text": "핵심 단어에 밑줄",
+                "marks": [
+                  "핵심 단어"
+                ]
+              },
+              {
+                "text": "인쇄 글자 셋째 줄"
+              }
+            ]
+          },
+          {
+            "at": 62,
+            "label": "둘",
+            "lines": [
+              {
+                "text": "손글씨 첫째 줄",
+                "ink": "hand"
+              },
+              {
+                "text": "둘째 줄",
+                "ink": "hand"
+              }
+            ]
+          },
+          {
+            "at": 136,
+            "label": "셋",
+            "lines": [
+              {
+                "text": "조금 긴 손글씨 첫째 줄",
+                "ink": "hand"
+              },
+              {
+                "text": "조금 긴 손글씨 둘째 줄",
+                "ink": "hand"
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "type": "ai-answer",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "result",
+      "durationInFrames": 108,
+      "captionSlot": "peak",
+      "captions": [
+        {
+          "text": "두 번째 답 헤드라인",
+          "at": 43
+        }
+      ],
+      "props": {
+        "prompt": "고객이 실제로 궁금해하는\n질문을 넣어요",
+        "answer": [
+          {
+            "text": "짧은 답",
+            "big": true
+          }
+        ],
+        "notebook": {
+          "lines": [
+            "같은 질문에",
+            "이번에는",
+            "직접 쓴 답을",
+            "넣어요"
+          ]
+        },
+        "mode": "tilt",
+        "startTyped": 0.6
+      }
+    },
+    {
+      "type": "cta-marquee",
+      "layout": "film",
+      "palette": "film-light",
+      "role": "cta",
+      "durationInFrames": 252,
+      "captions": [],
+      "props": {
+        "badge": "한 줄 제안",
+        "name": "샘플 브랜드",
+        "tagline": "한 줄 소개",
+        "lines": [
+          "위치 안내"
+        ],
+        "phone": "000-0000-0000"
+      }
+    },
+    {
+      "type": "logo-outro",
+      "layout": "film",
+      "palette": "film-dark",
+      "role": "outro",
+      "durationInFrames": 60,
+      "captions": [],
+      "props": {
+        "text": "샘플 브랜드"
+      }
+    }
+  ],
+  "template": true
+}
