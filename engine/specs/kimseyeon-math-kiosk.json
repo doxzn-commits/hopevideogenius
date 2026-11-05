@@ -1,0 +1,79 @@
+{
+  "id": "KimseyeonMathKiosk",
+  "title": "김세연 매쓰 키오스크 광고 22초 — 무음·루프, 연락처 8초 상주",
+  "fps": 30,
+  "width": 1080,
+  "height": 1920,
+  "talkingHead": null,
+  "scenes": [
+    {
+      "type": "statement",
+      "layout": "full-graphic",
+      "palette": "paper",
+      "durationInFrames": 90,
+      "captions": [],
+      "props": {
+        "kicker": "AI 시대의 공부",
+        "lines": ["답은 AI도 금방 찾아요", "답: 4"],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "statement",
+      "layout": "full-graphic",
+      "palette": "paper",
+      "durationInFrames": 100,
+      "captions": [],
+      "props": {
+        "lines": ["하지만 왜 그 답인지는", "내가 써야 해요"],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "statement",
+      "layout": "full-graphic",
+      "palette": "navy",
+      "durationInFrames": 100,
+      "captions": [],
+      "props": {
+        "kicker": "초등 서술형 수학",
+        "lines": ["AI 시대 초등학생에게", "꼭 필요한 힘"],
+        "accentLine": 1
+      }
+    },
+    {
+      "type": "icon-flow",
+      "layout": "full-graphic",
+      "palette": "paper",
+      "durationInFrames": 150,
+      "captions": [
+        { "text": "문제를 꼼꼼히 읽고", "at": 0, "hl": "꼼꼼히" },
+        { "text": "풀이를 글로 쓰고", "at": 50, "hl": "글로" },
+        { "text": "내 말로 설명해요", "at": 100, "hl": "내 말로" }
+      ],
+      "props": {
+        "label": "서술형 수학",
+        "chip": "3단계",
+        "icons": [
+          { "glyph": "읽", "label": "읽기" },
+          { "glyph": "쓰", "label": "쓰기" },
+          { "glyph": "말", "label": "설명" }
+        ]
+      }
+    },
+    {
+      "type": "contact-card",
+      "layout": "full-graphic",
+      "palette": "paper",
+      "durationInFrames": 240,
+      "captions": [],
+      "props": {
+        "badge": "초등학생 모집 시작",
+        "name": "김세연 매쓰",
+        "tagline": "서술형 수학 전문",
+        "lines": ["A동 7층"],
+        "phone": "010-9889-3702"
+      }
+    }
+  ]
+}

@@ -7,10 +7,11 @@ import showcase from "../specs/template-showcase.json";
 import carfia from "../specs/carfia-40.json";
 import carfia30 from "../specs/carfia-30.json";
 import productDemo30 from "../specs/template-product-demo-30.json";
+import kiosk from "../specs/kimseyeon-math-kiosk.json";
 import { checkSpec, type Issue } from "./spec/gate";
 import type { VideoSpec } from "./spec/schema";
 
-const RAW: unknown[] = [demo, productDemo, cardTools, screenRecord, showcase, carfia, carfia30, productDemo30];
+const RAW: unknown[] = [demo, productDemo, cardTools, screenRecord, showcase, carfia, carfia30, productDemo30, kiosk];
 
 export const SPECS: { spec: VideoSpec; issues: Issue[] }[] = RAW.flatMap((raw) => {
   const { spec, issues } = checkSpec(raw);

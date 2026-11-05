@@ -217,7 +217,21 @@ export const screenCycleProps = z.object({
   sweep: z.boolean().optional(),
 });
 
+/**
+ * 연락처 카드 — 키오스크·사이니지용. 지나가는 사람이 **멀리서 보고 받아적는다**.
+ * 그래서 전화번호가 가장 크고, 최소 노출 시간을 게이트가 강제한다.
+ */
+export const contactCardProps = z.object({
+  badge: z.string().optional(),
+  name: z.string().min(1),
+  tagline: z.string().optional(),
+  /** 주소·층수 같은 보조 정보 */
+  lines: z.array(z.string()).max(2).optional(),
+  phone: z.string().min(1),
+});
+
 export const sceneSchema = z.discriminatedUnion("type", [
+  z.object({ type: z.literal("contact-card"), ...base, props: contactCardProps }),
   z.object({ type: z.literal("screen-cycle"), ...base, props: screenCycleProps }),
   z.object({ type: z.literal("screen-record"), ...base, props: screenRecordProps }),
   z.object({ type: z.literal("prompt-run"), ...base, props: promptRunProps }),

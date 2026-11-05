@@ -21,6 +21,7 @@ export const RULES = {
   statementLineMaxChars: maxCharsAt(TEXT.statementMin), // 화면 문구 한 줄(92px 기준, 최소 54px 까지 축소)
   captionsPerSceneMax: 3, // 한 장면에 자막을 더 넣고 싶으면 씬을 쪼갠다
   cursorPointsMax: 6, // 커서 키프레임. 더 많으면 시선이 따라오지 못한다
+  contactMinFrames: 180, // 연락처 6초 — 키오스크에서 보고 받아적는 데 걸리는 시간
   promptMaxChars: 46,
   videoScreenMinFrames: 60, // 영상 화면은 2초 이상 머물러야 움직임이 읽힌다
   screenMinFrames: 24, // 전시형 화면 하나가 머무는 최소 시간(0.8초). 레퍼런스 최단 0.4초 + 여유
@@ -133,6 +134,8 @@ export const checkSpec = (raw: unknown): { spec: VideoSpec | null; issues: Issue
       err(w, `${s.type} 은 layout: card 에서만 쓴다`);
     if (s.type === "social-cta" && s.layout !== "stack") err(w, "social-cta 는 layout: stack 에서만 쓴다");
     if (s.type === "screen-record" && s.layout !== "phone") err(w, "screen-record 는 layout: phone 에서만 쓴다");
+    if (s.type === "contact-card" && d < RULES.contactMinFrames)
+      err(w, `연락처 ${d}f < 최소 ${RULES.contactMinFrames}f(6초) — 보고 받아적을 시간이 없다`);
     if (s.type === "screen-cycle" && s.layout !== "showcase") err(w, "screen-cycle 은 layout: showcase 에서만 쓴다");
     if (s.layout === "showcase") {
       if (s.type !== "screen-cycle") err(w, "layout: showcase 는 screen-cycle 전용이다");

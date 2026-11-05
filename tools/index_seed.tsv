@@ -70,3 +70,5 @@ labs/카피아데모_제작_20261030.md	labs	카피아 데모 제작 기록	유�
 engine/specs/carfia-30.json	engine	카피아 데모 30초 spec	훅을 움직임(견적 막대)으로 바꾸고 자막을 1.2~1.6초로 압축한 2차본	카피아 30초, 속도감, 훅 개선, 빠른 자막, product-demo-30
 labs/레포검증_20261103.md	labs	레포 검증 — 문서만으로 영상을 만들 수 있나	문서 모순 7건·구멍 4건을 찾은 검증 결과와 조치. 문서가 코드보다 빨리 낡는다는 교훈	레포 검증, 문서 모순, 낡은 문서, 검증 결과, 30초 40초 충돌, 섞어도 되나
 engine/specs/template-product-demo-30.json	engine	제품 데모 30초 템플릿 spec	7단 구조 900프레임 중립 템플릿. ○○ 자리를 제품 내용으로 바꿔 쓴다(고객 사례 복사 금지)	30초 템플릿, 제품 데모 시작, 복사해서 시작, product-demo-30
+engine/src/scenes/ContactCard.tsx	engine	씬 구현 — contact-card	상호·위치·전화번호를 크게. 키오스크·사이니지용이라 전화번호가 가장 크고 6초 이상 떠야 한다	연락처, 전화번호, 키오스크, 사이니지, 광고 마무리, 모집, 상호
+engine/specs/kimseyeon-math-kiosk.json	engine	김세연 매쓰 키오스크 광고 spec	무음·루프 세로 광고 22.7초. 훅(AI vs 나) → 주제 → 3단계 → 연락처 8초	키오스크 광고, 학원 광고, 세로 광고, 서술형 수학, 오프라인 광고, 루프 영상

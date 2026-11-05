@@ -2,7 +2,7 @@
 
 > 요약: 이 레포의 모든 문서·핵심 코드의 경로·요약·키워드. **자동 생성 파일 — 직접 고치지 말고** `tools/index_seed.tsv` 를 고친 뒤 `python tools/mkindex.py` 실행.
 
-총 71행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
+총 73행. 찾는 법: 이 파일에서 요청 단어(한글·영문·스크립트명)로 검색 → 경로를 연다. 없으면 KNOWN-GAPS.md.
 
 ## 루트 문서
 
@@ -58,6 +58,7 @@
 | [engine/specs/carfia-30.json](engine/specs/carfia-30.json) | **카피아 데모 30초 spec** — 훅을 움직임(견적 막대)으로 바꾸고 자막을 1.2~1.6초로 압축한 2차본 | 카피아 30초, 속도감, 훅 개선, 빠른 자막, product-demo-30 |
 | [engine/specs/carfia-40.json](engine/specs/carfia-40.json) | **카피아 데모 40초 spec** — 실제 제품 첫 영상. 서사형 7단에 browser-mock·icon-flow·prompt-run 을 섞어 짰다 | 카피아, carfia, 자동차, 딜러, 최저가, 실제 영상, 제품 데모 예시, 섞어 쓴 예시 |
 | [engine/specs/demo-repo-rules.json](engine/specs/demo-repo-rules.json) | **데모 spec (5씬 15초)** — 새 spec 을 만들 때 복사해서 시작하는 원본. 5개 씬 구성 = 씬 타입 4종 + face-only | 데모, 예시 spec, 템플릿, 복사해서 시작, 샘플 영상, spec 예제 |
+| [engine/specs/kimseyeon-math-kiosk.json](engine/specs/kimseyeon-math-kiosk.json) | **김세연 매쓰 키오스크 광고 spec** — 무음·루프 세로 광고 22.7초. 훅(AI vs 나) → 주제 → 3단계 → 연락처 8초 | 키오스크 광고, 학원 광고, 세로 광고, 서술형 수학, 오프라인 광고, 루프 영상 |
 | [engine/specs/template-card-tools.json](engine/specs/template-card-tools.json) | **카드형 도구 소개 템플릿 spec** — 카드 1장 유지 + prompt-run 2개 + CTA. 카드형 영상을 만들 때 복사해서 시작 | 카드형 템플릿, 도구 소개, 커넥터 영상, 복사해서 시작, 카드 spec |
 | [engine/specs/template-product-demo-30.json](engine/specs/template-product-demo-30.json) | **제품 데모 30초 템플릿 spec** — 7단 구조 900프레임 중립 템플릿. ○○ 자리를 제품 내용으로 바꿔 쓴다(고객 사례 복사 금지) | 30초 템플릿, 제품 데모 시작, 복사해서 시작, product-demo-30 |
 | [engine/specs/template-product-demo-40.json](engine/specs/template-product-demo-40.json) | **제품 데모 40초 템플릿 spec** — 7장면·1200프레임·role 순서가 들어간 시작 파일. ○○ 자리를 제품 내용으로 교체해 쓴다 | 제품 데모 템플릿, 40초 spec, 7장면, 복사해서 시작, product-demo-40, 프로필 예시 |
@@ -77,6 +78,7 @@
 | [engine/src/scenes/AppIntro.tsx](engine/src/scenes/AppIntro.tsx) | **씬 구현 — app-intro** — 카드 안 큰 아이콘 + 역할 한 줄. "첫 번째, ○○" 표지의 카드 버전 | 앱 소개, 도구 표지, 아이콘 크게, N 번째는, 카드 표지 |
 | [engine/src/scenes/BeforeAfter.tsx](engine/src/scenes/BeforeAfter.tsx) | **씬 구현 — before-after** — OLD WAY vs WITH IT 막대 비교 + 숫자 카운트업. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 비교, 전후, before after, 시간 절감, 막대 그래프, 카운트업, 씬 구현 수정 |
 | [engine/src/scenes/BrowserMock.tsx](engine/src/scenes/BrowserMock.tsx) | **씬 구현 — browser-mock** — 브라우저 목업 + 커서 이동 + 클릭 글로우 + 105~115% 확대. UI 모션그래픽의 기본 씬 | 브라우저, 목업, 커서, 마우스, 클릭, 글로우, 확대, 줌, 화면 조작, UI 시연 |
+| [engine/src/scenes/ContactCard.tsx](engine/src/scenes/ContactCard.tsx) | **씬 구현 — contact-card** — 상호·위치·전화번호를 크게. 키오스크·사이니지용이라 전화번호가 가장 크고 6초 이상 떠야 한다 | 연락처, 전화번호, 키오스크, 사이니지, 광고 마무리, 모집, 상호 |
 | [engine/src/scenes/IconFlow.tsx](engine/src/scenes/IconFlow.tsx) | **씬 구현 — icon-flow** — 아이콘들이 선으로 이어지고 마지막에 하나로 합쳐진다. (영상에 넣는 법은 runbooks/정보전달영상_제작절차.md) | 아이콘, 연결, 흐름, 합쳐짐, 도구 연결, 탭 호핑, 씬 구현 수정 |
 | [engine/src/scenes/PromptRun.tsx](engine/src/scenes/PromptRun.tsx) | **씬 구현 — prompt-run** — 요청문 타이핑 → 툴 호출(실행 중→완료) → 결과 패널 4종(썸네일/표/퍼널/업로드). 카드형의 핵심 | 요청문, 프롬프트 씬, 툴 실행, 결과 패널, 퍼널, 표, 썸네일, 업로드 예약, 커넥터 시연 |
 | [engine/src/scenes/ScreenCycle.tsx](engine/src/scenes/ScreenCycle.tsx) | **씬 구현 — screen-cycle** — 전시형: 타이틀 2행 + 전체폭 UI 밴드(스켈레톤→스크린샷 교체) + 코드 창 + 마무리 스윕 | 전시형, 쇼케이스, UI 킷, 자막 없는, 스크린샷 교체, 스켈레톤, 루프 영상 |

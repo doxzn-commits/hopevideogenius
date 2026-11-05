@@ -56,6 +56,8 @@ export const promptRunTimeline = (p: SceneOf<"prompt-run">["props"]) => {
 };
 
 /** 녹화 씬은 내부 애니메이션이 없다(영상이 알아서 흐른다). 프레임 등장만 있으면 된다. */
+export const contactCardTimeline = () => ({ badgeIn: 0, nameAt: 8, linesAt: 18, phoneAt: 26, end: 26 + 14 + T.settle });
+
 export const screenCycleTimeline = (p: SceneOf<"screen-cycle">["props"]) => {
   const titleIn = 0;
   const bandIn = 10;
@@ -131,6 +133,8 @@ export const sceneEnd = (s: Scene): number => {
       return promptRunTimeline(s.props).end;
     case "app-intro":
       return appIntroTimeline().end;
+    case "contact-card":
+      return contactCardTimeline().end;
     case "screen-cycle":
       return screenCycleTimeline(s.props).end;
     case "screen-record":
